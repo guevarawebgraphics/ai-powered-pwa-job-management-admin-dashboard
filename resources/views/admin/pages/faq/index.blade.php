@@ -1,7 +1,6 @@
 @extends('admin.layouts.base')
 
 @section('content')
-
         <div class="row text-center">
             <div class="col-sm-12 col-lg-12">
                <a href="{{ route('admin.faqs.create',$id) }}" class="widget widget-hover-effect2">
