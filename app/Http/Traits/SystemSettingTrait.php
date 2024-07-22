@@ -64,7 +64,7 @@ trait SystemSettingTrait
     {
         $seo_meta = [
             'name' => 'Laravel Template',
-            'author' => 'Dog and Rooster',
+            'author' => 'Monte Carlo Web Graphics Studio',
             'robots' => 'noindex, nofollow',
             'title' => 'Laravel Template',
             'keywords' => 'Laravel Template',

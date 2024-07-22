@@ -81,7 +81,7 @@
         <div class="container">
             <div class="footer__wrapper--row row">
                 <div class="col-lg-9 footer__item">
-                    © 2020 Custom Template Web Design by <a href="https://dogandrooster.com/" target="_blank">Dog and Rooster, Inc.</a>  |  <a href="{{url('terms-of-use')}}">Terms of Use</a>  |  <a href="{{url('privacy-policy')}}">Privacy policy</a>
+                    © 2020 Custom Template Web Design by <a href="https://dogandrooster.com/" target="_blank">Monte Carlo Web Graphics Studio, Inc.</a>  |  <a href="{{url('terms-of-use')}}">Terms of Use</a>  |  <a href="{{url('privacy-policy')}}">Privacy policy</a>
                 </div>
                 <div class="col-lg-2 footer__item footer__item__addlinfo text-center">
                     <a href="//www.novartis.com/" target="_blank"><img src="{{ url('public/images/header/logo.jpg') }}"></a>

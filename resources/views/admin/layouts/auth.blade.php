@@ -102,7 +102,7 @@
                             @yield('content')
 
                             <div class="copyright">
-                                <a href="http://dogandrooster.com/" target="_blank">Developed by: Dog and Rooster</a>
+                                <a href="http://dogandrooster.com/" target="_blank">Developed by: Monte Carlo Web Graphics Studio</a>
                             </div>
                         </div>
                     </div>

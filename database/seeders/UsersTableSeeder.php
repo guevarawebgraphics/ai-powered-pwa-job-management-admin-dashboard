@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             0 =>
                 array (
                     'id' => 1,
-                    'email' => 'super_admin@dogandrooster.com',
+                    'email' => 'info+super_admin@montecarlowebgraphics.com',
                     'user_name' => 'super_admin',
                     'password' => bcrypt('P@ssword1'),
                     'first_name' => 'Super',
@@ -56,7 +56,7 @@ class UsersTableSeeder extends Seeder
             2 =>
                 array (
                     'id' => 3,
-                    'email' => 'customer_user@dogandrooster.com',
+                    'email' => 'info+customer_user@montecarlowebgraphics.com',
                     'user_name' => 'customer_user',
                     'password' =>  bcrypt('P@ssword1'),
                     'first_name' => 'Customer',
