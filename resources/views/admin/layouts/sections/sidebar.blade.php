@@ -3,7 +3,7 @@
         <div class="sidebar-content">
             <a href="{{ url('admin/dashboard') }}" class="sidebar-brand">
                 <i class="gi gi-flash"></i>
-                <span class="sidebar-nav-mini-hide"><strong>{{ $admin_template['name'] }}</strong></span>
+                <span class="sidebar-nav-mini-hide"><strong>{{ $admin_template['name_acronym'] }}</strong></span>
             </a>
             <div class="sidebar-section sidebar-user clearfix sidebar-nav-mini-hide">
                 <div class="sidebar-user-avatar">
@@ -15,7 +15,7 @@
                         @endif
                     </a>
                 </div>
-                <div class="sidebar-user-name">{{$logged_user->first_name}} {{$logged_user->last_name}}</div>
+                <div class="sidebar-user-name">{{$logged_user->first_name}}</div>
                 <div class="sidebar-user-links">
                     <a href="{{ url('/admin/logout') }}" data-toggle="tooltip" data-placement="bottom" title="Logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="gi gi-exit"></i>

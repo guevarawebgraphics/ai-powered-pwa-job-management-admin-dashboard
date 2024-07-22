@@ -158,8 +158,14 @@ class AdminTemplateProvider extends ServiceProvider
 
     private function getAdminConfig($seo_meta)
     {
+
+        $string = $seo_meta['name'];
+        $words = explode(' ', $string);
+        $first_word = $words[0] ?? '';
+
         return [
             'name' => $seo_meta['name'],
+            'name_acronym'  =>  $first_word,
             'version' => '1.0',
             'author' => $seo_meta['author'],
             'robots' => $seo_meta['robots'],
