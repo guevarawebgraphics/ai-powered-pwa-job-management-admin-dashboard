@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^8.2",
         "anhskohbo/no-captcha": "dev-master",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "barryvdh/laravel-snappy": "^0.4.1",
@@ -23,8 +23,8 @@
         "pusher/pusher-php-server": "^2.6",
         "spatie/laravel-permission": "^3.0",
         "spatie/once": "^2.0",
-        "guzzlehttp/guzzle":"7.0.1",
-        "laravel/ui":"^3.0"
+        "guzzlehttp/guzzle": "7.0.1",
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
