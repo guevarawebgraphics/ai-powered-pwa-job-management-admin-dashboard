@@ -1,6 +1,6 @@
 # D&R Laravel CMS Template
 
-- [Developed by Monte Carlo Web Graphics Studio, Inc.](https://dogandrooster.com/)
+- [Developed by Monte Carlo Web Graphics Studio, Inc.](https://montecarlowebgraphics.com/)
 
 ## Requirements
 
@@ -13,7 +13,7 @@
 1. Clone this repository to your local machine
 
 ```sh
-$ git clone https://github.com/Dog-Rooster/dnrlaravel8
+$ git clone https://github.com/guevarawebgraphics/laravel-template.git
 ```
 
 2. Create your database
@@ -22,7 +22,7 @@ $ git clone https://github.com/Dog-Rooster/dnrlaravel8
 $ mysql -u root -p
 
 # you should be inside MySQL console to do this:
-mysql> CREATE DATABASE lr_laraveltemplatev6_dv;
+mysql> CREATE DATABASE lr_laraveltemplatev8_dv;
 ```
 
 3. CD to project directory then install composer libraries
