@@ -2,26 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Models\TemplateCamelCase;
+use App\Models\Client;
 use File;
 
 /**
- * Class TemplateCamelCaseRepository
+ * Class ClientRepository
  * @package App\Repositories
  * @author Richard Guevara | Monte Carlo Web Graphics
  */
-class TemplateCamelCaseRepository
+class ClientRepository
 {
     /**
      * Get single instance
      *
      * @param  $id
      *
-     * @return App/Models/TemplateCamelCase;
+     * @return App/Models/Client;
      */
     public function getById($id)
     {
-        $item = TemplateCamelCase::findOrFail($id);
+        $item = Client::findOrFail($id);
         if (!empty($item)) {
             $item = $this->getData($item);
         }
@@ -33,11 +33,11 @@ class TemplateCamelCaseRepository
      *
      * @param  $slug
      *
-     * @return App/Models/TemplateCamelCase;
+     * @return App/Models/Client;
      */
     public function getActiveBySlug($slug)
     {
-        $item = TemplateCamelCase::where('is_active', 1)->where('slug', $slug)->first();
+        $item = Client::where('is_active', 1)->where('slug', $slug)->first();
         if (!empty($item)) {
             $item = $this->getData($item);
         }
@@ -47,11 +47,11 @@ class TemplateCamelCaseRepository
     /**
      * Get all instance
      *
-     * @return App/Models/TemplateCamelCase;
+     * @return App/Models/Client;
      */
     public function getAll()
     {
-        $items = TemplateCamelCase::get();
+        $items = Client::get();
         foreach ($items as $item) {
             $item = $this->getData($item);
         }
@@ -61,11 +61,11 @@ class TemplateCamelCaseRepository
     /**
      * Get all instance
      *
-     * @return App/Models/TemplateCamelCase;
+     * @return App/Models/Client;
      */
     public function getAllActive()
     {
-        $items = TemplateCamelCase::where('is_active', 1)->get();
+        $items = Client::where('is_active', 1)->get();
         foreach ($items as $item) {
             $item = $this->getData($item);
         }
@@ -77,7 +77,7 @@ class TemplateCamelCaseRepository
      *
      * @param  $item
      *
-     * @return \App\Models\TemplateCamelCase;
+     * @return \App\Models\Client;
      */
     public function getData($item)
     {

@@ -11,7 +11,7 @@ use App\Repositories\PermissionGroupRepository;
 /**
  * Class RoleController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class RoleController extends Controller
 {

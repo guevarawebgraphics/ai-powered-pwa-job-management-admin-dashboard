@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 /**
  * Class CouponCodeController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class CouponCodeController extends Controller
 {

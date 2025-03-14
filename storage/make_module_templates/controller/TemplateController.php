@@ -9,7 +9,7 @@ use App\Repositories\TemplateCamelCaseRepository;
 /**
  * Class TemplateCamelCaseController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class TemplateCamelCaseController extends Controller
 {

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class State
  * @package App\Models
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class State extends Model
 {

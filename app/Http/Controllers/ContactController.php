@@ -9,7 +9,7 @@ use App\Repositories\ContactRepository;
 /**
  * Class ContactController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class ContactController extends Controller
 {

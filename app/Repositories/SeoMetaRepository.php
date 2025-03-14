@@ -7,7 +7,7 @@ use App\Models\SeoMeta;
 /**
  * Class SeoMetaRepository
  * @package App\Repositories
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class SeoMetaRepository
 {

@@ -9,7 +9,7 @@ use App\Repositories\CategoryPerProductRepository;
 /**
  * Class CategoryPerProductController
  * @package App\Http\Controllers
- * @author Warlito Villamor III
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class CategoryPerProductController extends Controller
 {

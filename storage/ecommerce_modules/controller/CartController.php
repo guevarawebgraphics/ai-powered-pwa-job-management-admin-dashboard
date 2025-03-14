@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 /**
  * Class CartController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class CartController extends Controller
 {

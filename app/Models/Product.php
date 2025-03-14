@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Product
  * @package App\Models
- * @author Warlito Villamor III
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class Product extends Model
 {

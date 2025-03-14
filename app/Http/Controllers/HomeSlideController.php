@@ -9,7 +9,7 @@ use App\Repositories\HomeSlideRepository;
 /**
  * Class HomeSlideController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class HomeSlideController extends Controller
 {

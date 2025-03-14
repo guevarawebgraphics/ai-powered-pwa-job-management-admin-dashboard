@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class CategoryPerProduct
  * @package App\Models
- * @author Warlito Villamor III
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class CategoryPerProduct extends Model
 {

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 /**
  * Class TaxController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class TaxController extends Controller
 {

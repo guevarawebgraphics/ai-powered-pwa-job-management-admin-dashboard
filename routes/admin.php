@@ -155,3 +155,15 @@ Route::delete('/contacts/{id}/delete',
 ]);
 
 */
+
+
+/* clients */
+Route::resource('/clients', 'ClientController', [
+    'as' => 'admin'
+]);
+
+Route::delete('/clients/{id}/delete',
+    ['as' => 'admin.clients.delete',
+        'uses' => '\App\Http\Controllers\ClientController@destroy']
+);
+/* clients */

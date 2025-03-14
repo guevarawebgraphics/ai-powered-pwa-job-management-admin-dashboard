@@ -8,7 +8,7 @@ use File;
 /**
  * Class ProductRepository
  * @package App\Repositories
- * @author Warlito Villamor III
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class ProductRepository
 {

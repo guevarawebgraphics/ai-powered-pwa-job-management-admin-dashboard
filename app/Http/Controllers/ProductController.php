@@ -12,7 +12,7 @@ use App\Models\CategoryPerProduct;
 /**
  * Class ProductController
  * @package App\Http\Controllers
- * @author Warlito Villamor III
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class ProductController extends Controller
 {

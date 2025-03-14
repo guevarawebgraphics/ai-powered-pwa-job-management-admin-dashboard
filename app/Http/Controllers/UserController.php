@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 /**
  * Class UserController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class UserController extends Controller
 {

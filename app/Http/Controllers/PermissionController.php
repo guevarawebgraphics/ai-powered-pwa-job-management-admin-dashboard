@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Permission;
 /**
  * Class PermissionController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class PermissionController extends Controller
 {

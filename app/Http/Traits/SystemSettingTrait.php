@@ -8,7 +8,7 @@ use App\Models\SeoMeta;
 /**
  * Class SystemSettingTrait
  * @package App\Http\Traits
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 trait SystemSettingTrait
 {

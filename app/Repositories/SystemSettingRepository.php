@@ -8,7 +8,7 @@ use File;
 /**
  * Class SystemSettingRepository
  * @package App\Repositories
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class SystemSettingRepository
 {

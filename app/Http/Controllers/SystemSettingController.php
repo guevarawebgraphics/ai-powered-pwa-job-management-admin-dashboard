@@ -10,7 +10,7 @@ use App\Models\SystemSetting;
 /**
  * Class SystemSettingController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class SystemSettingController extends Controller
 {

@@ -7,7 +7,7 @@ use App\Models\PermissionGroup;
 /**
  * Class PermissionGroupRepository
  * @package App\Repositories
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class PermissionGroupRepository
 {

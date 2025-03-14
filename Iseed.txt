@@ -2,3 +2,5 @@ php artisan iseed cities,contacts,countries,page_sections,page_types,pages,permi
 test
 test1
 test2
+
+php artisan iseed clients --force

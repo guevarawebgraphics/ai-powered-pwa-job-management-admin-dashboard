@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 /**
  * Class AdminDashboardController
  * @package App\Http\Controllers
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class AdminDashboardController extends Controller
 {

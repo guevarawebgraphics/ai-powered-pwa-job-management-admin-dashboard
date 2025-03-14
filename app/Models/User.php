@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class User
  * @package App\Models
- * @author Randall Anthony Bondoc
+ * @author Richard Guevara | Monte Carlo Web Graphics
  */
 class User extends Authenticatable
 {
