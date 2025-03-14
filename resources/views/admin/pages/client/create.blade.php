@@ -49,7 +49,7 @@
                     <label class="col-md-3 control-label" for="payee_id">Payee</label>
 
                     <div class="col-md-9">
-                        <select class="form-control" id="payee_id">
+                        <select class="form-control" id="payee_id" name="payee_id">
                             <option value="" selected>Choose Payee</option>
                             @foreach(getPayee() ?? [] as $field )
                                 <option value="{{$field->payee_id}}">{{$field->payee_name}} {{$field->payee_last_name}} ({{ $field->email }})</option>
