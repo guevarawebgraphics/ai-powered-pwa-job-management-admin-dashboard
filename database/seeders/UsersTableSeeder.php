@@ -16,12 +16,12 @@ class UsersTableSeeder extends Seeder
     {
 
 
-        \DB::table('users')->delete();
+        // \DB::table('users')->delete();
 
         \DB::table('users')->insert(array (
             0 =>
                 array (
-                    'id' => 1,
+                    'id' => 1001,
                     'email' => 'info+super_admin@montecarlowebgraphics.com',
                     'user_name' => 'super_admin',
                     'password' => bcrypt('P@ssword1'),
@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
                 ),
             1 =>
                 array (
-                    'id' => 2,
+                    'id' => 1002,
                     'email' => 'test1@dogandrooster.net',
                     'user_name' => 'webmaster',
                     'password' => bcrypt('P@ssword1'),
@@ -55,7 +55,7 @@ class UsersTableSeeder extends Seeder
                 ),
             2 =>
                 array (
-                    'id' => 3,
+                    'id' => 1003,
                     'email' => 'info+customer_user@montecarlowebgraphics.com',
                     'user_name' => 'customer_user',
                     'password' =>  bcrypt('P@ssword1'),

@@ -34,7 +34,7 @@ class User extends Authenticatable
         'middle_name',
         'last_name',
         'phone',
-        'profile_image',
+        'profile_photo',
         'is_active',
     ];
 

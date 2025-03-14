@@ -51,8 +51,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
-
+    'url' => env('APP_URL', 'https://theguild.appliancerepairamerican.com'),
+    'frontend_url' => env('APP_FRONTEND_URL', 'https://theguild.appliancerepairamerican.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

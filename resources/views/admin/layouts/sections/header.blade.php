@@ -15,8 +15,8 @@
             </li>
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                    @if (auth()->user()->profile_image != '')
-                        <img src="{{ asset(auth()->user()->profile_image) }}" alt="avatar"> <i class="fa fa-angle-down"></i>
+                    @if (auth()->user()->profile_photo != '')
+                        <img src="{{ asset(auth()->user()->profile_photo) }}" alt="avatar"> <i class="fa fa-angle-down"></i>
                     @else
                         <img src="{{asset('public/images/placeholders/avatars/avatar2.jpg')}}" alt="avatar"> <i class="fa fa-angle-down"></i>
                     @endif

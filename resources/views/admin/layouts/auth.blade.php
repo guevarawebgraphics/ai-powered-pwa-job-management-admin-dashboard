@@ -50,7 +50,7 @@
     <link rel="stylesheet" class="themes" href="{{ asset('public/css/admin-control.css') }}"> 
 </head>
 <body>
-<img src="{{ asset('public/images/placeholders/backgrounds/dogandrooster_full_bg.jpg') }}" alt="Login Full Background" class="full-bg {{--animation-pulseSlow--}}">
+<img src="{{ asset('public/images/admin-bg.jpg') }}" alt="Login Full Background" class="full-bg {{--animation-pulseSlow--}}">
 {{-- <div id="login-container" class="animation-fadeIn">
     <div class="login-title text-center">
         <h1>

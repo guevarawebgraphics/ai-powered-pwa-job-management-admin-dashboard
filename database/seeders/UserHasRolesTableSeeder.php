@@ -23,19 +23,19 @@ class UserHasRolesTableSeeder extends Seeder
             array (
                 'role_id' => 1,
                 'model_type' => 'App\Models\User',
-                'user_id' => 1,
+                'user_id' => 1001,
             ),
             1 => 
             array (
                 'role_id' => 2,
                 'model_type' => 'App\Models\User',
-                'user_id' => 2,
+                'user_id' => 1002,
             ),
             2 => 
             array (
                 'role_id' => 3,
                 'model_type' => 'App\Models\User',
-                'user_id' => 3,
+                'user_id' => 1003,
             ),
         ));
         

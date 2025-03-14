@@ -47,7 +47,7 @@ class AdminTemplateProvider extends ServiceProvider
             ],
             [
                 'name' => 'Front-end Site',
-                'url' => url('/'),
+                'url' => config('app.frontend_url'),
                 'never_active' => true,
                 'icon' => 'fa fa-paper-plane-o'
             ],

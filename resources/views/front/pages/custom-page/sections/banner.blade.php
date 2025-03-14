@@ -1,7 +1,7 @@
 <section class="banner image-bg">
     <img src="{!! !empty($item) && !empty($item->page_sections()->where('section', 'banner_image')->first()) ?
     asset($item->page_sections()->where('section', 'banner_image')->first()->content) :
-    asset('public/images/dogandrooster_full_bg.jpg') !!}">
+    asset('public/images/admin-bg.jpg') !!}">
     <div class="sub-banner__wrapper container ">
         <div class="sub-banner__wrapper--row row mx-auto">
             <div class="col-md-6 sub-banner__content sub-banner__items">

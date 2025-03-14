@@ -3,13 +3,13 @@
         <div class="sidebar-content">
             <a href="{{ url('admin/dashboard') }}" class="sidebar-brand">
                 <i class="gi gi-flash"></i>
-                <span class="sidebar-nav-mini-hide"><strong>{{ $admin_template['name_acronym'] }}</strong></span>
+                <span class="sidebar-nav-mini-hide"><strong>ARA Admin</strong></span>
             </a>
             <div class="sidebar-section sidebar-user clearfix sidebar-nav-mini-hide">
                 <div class="sidebar-user-avatar">
                     <a href="javascript:void(0)">
-                        @if (auth()->user()->profile_image != '')
-                            <img src="{{ asset(auth()->user()->profile_image) }}" alt="avatar">
+                        @if (auth()->user()->profile_photo != '')
+                            <img src="{{ asset(auth()->user()->profile_photo) }}" alt="avatar">
                         @else
                             <img src="{{asset('public/images/placeholders/avatars/avatar2.jpg')}}" alt="avatar">
                         @endif
