@@ -45,6 +45,22 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="payee_id">Payee</label>
+
+                    <div class="col-md-9">
+                        <select class="form-control" id="payee_id">
+                            <option value="" {{ !$client->payee_id ? 'selected' : '' }}>Choose Payee</option>
+                            @foreach(getPayee() ?? [] as $field )
+                                <option value="{{$field->payee_id}}" {{$field->payee_id == $client->payee_id ? 'selected' : '' }}>{{$field->payee_name}} {{$field->payee_last_name}}  ({{ $field->email }})</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('payee_id'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('payee_id') }}</span>
+                        @endif
+                    </div>
+                </div>
+                
 
                  <div class="form-group{{ $errors->has('insurance_plan') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="insurance_plan">Insurance Plan</label>

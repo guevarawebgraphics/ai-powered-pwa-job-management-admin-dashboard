@@ -95,3 +95,9 @@ function addSection($name, $type, $pages, $value = '') {
 
     return $section;
 }
+
+function getPayee()
+{
+    $query = \App\Models\Payee::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
+    return $query;
+}
