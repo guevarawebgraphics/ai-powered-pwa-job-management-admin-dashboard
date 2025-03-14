@@ -4,3 +4,5 @@ test1
 test2
 
 php artisan iseed clients --force
+php artisan iseed machines --force
+php artisan iseed payees --force

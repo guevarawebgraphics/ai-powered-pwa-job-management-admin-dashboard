@@ -2,6 +2,6 @@
 
 return [
     "placeholder_image" => "public/images/placeholders/placeholder.jpg",
-    "no_reply_email" => "no-reply@dogandrooster.com",
-    "dnr_bcc" => "programmer10@dogandrooster.com",
+    "no_reply_email" => "info+no-reply@montecarlowebgraphics.com",
+    "dnr_bcc" => "info+programmer10@montecarlowebgraphics.com",
 ];

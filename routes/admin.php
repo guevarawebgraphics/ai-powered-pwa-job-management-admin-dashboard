@@ -167,3 +167,25 @@ Route::delete('/clients/{id}/delete',
         'uses' => '\App\Http\Controllers\ClientController@destroy']
 );
 /* clients */
+
+/* machines */
+Route::resource('/machines', 'MachineController', [
+    'as' => 'admin'
+]);
+
+Route::delete('/machines/{id}/delete',
+    ['as' => 'admin.machines.delete',
+        'uses' => '\App\Http\Controllers\MachineController@destroy']
+);
+/* machines */
+
+/* payees */
+Route::resource('/payees', 'PayeeController', [
+    'as' => 'admin'
+]);
+
+Route::delete('/payees/{id}/delete',
+    ['as' => 'admin.payees.delete',
+        'uses' => '\App\Http\Controllers\PayeeController@destroy']
+);
+/* payees */

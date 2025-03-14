@@ -1,10 +1,10 @@
 (function () {
     "use strict";
     /* declare global variables within the class */
-    var uiClientsTable,
-        uiCreateClientForm,
-        uiEditClientForm,
-        uiClientsDatatable,
+    var uiMachinesTable,
+        uiCreateMachineForm,
+        uiEditMachineForm,
+        uiMachinesDatatable,
         uiInputBannerImage,
         uiRemoveImgBtn,
         uiInputFile,
@@ -136,33 +136,33 @@
     }
 
     /*
-     * This js file will only contain client events
+     * This js file will only contain machine events
      *
      * */
-    CPlatform.prototype.client = {
+    CPlatform.prototype.machine = {
 
         initialize: function () {
             /* assign a value to the global variable within this class */
-            uiClientsTable = $('#clients-table');
-            uiCreateClientForm = $('#create-client');
-            uiEditClientForm = $('#edit-client');
-            uiClientsDatatable = null;
+            uiMachinesTable = $('#machines-table');
+            uiCreateMachineForm = $('#create-machine');
+            uiEditMachineForm = $('#edit-machine');
+            uiMachinesDatatable = null;
             uiInputBannerImage = $('input[name="banner_image"]');
             uiInputFile = $('input[name="file"]');
             uiRemoveImgBtn = $('.remove-image-btn');
             uiRemoveFileBtn = $('.remove-file-btn');
 
-            uiClientsDatatable = platform.client.initialize_datatable();
+            uiMachinesDatatable = platform.machine.initialize_datatable();
 
-            /* create client validation */
-            uiCreateClientForm.find('[type="submit"]').on('click', function () {
+            /* create machine validation */
+            uiCreateMachineForm.find('[type="submit"]').on('click', function () {
                 if (platform.var_check(CKEDITOR) && platform.var_check(CKEDITOR.instances)) {
                     for (var instance in CKEDITOR.instances) {
                         CKEDITOR.instances[instance].updateElement();
                     }
                 }
             });
-            uiCreateClientForm.validate({
+            uiCreateMachineForm.validate({
                 errorClass: 'help-block animation-slideDown',
                 errorElement: 'span',
                 ignore: [':hidden:not([type="file"])'],
@@ -182,32 +182,50 @@
                     form.submit();
                 },
                 rules: {
-                    'client_name': {
+                    'name': {
                         required: true
                     },
-                    'email': {
+                    'slug': {
                         required: true
                     },
+                    'banner_image': {
+                        required: true
+                    },
+                    'file': {
+                        required: true
+                    },
+                    'content': {
+                        required: true
+                    }
                 },
                 messages: {
-                    'client_name': {
+                    'name': {
                         required: 'Name is required.'
                     },
-                    'email': {
-                        required: 'Email is required.'
+                    'slug': {
+                        required: 'Slug is required.'
                     },
+                    'banner_image': {
+                        required: 'Image is required.'
+                    },
+                    'file': {
+                        required: 'File is required.'
+                    },
+                    'content': {
+                        required: 'Content is required.'
+                    }
                 }
             });
 
-            /* edit client validation */
-            uiEditClientForm.find('[type="submit"]').on('click', function () {
+            /* edit machine validation */
+            uiEditMachineForm.find('[type="submit"]').on('click', function () {
                 if (platform.var_check(CKEDITOR) && platform.var_check(CKEDITOR.instances)) {
                     for (var instance in CKEDITOR.instances) {
                         CKEDITOR.instances[instance].updateElement();
                     }
                 }
             });
-            uiEditClientForm.validate({
+            uiEditMachineForm.validate({
                 errorClass: 'help-block animation-slideDown',
                 errorElement: 'span',
                 ignore: [':hidden:not([type="file"])'],
@@ -227,25 +245,51 @@
                     form.submit();
                 },
                 rules: {
-                    'client_name': {
+                    'name': {
                         required: true
                     },
-                    'email': {
+                    'slug': {
                         required: true
                     },
+                    'banner_image': {
+                        required: {
+                            depends: function (element) {
+                                return $(element).closest('.form-group').find('input.remove-image').val() == 1;
+                            }
+                        }
+                    },
+                    'file': {
+                        required: {
+                            depends: function (element) {
+                                return $(element).closest('.form-group').find('input.remove-file').val() == 1;
+                            }
+                        }
+                    },
+                    'content': {
+                        required: true
+                    }
                 },
                 messages: {
-                    'client_name': {
+                    'name': {
                         required: 'Name is required.'
                     },
-                    'email': {
-                        required: 'Email is required.'
+                    'slug': {
+                        required: 'Slug is required.'
                     },
+                    'banner_image': {
+                        required: 'Image is required.'
+                    },
+                    'file': {
+                        required: 'File is required.'
+                    },
+                    'content': {
+                        required: 'Content is required.'
+                    }
                 }
             });
 
-            /* delete client button ajax */
-            $('body').on('click', '.delete-client-btn', function (e) {
+            /* delete machine button ajax */
+            $('body').on('click', '.delete-machine-btn', function (e) {
                 e.preventDefault();
                 var self = $(this);
                 /* open confirmation modal */
@@ -264,8 +308,8 @@
                     /* if confirmed, send request ajax */
                     if (isConfirm) {
                         var oParams = {
-                            'data': {'id': self.attr('data-client-id')},
-                            'url': self.attr('data-client-route')
+                            'data': {'id': self.attr('data-machine-id')},
+                            'url': self.attr('data-machine-route')
                         };
                         platform.delete.delete(oParams, function (oData) {
                             /* check return of ajax */
@@ -282,17 +326,17 @@
                                                 'type': "success"
                                                 //'confirmButtonColor': "#DD6B55",
                                             }, function () {
-                                                /* remove client container */
-                                                // $('[data-client-id="' + oData.data.id + '"]').remove();
-                                                if (platform.var_check(uiClientsDatatable)) {
-                                                    uiClientsDatatable.row(self.parents('tr:first')).remove();
+                                                /* remove machine container */
+                                                // $('[data-machine-id="' + oData.data.id + '"]').remove();
+                                                if (platform.var_check(uiMachinesDatatable)) {
+                                                    uiMachinesDatatable.row(self.parents('tr:first')).remove();
                                                 }
 
-                                                uiClientsDatatable = platform.client.initialize_datatable();
+                                                uiMachinesDatatable = platform.machine.initialize_datatable();
 
-                                                /* check if there are other clients to hide the table header and show the no clients found */
-                                                if ($('tr[data-client-id]').length == 0) {
-                                                    $('.client-empty').removeClass('johnCena');
+                                                /* check if there are other machines to hide the table header and show the no machines found */
+                                                if ($('tr[data-machine-id]').length == 0) {
+                                                    $('.machine-empty').removeClass('johnCena');
                                                     $('.table-responsive').addClass('johnCena');
                                                 }
                                             });
@@ -367,12 +411,12 @@
         },
 
         initialize_datatable: function () {
-            if (platform.var_check(uiClientsDatatable)) {
-                uiClientsDatatable.destroy();
+            if (platform.var_check(uiMachinesDatatable)) {
+                uiMachinesDatatable.destroy();
             }
 
-            /* clients table initialize datatable */
-            uiClientsDatatable = uiClientsTable.DataTable({
+            /* machines table initialize datatable */
+            uiMachinesDatatable = uiMachinesTable.DataTable({
                 "order": [[0, "asc"]],
                 "paging": true,
                 "pageLength": 10,
@@ -386,7 +430,7 @@
                 }]
             });
 
-            return uiClientsDatatable;
+            return uiMachinesDatatable;
         },
     }
 
@@ -394,5 +438,5 @@
 
 /* run initialize function on load of window */
 $(window).on('load', function () {
-    platform.client.initialize();
+    platform.machine.initialize();
 });

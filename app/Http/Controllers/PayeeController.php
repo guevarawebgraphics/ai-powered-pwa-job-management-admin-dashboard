@@ -3,49 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Client;
-use App\Repositories\ClientRepository;
+use App\Models\Payee;
+use App\Repositories\PayeeRepository;
 
 /**
- * Class ClientController
+ * Class PayeeController
  * @package App\Http\Controllers
  * @author Richard Guevara | Monte Carlo Web Graphics
  */
-class ClientController extends Controller
+class PayeeController extends Controller
 {
     /**
-     * Client model instance.
+     * Payee model instance.
      *
-     * @var Client
+     * @var Payee
      */
-    private $client_model;
+    private $payee_model;
 
     /**
-     * ClientRepository repository instance.
+     * PayeeRepository repository instance.
      *
-     * @var ClientRepository
+     * @var PayeeRepository
      */
-    private $client_repository;
+    private $payee_repository;
 
     /**
      * Create a new controller instance.
      *
-     * @param Client $client_model
-     * @param ClientRepository $client_repository
+     * @param Payee $payee_model
+     * @param PayeeRepository $payee_repository
      */
-    public function __construct(Client $client_model, ClientRepository $client_repository)
+    public function __construct(Payee $payee_model, PayeeRepository $payee_repository)
     {
         /*
          * Model namespace
-         * using $this->client_model can also access $this->client_model->where('id', 1)->get();
+         * using $this->payee_model can also access $this->payee_model->where('id', 1)->get();
          * */
-        $this->client_model = $client_model;
+        $this->payee_model = $payee_model;
 
         /*
          * Repository namespace
-         * this class may include methods that can be used by other controllers, like getting of clients with other data (related tables).
+         * this class may include methods that can be used by other controllers, like getting of payees with other data (related tables).
          * */
-        $this->client_repository = $client_repository;
+        $this->payee_repository = $payee_repository;
 
 //        $this->middleware(['isAdmin']);
     }
@@ -58,13 +58,13 @@ class ClientController extends Controller
 
     public function index()
     {
-        if (!auth()->user()->hasPermissionTo('Read Client')) {
+        if (!auth()->user()->hasPermissionTo('Read Payee')) {
             abort('401', '401');
         }
 
-        $clients = $this->client_model->get();
+        $payees = $this->payee_model->get();
 
-        return view('admin.pages.client.index', compact('clients'));
+        return view('admin.pages.payee.index', compact('payees'));
     }
 
     /**
@@ -74,11 +74,11 @@ class ClientController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->hasPermissionTo('Create Client')) {
+        if (!auth()->user()->hasPermissionTo('Create Payee')) {
             abort('401', '401');
         }
 
-        return view('admin.pages.client.create');
+        return view('admin.pages.payee.create');
     }
 
     /**
@@ -90,31 +90,33 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        if (!auth()->user()->hasPermissionTo('Create Client')) {
+        if (!auth()->user()->hasPermissionTo('Create Payee')) {
             abort('401', '401');
         }
 
         $this->validate($request, [
-            'email' => 'required|unique:clients,email,NULL,client_id,deleted_at,NULL'
+            'payee_name'    =>  'required',
+            'payee_last_name'   =>  'required',
+            'email' => 'required|unique:payees,email,NULL,payee_id,deleted_at,NULL',
         ]);
 
         $input = $request->all();
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
 
-        $client = $this->client_model->create($input);
+        $payee = $this->payee_model->create($input);
 
         // if ($request->hasFile('banner_image')) {
-        //     $file_upload_path = $this->client_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'client_images');
-        //     $client->fill(['banner_image' => $file_upload_path])->save();
+        //     $file_upload_path = $this->payee_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'payee_images');
+        //     $payee->fill(['banner_image' => $file_upload_path])->save();
         // }
         // if ($request->hasFile('file')) {
-        //     $file_upload_path = $this->client_repository->uploadFile($request->file('file'), /*'file'*/null, 'client_files');
-        //     $client->fill(['file' => $file_upload_path])->save();
+        //     $file_upload_path = $this->payee_repository->uploadFile($request->file('file'), /*'file'*/null, 'payee_files');
+        //     $payee->fill(['file' => $file_upload_path])->save();
         // }
 
-        return redirect()->route('admin.clients.index')->with('flash_message', [
+        return redirect()->route('admin.payees.index')->with('flash_message', [
             'title' => '',
-            'message' => 'Client ' . $client->client_name . ' successfully added.',
+            'message' => 'Payee ' . $payee->payee_name . ' successfully added.',
             'type' => 'success'
         ]);
     }
@@ -128,13 +130,13 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        if (!auth()->user()->hasPermissionTo('Read Client')) {
+        if (!auth()->user()->hasPermissionTo('Read Payee')) {
             abort('401', '401');
         }
 
-        $client = $this->client_model->findOrFail($id);
+        $payee = $this->payee_model->findOrFail($id);
 
-        return view('admin.pages.client.show', compact('client'));
+        return view('admin.pages.payee.show', compact('payee'));
     }
 
     /**
@@ -146,13 +148,13 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->hasPermissionTo('Update Client')) {
+        if (!auth()->user()->hasPermissionTo('Update Payee')) {
             abort('401', '401');
         }
 
-        $client = Client::where('client_id',$id)->whereNull('deleted_at')->first();
+        $payee = Payee::where('payee_id',$id)->first();
 
-        return view('admin.pages.client.edit', compact('client'));
+        return view('admin.pages.payee.edit', compact('payee'));
     }
 
     /**
@@ -165,23 +167,22 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasPermissionTo('Update Client')) {
+        if (!auth()->user()->hasPermissionTo('Update Payee')) {
             abort('401', '401');
         }
 
         $this->validate($request, [
-            'email' => 'required|unique:clients,email,' . $id . ',client_id,deleted_at,NULL'
+            'payee_name'    =>  'required',
+            'payee_last_name'   =>  'required',
+            'email' => 'required|unique:payees,email,' . $id . ',payee_id,deleted_at,NULL',
         ]);
 
-        // $client = $this->client_model->findOrFail($id);
-        $client = Client::where('client_id',$id)->whereNull('deleted_at')->first();
-        $input = $request->except('client_id');
-
-        // dd($input);
+        $payee = Payee::where('payee_id',$id)->first();
+        $input = $request->all();
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
 
         // if ($request->hasFile('banner_image')) {
-        //     $file_upload_path = $this->client_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'client_images');
+        //     $file_upload_path = $this->payee_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'payee_images');
         //     $input['banner_image'] = $file_upload_path;
         // }
         // if ($request->has('remove_banner_image') && $request->get('remove_banner_image')) {
@@ -189,18 +190,18 @@ class ClientController extends Controller
         // }
 
         // if ($request->hasFile('file')) {
-        //     $file_upload_path = $this->client_repository->uploadFile($request->file('file'), /*'file'*/null, 'client_files');
+        //     $file_upload_path = $this->payee_repository->uploadFile($request->file('file'), /*'file'*/null, 'payee_files');
         //     $input['file'] = $file_upload_path;
         // }
         // if ($request->has('remove_file') && $request->get('remove_file')) {
         //     $input['file'] = '';
         // }
 
-        $client->fill($input)->save();
+        $payee->fill($input)->save();
 
-        return redirect()->route('admin.clients.index')->with('flash_message', [
+        return redirect()->route('admin.payees.index')->with('flash_message', [
             'title' => '',
-            'message' => 'Client ' . $client->client_name . ' successfully updated.',
+            'message' => 'Payee ' . $payee->payee_name . ' successfully updated.',
             'type' => 'success'
         ]);
     }
@@ -213,14 +214,12 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->hasPermissionTo('Delete Client')) {
+        if (!auth()->user()->hasPermissionTo('Delete Payee')) {
             abort('401', '401');
         }
 
-        // $client = $this->client_model->findOrFail($id);
-        // $client->delete();
-
-        $client = Client::where('client_id', $id)->update([ 'deleted_at' =>  now() ]);
+        $payee = $this->payee_model->findOrFail($id);
+        $payee->delete();
 
         $response = array(
             'status' => FALSE,
@@ -228,7 +227,7 @@ class ClientController extends Controller
             'message' => array(),
         );
 
-        $response['message'][] = 'Client successfully deleted.';
+        $response['message'][] = 'Payee successfully deleted.';
         $response['data']['id'] = $id;
         $response['status'] = TRUE;
 

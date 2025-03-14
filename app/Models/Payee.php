@@ -6,22 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Client
+ * Class Payee
  * @package App\Models
  * @author Richard Guevara | Monte Carlo Web Graphics
  */
-class Client extends Model
+class Payee extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'clients';
+    protected $table = 'payees';
+
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'client_id';
+    protected $primaryKey = 'payee_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -30,31 +31,14 @@ class Client extends Model
      */
     public $incrementing = true;
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'client_name',
-        'client_last_name',
-        'insurance_plan',
-        'email',
-        'other_emails',
-        'phone_number',
-        'other_phone_numbers',
-        'street_address',
-        'city',
-        'zip_code',
-        'state',
-        'country',
-        'client_notes',
-        'previous_gig_history',
-        'appliances_owned',
-        'maintenance_plan',
-        'payee_id',
-        'extra_field1',
-        'extra_field2',
+        'payee_name', 'payee_last_name', 'email', 'other_emails', 'phone_number', 'other_phone_numbers', 'address', 'payee_notes', 'payee_relation', 'extra_field1', 'extra_field2',
         'is_active',
     ];
 }

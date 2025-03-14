@@ -6,22 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Client
+ * Class Machine
  * @package App\Models
  * @author Richard Guevara | Monte Carlo Web Graphics
  */
-class Client extends Model
+class Machine extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'clients';
-
-    /**
+    protected $table = 'machines';
+        /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'client_id';
+    protected $primaryKey = 'machine_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -36,25 +35,18 @@ class Client extends Model
      * @var array
      */
     protected $fillable = [
-        'client_name',
-        'client_last_name',
-        'insurance_plan',
-        'email',
-        'other_emails',
-        'phone_number',
-        'other_phone_numbers',
-        'street_address',
-        'city',
-        'zip_code',
-        'state',
-        'country',
-        'client_notes',
-        'previous_gig_history',
-        'appliances_owned',
-        'maintenance_plan',
-        'payee_id',
+        'model_number', 
+        'serial_number', 
+        'service_manual', 
+        'parts_diagram', 
+        'service_pointers', 
+        'common_repairs', 
+        'machine_photo', 
+        'brand_name', 
+        'machine_type', 
+        'machine_notes', 
         'extra_field1',
         'extra_field2',
-        'is_active',
+        'is_active'
     ];
 }

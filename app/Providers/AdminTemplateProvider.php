@@ -78,6 +78,30 @@ class AdminTemplateProvider extends ServiceProvider
                 ]);
             }
 
+            if ($this->hasCrudAccessFor('Client')) {
+                array_push($navigation, [
+                    'name' => 'Clients',
+                    'url' => url('admin/clients'),
+                    'icon' => 'fa fa-user'
+                ]);
+            }
+
+            if ($this->hasCrudAccessFor('Payee')) {
+                array_push($navigation, [
+                    'name' => 'Payees',
+                    'url' => url('admin/payees'),
+                    'icon' => 'fa fa-credit-card'
+                ]);
+            }
+
+            if ($this->hasCrudAccessFor('Machine')) {
+                array_push($navigation, [
+                    'name' => 'Machines',
+                    'url' => url('admin/machines'),
+                    'icon' => 'fa fa-television'
+                ]);
+            }
+
             if ($this->hasCrudAccessFor('Product')) {
                 array_push($navigation, [
                     'name' => 'Products',
