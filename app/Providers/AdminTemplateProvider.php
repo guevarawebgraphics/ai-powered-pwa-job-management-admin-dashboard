@@ -78,6 +78,14 @@ class AdminTemplateProvider extends ServiceProvider
                 ]);
             }
 
+             if ($this->hasCrudAccessFor('Gig')) {
+                array_push($navigation, [
+                    'name' => 'Gigs',
+                    'url' => url('admin/gigs'),
+                    'icon' => 'fa fa-list'
+                ]);
+            }
+
             if ($this->hasCrudAccessFor('Client')) {
                 array_push($navigation, [
                     'name' => 'Clients',

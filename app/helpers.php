@@ -101,3 +101,21 @@ function getPayee()
     $query = \App\Models\Payee::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
     return $query;
 }
+
+function getClient()
+{
+    $query = \App\Models\Client::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
+    return $query;
+}
+
+function getCustomers()
+{
+    $query = \App\Models\User::where('role_id', 1)->orderBy('created_at','DESC')->get();
+    return $query;
+}
+
+function getMachine()
+{
+    $query = \App\Models\Machine::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
+    return $query;
+}

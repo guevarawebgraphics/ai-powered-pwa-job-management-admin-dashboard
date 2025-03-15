@@ -189,3 +189,14 @@ Route::delete('/payees/{id}/delete',
         'uses' => '\App\Http\Controllers\PayeeController@destroy']
 );
 /* payees */
+
+/* gigs */
+Route::resource('/gigs', 'GigController', [
+    'as' => 'admin'
+]);
+
+Route::delete('/gigs/{id}/delete',
+    ['as' => 'admin.gigs.delete',
+        'uses' => '\App\Http\Controllers\GigController@destroy']
+);
+/* gigs */
