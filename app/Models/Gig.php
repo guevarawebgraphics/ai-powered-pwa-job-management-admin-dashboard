@@ -38,7 +38,7 @@ class Gig extends Model
      */
     protected $fillable = [
         'gig_cryptic', 
-        'machine_id', 
+        'customer_input',
         'machine_brand', 
         'appliance_type', 
         'model_number',
@@ -63,6 +63,7 @@ class Gig extends Model
         'extra_field1', 
         'extra_field2',
         'is_active',
+        'customer_input'
     ];
 
     public function machine()

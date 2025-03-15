@@ -75,6 +75,17 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('customer_input') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="customer_input">Customer Input</label>
+
+                    <div class="col-md-9">
+                        <textarea class="form-control" id="customer_input" name="customer_input" placeholder=" The dryer is turning on but not drying the clothes. It Tumbles but it does not seem to get hot. "></textarea>
+                        @if($errors->has('customer_input'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('customer_input') }}</span>
+                        @endif
+                    </div>
+                </div>
+
 
                 <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="gig_price">Price</label>

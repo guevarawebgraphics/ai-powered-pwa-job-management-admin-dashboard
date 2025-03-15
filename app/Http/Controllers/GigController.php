@@ -163,11 +163,10 @@ class GigController extends Controller
             }   
         }
 
-
         $gig = $this->gig_model->create($input);
 
         // if ($request->hasFile('banner_image')) {
-        //     $file_upload_path = $this->gig_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'gig_images');
+        //     $file_upload_path = $this->gig_repository->uploadFile($request->file('banner_image')] = /*'banner_image'*/null, 'gig_images');
         //     $gig->fill(['banner_image' => $file_upload_path])->save();
         // }
         // if ($request->hasFile('file')) {
