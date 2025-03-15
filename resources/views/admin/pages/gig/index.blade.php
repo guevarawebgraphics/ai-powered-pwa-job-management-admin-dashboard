@@ -24,7 +24,11 @@
         <div class="block-title">
             <h2>
                 <i class="fa fa-newspaper-o sidebar-nav-icon"></i>
-                <strong>Gigs</strong>
+                @if(!$client)
+                    <strong>Gigs</strong>
+                @else 
+                    <strong>{{ $client ? $client->client_name . ' ' .$client->client_last_name: '' }}'s Gig History</strong>
+                @endif
             </h2>
         </div>
         <div class="alert alert-info alert-dismissable gig-empty {{$gigs->count() == 0 ? '' : 'johnCena' }}">

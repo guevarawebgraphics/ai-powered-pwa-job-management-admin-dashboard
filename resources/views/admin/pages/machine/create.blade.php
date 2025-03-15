@@ -44,7 +44,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group{{ $errors->has('machine_type') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="machine_type">Machine Type</label>
 
@@ -205,4 +204,6 @@
 @push('extrascripts')
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/machines.js') }}"></script>
+
+
 @endpush

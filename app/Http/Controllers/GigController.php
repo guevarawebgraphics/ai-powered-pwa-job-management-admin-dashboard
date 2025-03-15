@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gig;
+use App\Models\Client;
 use App\Repositories\GigRepository;
 use \Carbon\Carbon;
 
@@ -65,7 +66,26 @@ class GigController extends Controller
 
         $gigs = $this->gig_model->with(['machine','client'])->get();
 
-        return view('admin.pages.gig.index', compact('gigs'));
+        $client = [];
+        
+
+        return view('admin.pages.gig.index', compact('gigs', 'client'));
+    }
+
+    public function indexClientHistory($clientId)
+    {
+        if (!auth()->user()->hasPermissionTo('Read Gig')) {
+            abort('401', '401');
+        }
+        if (!$clientId) {
+            abort('404', '404');
+        }
+
+        $gigs = $this->gig_model->with(['machine','client'])->where('client_id', $clientId)->get();
+
+        $client = Client::where('client_id', $clientId)->first();
+
+        return view('admin.pages.gig.index', compact('gigs','client'));
     }
 
     /**

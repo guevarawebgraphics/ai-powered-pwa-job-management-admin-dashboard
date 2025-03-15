@@ -199,4 +199,9 @@ Route::delete('/gigs/{id}/delete',
     ['as' => 'admin.gigs.delete',
         'uses' => '\App\Http\Controllers\GigController@destroy']
 );
+
+Route::get('/gigs/client/{clientId}/history',
+    ['as' => 'admin.gigs.history.per.client',
+        'uses' => '\App\Http\Controllers\GigController@indexClientHistory']
+);
 /* gigs */

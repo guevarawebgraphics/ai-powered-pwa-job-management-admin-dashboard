@@ -95,11 +95,15 @@ class ClientController extends Controller
         }
 
         $this->validate($request, [
-            'email' => 'required|unique:clients,email,NULL,client_id,deleted_at,NULL'
+            'email' => 'required|unique:clients,email,NULL,client_id,deleted_at,NULL',
+            'appliance_owned' => 'required|array', // Ensure it's an array
+            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
         ]);
 
         $input = $request->all();
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
+        $input['appliances_owned'] = implode(',', $request->appliance_owned); // Convert array to comma-separated string
+
 
         $client = $this->client_model->create($input);
 
@@ -170,7 +174,9 @@ class ClientController extends Controller
         }
 
         $this->validate($request, [
-            'email' => 'required|unique:clients,email,' . $id . ',client_id,deleted_at,NULL'
+            'email' => 'required|unique:clients,email,' . $id . ',client_id,deleted_at,NULL',
+            'appliance_owned' => 'required|array', // Ensure it's an array
+            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
         ]);
 
         // $client = $this->client_model->findOrFail($id);
@@ -179,6 +185,7 @@ class ClientController extends Controller
 
         // dd($input);
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
+        $input['appliances_owned'] = implode(',', $request->appliance_owned); // Convert array to comma-separated string
 
         // if ($request->hasFile('banner_image')) {
         //     $file_upload_path = $this->client_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'client_images');

@@ -64,13 +64,13 @@
                         <td class="text-center">{{ $client->created_at ? $client->created_at->format('F d, Y') : NULL }}</td>
                         <td class="text-center">
                             <div class="btn-group btn-group-xs">
-                                {{-- @if (auth()->user()->can('Read Client'))
-                                    <a href="{{ route('admin.clients.show', $client->client_id) }}"
+                                @if (auth()->user()->can('Read Gig'))
+                                    <a href="{{ url('admin/gigs/client/'.$client->client_id.'/history') }}"
                                        data-toggle="tooltip"
                                        title=""
-                                       class="btn btn-default"
-                                       data-original-title="View"><i class="fa fa-eye"></i></a>
-                                @endif --}}
+                                       class="btn btn-pending"
+                                       data-original-title="View"><i class="fa fa-eye"></i>  View Gigs</a>
+                                @endif
                                 @if (auth()->user()->can('Update Client'))
                                     <a href="{{ route('admin.clients.edit', $client->client_id) }}"
                                        data-toggle="tooltip"

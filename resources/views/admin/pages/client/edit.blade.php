@@ -45,6 +45,23 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('appliance_owned') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="appliance_owned">Appliances Owned</label>
+
+                    <div class="col-md-9">
+                        <div id="select-container"></div>
+
+                        <!-- Add New Select Dropdown Button -->
+                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        @if($errors->has('appliance_owned'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('appliance_owned') }}</span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="payee_id">Payee</label>
 
@@ -305,4 +322,77 @@
 @push('extrascripts')
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/clients.js') }}"></script>
+
+    <script>
+        var machines = @json(getMachine()); // Convert PHP array to JavaScript array
+
+        let applianceOwned = @json($client->appliances_owned ?? ''); // Get stored IDs
+
+        let selectedMachineIds = [];
+        if (applianceOwned.trim() !== '') {
+            selectedMachineIds = applianceOwned.split(','); // Convert to array
+        }
+        // Initialize data object
+        let data = {};
+
+        console.log(selectedMachineIds);
+
+        // Parse applianceOwned if it's not empty
+        if (applianceOwned.trim() !== '') {
+            let selectedModels = applianceOwned.split(','); // Convert to array
+
+            selectedModels.forEach((model, index) => {
+                data["machine_" + index] = model; // Store in data object with a unique key
+            });
+        }
+
+        function renderDropdowns() {
+            $("#select-container").empty(); // Clear existing inputs
+            selectedMachineIds.forEach((machineId, index) => {
+                let dropdownHtml = `
+                    <div class="input-group mb-2" data-key="${index}" style="display:flex;">
+                        <select name="appliance_owned[]" class="form-control w-50 p-3 input--dropdown">
+                            <option value="">Select Machine</option>
+                            ${machines.map(machine => `
+                                <option value="${machine.machine_id}" ${machine.machine_id == machineId ? 'selected' : ''}>
+                                    ${machine.model_number} - ${machine.brand_name} - ${machine.machine_type}
+                                </option>
+                            `).join('')}
+                        </select>
+                        <button class="btn btn-danger btn--delete">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                console.log(dropdownHtml);
+                $("#select-container").append(dropdownHtml);
+            });
+        }
+
+        // Render Initial Dropdowns
+        renderDropdowns();
+
+        // Handle Select Change
+        $(document).on("change", ".input--dropdown", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            let selectedValue = $(this).val();
+            data[key] = selectedValue;
+            selectedMachineIds[key] = selectedValue; // Update array to keep track
+        });
+
+        // Add New Select Dropdown
+        $("#btn--add-more").click(function() {
+            selectedMachineIds.push(""); // Add empty slot
+            renderDropdowns();
+        });
+
+        // Remove Dropdown
+        $(document).on("click", ".btn--delete", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            selectedMachineIds.splice(key, 1); // Remove from array
+            renderDropdowns();
+        });
+
+    </script>
 @endpush
