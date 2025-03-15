@@ -297,29 +297,32 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('time_started') ? ' has-error' : '' }}">
+                 <div class="form-group{{ $errors->has('time_started') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="time_started">Time Started</label>
 
                     <div class="col-md-9">
-                        <input type="time" class="form-control" id="time_started" name="time_started"
-                               placeholder="Enter Time Started.." value="{{ old('time_started') }}">
+                        <input type="datetime-local" class="form-control" id="time_started" name="time_started"
+                            placeholder="Enter Time Started.." 
+                            value="{{ old('time_started') }}">
                         @if($errors->has('time_started'))
                             <span class="help-block animation-slideDown">{{ $errors->first('time_started') }}</span>
                         @endif
                     </div>
                 </div>
 
-               <div class="form-group{{ $errors->has('time_ended') ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has('time_ended') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="time_ended">Time Ended</label>
 
                     <div class="col-md-9">
-                        <input type="time" class="form-control" id="time_ended" name="time_ended"
-                               placeholder="Enter Time Ended.." value="{{ old('time_ended') }}">
+                        <input type="datetime-local" class="form-control" id="time_ended" name="time_ended"
+                            placeholder="Enter Time Ended.." 
+                            value="{{ old('time_ended')}}">
                         @if($errors->has('time_ended'))
                             <span class="help-block animation-slideDown">{{ $errors->first('time_ended') }}</span>
                         @endif
                     </div>
                 </div>
+
 
 
                 {{-- <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
