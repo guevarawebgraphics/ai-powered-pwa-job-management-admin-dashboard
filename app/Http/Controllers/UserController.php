@@ -115,7 +115,24 @@ class UserController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $user = $this->user_model->create($request->only('first_name', 'last_name', 'user_name', 'email', 'password'));
+
+        $input = $request->only(
+            'first_name',
+            'middle_name',
+            'last_name',
+            'user_name',
+            'mobile_no',
+            'home_no',
+            'professional_title',
+            'current_address',
+            'service_area',
+            'email',
+            'password'
+        );
+
+        $input['name'] = $request->first_name . ' ' .$request->last_name;
+
+        $user = $this->user_model->create($input);
 
         $roles = $request['roles'];
         if (isset($roles)) {
@@ -214,14 +231,36 @@ class UserController extends Controller
             'password' => 'required_if:change_password,==,1|min:8|confirmed',
         ]);
 
+
+        $input = $request->only(
+            'first_name',
+            'middle_name',
+            'last_name',
+            'user_name',
+            'mobile_no',
+            'home_no',
+            'professional_title',
+            'current_address',
+            'service_area',
+            'email'
+        );
+
+        $input['name'] = $request->first_name . ' ' .$request->last_name;
+
         if ($request->get('change_password') == '1') {
-            $input = $request->only(['first_name', 'last_name', 'user_name', 'email', 'is_active', 'password']);
-        } else {
-            $input = $request->only(['first_name', 'last_name', 'user_name', 'email', 'is_active']);
+            $input['password']  =   $request->password;
         }
+
+        // if ($request->get('change_password') == '1') {
+        //     $input = $request->only(['first_name', 'last_name', 'user_name', 'email', 'is_active', 'password']);
+        // } else {
+        //     $input = $request->only(['first_name', 'last_name', 'user_name', 'email', 'is_active']);
+        // }
 
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $roles = $request['roles'];
+
+
         $user->fill($input)->save();
 
         if (isset($roles)) {

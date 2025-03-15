@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="block-title">
-                    <h2><i class="fa fa-pencil"></i> <strong>Edit User "{{$user->first_name.' '.$user->last_name}}"</strong></h2>
+                    <h2><i class="fa fa-pencil"></i> <strong>Edit User "{{$user->name}}"</strong></h2>
                 </div>
                 <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="first_name">Firstname</label>
@@ -27,6 +27,18 @@
                                placeholder="Enter firstname..">
                         @if($errors->has('first_name'))
                             <span class="help-block animation-slideDown">{{ $errors->first('first_name') }}</span>
+                        @endif
+                    </div>
+                </div>
+                 <div class="form-group{{ $errors->has('middle_name') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="middle_name">Midlle name</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="middle_name" name="middle_name"
+                               value="{{  Request::old('middle_name') ? : $user->middle_name }}"
+                               placeholder="Enter Midlle name..">
+                        @if($errors->has('middle_name'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('middle_name') }}</span>
                         @endif
                     </div>
                 </div>
@@ -51,6 +63,66 @@
                                placeholder="Enter username..">
                         @if($errors->has('user_name'))
                             <span class="help-block animation-slideDown">{{ $errors->first('user_name') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('mobile_no') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="mobile_no">Phone Number</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="mobile_no" name="mobile_no"
+                               value="{{  Request::old('mobile_no') ? : $user->mobile_no }}"
+                               placeholder="Enter Mobile Number..">
+                        @if($errors->has('mobile_no'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('mobile_no') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('home_no') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="home_no">Home Number</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="home_no" name="home_no"
+                               value="{{  Request::old('home_no') ? : $user->home_no }}"
+                               placeholder="Enter Home Number..">
+                        @if($errors->has('home_no'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('home_no') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('professional_title') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="professional_title">Professional Title</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="professional_title" name="professional_title"
+                               value="{{  Request::old('professional_title') ? : $user->professional_title }}"
+                               placeholder="Enter Professional Title..">
+                        @if($errors->has('professional_title'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('professional_title') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('current_address') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="current_address">Current Address</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="current_address" name="current_address"
+                               value="{{  Request::old('current_address') ? : $user->current_address }}"
+                               placeholder="Enter Current Address..">
+                        @if($errors->has('current_address'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('current_address') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('service_area') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="service_area">Service Area</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="service_area" name="service_area"
+                               value="{{  Request::old('service_area') ? : $user->service_area }}"
+                               placeholder="Enter Current Address..">
+                        @if($errors->has('service_area'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('service_area') }}</span>
                         @endif
                     </div>
                 </div>
