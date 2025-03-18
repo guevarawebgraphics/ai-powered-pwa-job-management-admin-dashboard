@@ -63,7 +63,7 @@
                         <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each email entry."></i> Other Emails</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="other_emails" name="other_emails" value="{!! old('other_emails') ?? $client->other_emails !!}"
+                        <input type="text" class="form-control" id="other_emails" name="other_emails" value="{!! old('other_emails') ?? $payee->other_emails !!}"
                             placeholder="Enter Other Emails..">
                         @if($errors->has('other_emails'))
                             <span class="help-block animation-slideDown">{{ $errors->first('other_emails') }}</span>
@@ -91,7 +91,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="other_phone_numbers" name="other_phone_numbers"
-                               placeholder="Enter Other Phone #.." value="{!! old('other_phone_numbers') ?? $client->other_phone_numbers !!}">
+                               placeholder="Enter Other Phone #.." value="{!! old('other_phone_numbers') ?? $payee->other_phone_numbers !!}">
                         @if($errors->has('other_phone_numbers'))
                             <span class="help-block animation-slideDown">{{ $errors->first('other_phone_numbers') }}</span>
                         @endif
