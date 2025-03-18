@@ -204,7 +204,7 @@
 
 
 
-                <div class="form-group">
+                <div class="form-group" style="display:none;">
                     <label class="col-md-3 control-label">Is Active?</label>
 
                     <div class="col-md-9">

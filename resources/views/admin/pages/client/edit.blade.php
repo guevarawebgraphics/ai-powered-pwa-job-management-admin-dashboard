@@ -71,7 +71,7 @@
                 <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="payee_id">Payee</label>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <select class="form-control" id="payee_id" name="payee_id">
                             <option value="" {{ !$client->payee_id ? 'selected' : '' }}>Choose Payee</option>
                             @foreach(getPayee() ?? [] as $field )
@@ -81,6 +81,12 @@
                         @if($errors->has('payee_id'))
                             <span class="help-block animation-slideDown">{{ $errors->first('payee_id') }}</span>
                         @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formPayeeModal">
+                            <i class="fa fa-plus"></i> Add New Payee
+                        </button>
                     </div>
                 </div>
                 
@@ -410,7 +416,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label class="col-md-3 control-label">Is Active?</label>
 
                             <div class="col-md-9">
@@ -431,6 +437,80 @@
             </div>
         </div>
     </div>
+
+
+    
+    <div class="modal fade" id="formPayeeModal" tabindex="-1" role="dialog" aria-labelledby="formPayeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formPayeeModalLabel">Add New Payee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {{  Form::open([
+                'method' => 'POST',
+                'id' => 'create-payee',
+                'route' => ['admin.payees.store'],
+                'class' => 'form-horizontal ',
+                'files' => TRUE
+                ])
+            }}
+            
+                    <div class="modal-body">
+
+                        <div class="form-group{{ $errors->has('payee_name') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="payee_name">First Name</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="payee_name" name="payee_name"
+                                    placeholder="Enter Payee First name.." value="{{ old('payee_name') }}">
+                                @if($errors->has('payee_name'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('payee_name') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('payee_last_name') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="payee_last_name">Last Name</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="payee_last_name" name="payee_last_name"
+                                    placeholder="Enter Payee Last name.." value="{{ old('payee_last_name') }}">
+                                @if($errors->has('payee_last_name'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('payee_last_name') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="email">Email</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter Payee Email.." value="{{ old('email') }}">
+                                @if($errors->has('email'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('email') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    
+                {{ Form::close() }}
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('extrascripts')
@@ -442,6 +522,10 @@
         $(document).ready(function () {
             @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))
                 $('#formModal').modal('show')
+            @endif
+
+            @if($errors->has('payee_name') || $errors->has('payee_last_name') || $errors->has('email') )
+                $('#formPayeeModal').modal('show')
             @endif
         });
 
