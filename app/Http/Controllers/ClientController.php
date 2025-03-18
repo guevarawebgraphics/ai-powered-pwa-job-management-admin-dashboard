@@ -98,6 +98,8 @@ class ClientController extends Controller
             'email' => 'required|unique:clients,email,NULL,client_id,deleted_at,NULL',
             'appliance_owned' => 'required|array', // Ensure it's an array
             'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
+            'first_name'    =>  'required',
+            'last_name' =>  'required'
         ]);
 
         $input = $request->all();
@@ -177,6 +179,8 @@ class ClientController extends Controller
             'email' => 'required|unique:clients,email,' . $id . ',client_id,deleted_at,NULL',
             'appliance_owned' => 'required|array', // Ensure it's an array
             'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
+            'first_name'    =>  'required',
+            'last_name' =>  'required'
         ]);
 
         // $client = $this->client_model->findOrFail($id);

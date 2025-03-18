@@ -21,17 +21,18 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('gig_cryptic') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="gig_cryptic">GIG Cryptic</label>
-
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="gig_cryptic" name="gig_cryptic"
-                               placeholder="Enter Gig Cryptic.." value="{{ old('gig_cryptic') }}">
-                        @if($errors->has('gig_cryptic'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('gig_cryptic') }}</span>
-                        @endif
-                    </div>
-                </div>
+                {{-- 
+                    <div class="form-group{{ $errors->has('gig_cryptic') ? ' has-error' : '' }}">
+                        <label class="col-md-3 control-label" for="gig_cryptic">GIG Cryptic</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="gig_cryptic" name="gig_cryptic"
+                                placeholder="Enter Gig Cryptic.." value="{{ old('gig_cryptic') }}">
+                            @if($errors->has('gig_cryptic'))
+                                <span class="help-block animation-slideDown">{{ $errors->first('gig_cryptic') }}</span>
+                            @endif
+                        </div>
+                    </div> 
+                --}}
 
                 <div class="form-group{{ $errors->has('serial_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="serial_number">Serial Number</label>
@@ -75,7 +76,7 @@
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('customer_input') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('customer_input') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="customer_input">Customer Input</label>
 
                     <div class="col-md-9">
@@ -84,7 +85,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('customer_input') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
 
                 <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
