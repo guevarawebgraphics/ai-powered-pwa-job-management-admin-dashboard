@@ -51,7 +51,7 @@
                 <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="model_number">Machine</label>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <select class="form-control" id="model_number" name="model_number">
                             <option value="" selected>Choose your Machine</option>
                             @foreach( getMachine() ?? [] as $field )
@@ -61,6 +61,12 @@
                         @if($errors->has('model_number'))
                             <span class="help-block animation-slideDown">{{ $errors->first('model_number') }}</span>
                         @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        <a href="{{url('admin/machines/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add New Machine
+                        </a>
                     </div>
                 </div>
 
@@ -99,11 +105,22 @@
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('gig_discount') ? ' has-error' : '' }}">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Is Discounted?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="is_discount" name="is_discount" value="1" {{ Request::old('is_discount') ? 'checked' : '' }}>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('gig_discount') ? ' has-error' : '' }}" id="discountContainer" style="display:none;">
                     <label class="col-md-3 control-label" for="gig_discount">Discount</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="gig_discount" name="gig_discount" value="{{ old('gig_discount') }}" placeholder="0.00">
+                        <input type="text" class="form-control decimal" id="gig_discount" name="gig_discount" value="{{ old('gig_discount') }}" placeholder="0.00">
                         @if($errors->has('gig_discount'))
                             <span class="help-block animation-slideDown">{{ $errors->first('gig_discount') }}</span>
                         @endif
@@ -114,7 +131,7 @@
                 <div class="form-group{{ $errors->has('client_id') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="client_id">Client</label>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <select class="form-control" id="client_id" name="client_id">
                             <option value="" selected>Choose your Client</option>
                             @foreach( getClient() ?? [] as $field )
@@ -125,13 +142,19 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('client_id') }}</span>
                         @endif
                     </div>
+
+                    <div class="col-md-3">
+                        <a href="{{url('admin/clients/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add New Client
+                        </a>
+                    </div>
                 </div>
 
 
                 <div class="form-group{{ $errors->has('assigned_tech_id') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="assigned_tech_id">Technician</label>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <select class="form-control" id="assigned_tech_id" name="assigned_tech_id">
                             <option value="" selected>Choose your Technician</option>
                             @foreach( getCustomers() ?? [] as $field )
@@ -141,6 +164,12 @@
                         @if($errors->has('assigned_tech_id'))
                             <span class="help-block animation-slideDown">{{ $errors->first('assigned_tech_id') }}</span>
                         @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        <a href="{{url('admin/users/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add New Technician
+                        </a>
                     </div>
                 </div>
 
@@ -504,5 +533,10 @@
             delete parts_used_data[key]; // Remove from JSON
             renderTextboxesPartsUsed();
         });
+
+        $(document).on('click', '#is_discount', function () {
+            $('#discountContainer').toggle();
+        });
+
     </script>
 @endpush

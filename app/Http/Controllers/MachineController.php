@@ -96,6 +96,8 @@ class MachineController extends Controller
 
         $this->validate($request, [
             'model_number' => 'required|unique:machines,model_number,NULL,machine_id,deleted_at,NULL',
+            'brand_name'  =>  'required',
+            'machine_type'  =>  'required',
             'machine_photo' => 'mimes:jpg,jpeg,png',
         ]);
 
@@ -173,6 +175,8 @@ class MachineController extends Controller
 
         $this->validate($request, [
             'model_number' => 'required|unique:machines,model_number,' . $id . ',machine_id,deleted_at,NULL',
+            'brand_name'  =>  'required',
+            'machine_type'  =>  'required',
             'banner_image' => 'required_if:remove_banner_image,==,1|mimes:jpg,jpeg,png',
         ]);
 

@@ -182,38 +182,38 @@
                     form.submit();
                 },
                 rules: {
-                    'name': {
-                        required: true
-                    },
-                    'slug': {
-                        required: true
-                    },
-                    'banner_image': {
-                        required: true
-                    },
-                    'file': {
-                        required: true
-                    },
-                    'content': {
-                        required: true
-                    }
+                    // 'name': {
+                    //     required: true
+                    // },
+                    // 'slug': {
+                    //     required: true
+                    // },
+                    // 'banner_image': {
+                    //     required: true
+                    // },
+                    // 'file': {
+                    //     required: true
+                    // },
+                    // 'content': {
+                    //     required: true
+                    // }
                 },
                 messages: {
-                    'name': {
-                        required: 'Name is required.'
-                    },
-                    'slug': {
-                        required: 'Slug is required.'
-                    },
-                    'banner_image': {
-                        required: 'Image is required.'
-                    },
-                    'file': {
-                        required: 'File is required.'
-                    },
-                    'content': {
-                        required: 'Content is required.'
-                    }
+                    // 'name': {
+                    //     required: 'Name is required.'
+                    // },
+                    // 'slug': {
+                    //     required: 'Slug is required.'
+                    // },
+                    // 'banner_image': {
+                    //     required: 'Image is required.'
+                    // },
+                    // 'file': {
+                    //     required: 'File is required.'
+                    // },
+                    // 'content': {
+                    //     required: 'Content is required.'
+                    // }
                 }
             });
 
@@ -245,46 +245,46 @@
                     form.submit();
                 },
                 rules: {
-                    'name': {
-                        required: true
-                    },
-                    'slug': {
-                        required: true
-                    },
-                    'banner_image': {
-                        required: {
-                            depends: function (element) {
-                                return $(element).closest('.form-group').find('input.remove-image').val() == 1;
-                            }
-                        }
-                    },
-                    'file': {
-                        required: {
-                            depends: function (element) {
-                                return $(element).closest('.form-group').find('input.remove-file').val() == 1;
-                            }
-                        }
-                    },
-                    'content': {
-                        required: true
-                    }
+                    // 'name': {
+                    //     required: true
+                    // },
+                    // 'slug': {
+                    //     required: true
+                    // },
+                    // 'banner_image': {
+                    //     required: {
+                    //         depends: function (element) {
+                    //             return $(element).closest('.form-group').find('input.remove-image').val() == 1;
+                    //         }
+                    //     }
+                    // },
+                    // 'file': {
+                    //     required: {
+                    //         depends: function (element) {
+                    //             return $(element).closest('.form-group').find('input.remove-file').val() == 1;
+                    //         }
+                    //     }
+                    // },
+                    // 'content': {
+                    //     required: true
+                    // }
                 },
                 messages: {
-                    'name': {
-                        required: 'Name is required.'
-                    },
-                    'slug': {
-                        required: 'Slug is required.'
-                    },
-                    'banner_image': {
-                        required: 'Image is required.'
-                    },
-                    'file': {
-                        required: 'File is required.'
-                    },
-                    'content': {
-                        required: 'Content is required.'
-                    }
+                    // 'name': {
+                    //     required: 'Name is required.'
+                    // },
+                    // 'slug': {
+                    //     required: 'Slug is required.'
+                    // },
+                    // 'banner_image': {
+                    //     required: 'Image is required.'
+                    // },
+                    // 'file': {
+                    //     required: 'File is required.'
+                    // },
+                    // 'content': {
+                    //     required: 'Content is required.'
+                    // }
                 }
             });
 

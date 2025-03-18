@@ -175,5 +175,13 @@
         });
     </script>
 @endif
+
+
+ <script>
+    $('.decimal').keypress(function(evt){
+        return (/^[0-9]*\.?[0-9]*$/).test($(this).val()+evt.key);
+    });
+</script>
+
 </body>
 </html>
