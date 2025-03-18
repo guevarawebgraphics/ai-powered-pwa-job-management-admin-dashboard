@@ -205,7 +205,7 @@ class ClientController extends Controller
         // if ($request->has('remove_file') && $request->get('remove_file')) {
         //     $input['file'] = '';
         // }
-
+        
         $client->fill($input)->save();
 
         return redirect()->back()->with('flash_message', [

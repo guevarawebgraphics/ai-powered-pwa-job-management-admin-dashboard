@@ -205,7 +205,7 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="trainee_included">Trainee Included</label>
 
                     <div class="col-md-9">
@@ -214,7 +214,27 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('trainee_included') }}</span>
                         @endif
                     </div>
+                </div> --}}
+
+
+                <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="trainee_included">Trainee Included</label>
+
+                    <div class="col-md-6">
+                        <div id="select-container-trainee"></div>
+
+                        <!-- Add New Select Dropdown Button -->
+                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more-trainee">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        @if($errors->has('trainee_included'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('trainee_included') }}</span>
+                        @endif
+                    </div>
+
                 </div>
+
 
 
                 
@@ -766,6 +786,82 @@
         // Run on page load to check initial value
         $(document).ready(function () {
             $('#gig_price').trigger('change');
+        });
+
+
+
+        
+        // Trainee Included
+        var trainees = @json(getCustomers()); // Convert PHP array to JavaScript array
+
+        let traineeIncluded = @json($gig->trainee_included ?? ''); // Get stored IDs
+
+        
+        console.log(traineeIncluded);
+        
+        let selectedTraineesID = [];
+        if (traineeIncluded.trim() !== '') {
+            selectedTraineesID = traineeIncluded.split(','); // Convert to array
+        }
+        // Initialize data object
+        let trainee_data = {};
+
+
+        // Parse traineeIncluded if it's not empty
+        if (traineeIncluded.trim() !== '') {
+            let selectedTrain = traineeIncluded.split(','); // Convert to array
+
+            selectedTrain.forEach((model, index) => {
+                trainee_data["trainee_" + index] = model; // Store in data object with a unique key
+            });
+        }
+
+        function renderDropdownsTrainee() {
+            $("#select-container-trainee").empty(); // Clear existing inputs
+            selectedTraineesID.forEach((traineeId, index) => {
+                let dropdownHtml = `
+                    <div class="input-group mb-2" data-key="${index}" style="display:flex;">
+                        <select name="trainee_included[]" class="form-control w-50 p-3 input--dropdown-trainee">
+                            <option value="">Select Trainee</option>
+                            ${trainees.map(trainee_field => `
+                                <option value="${trainee_field.id}" ${trainee_field.id == traineeId ? 'selected' : ''}>
+                                    ${trainee_field.first_name} - ${trainee_field.last_name} - ${trainee_field.email}
+                                </option>
+                            `).join('')}
+                        </select>
+                        <button type="button" class="btn btn-danger btn--delete-trainee">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                console.log(dropdownHtml);
+                $("#select-container-trainee").append(dropdownHtml);
+            });
+        }
+
+        // Render Initial Dropdowns
+        renderDropdownsTrainee();
+
+        // Handle Select Change
+        $(document).on("change", ".input--dropdown-trainee", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            let selectedValue = $(this).val();
+            trainee_data[key] = selectedValue;
+            selectedTraineesID[key] = selectedValue; // Update array to keep track
+        });
+
+        // Add New Select Dropdown
+        $("#btn--add-more-trainee").click(function() {
+            selectedTraineesID.push(""); // Add empty slot
+            renderDropdownsTrainee();
+        });
+
+        // Remove Dropdown
+        $(document).on("click", ".btn--delete-trainee", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            selectedTraineesID.splice(key, 1); // Remove from array
+            renderDropdownsTrainee();
         });
 
 
