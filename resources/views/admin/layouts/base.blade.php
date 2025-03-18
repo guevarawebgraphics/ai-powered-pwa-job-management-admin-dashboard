@@ -37,9 +37,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
     <link rel="stylesheet" class="themes" href="{{ asset('public/css/admin.css') }}">
 
-  
-
-
     @if($admin_template['theme'])
         <link id="theme-link" rel="stylesheet" href="{{ asset('public/css/themes/'.$admin_template['theme'].'.css') }}">
     @endif
@@ -50,6 +47,9 @@
       
     {{-- for admin control overwrite --}}
     <link rel="stylesheet" class="themes" href="{{ asset('public/css/admin-control.css') }}"> 
+
+    <link rel='stylesheet' href="{{asset('public/css/amsify.suggestags.css')}}">
+    
 </head>
 <body>
 {{--Page Wrapper--}}
@@ -159,6 +159,11 @@
     var sSettingType = null;
 </script>
 <script type="text/javascript" src="{{ asset('public/js/admin.js') }}"></script>
+
+
+<script src='{{asset('public/js/jquery.amsify.suggestags.js')}}'></script>
+
+
 @stack('extrascripts')
 @if (session()->has('flash_message'))
     <script>

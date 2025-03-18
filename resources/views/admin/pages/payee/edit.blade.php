@@ -59,10 +59,12 @@
 
 
                 <div class="form-group{{ $errors->has('other_emails') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="other_emails">Other Emails</label>
+                    <label class="col-md-3 control-label" for="other_emails">
+                        <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each email entry."></i> Other Emails</label>
+
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="other_emails" name="other_emails"
-                               placeholder="Enter Payee Other Emails.." value="{{ old('other_emails') ?? $payee->other_emails  }}">
+                        <input type="text" class="form-control" id="other_emails" name="other_emails" value="{!! old('other_emails') ?? $client->other_emails !!}"
+                            placeholder="Enter Other Emails..">
                         @if($errors->has('other_emails'))
                             <span class="help-block animation-slideDown">{{ $errors->first('other_emails') }}</span>
                         @endif
@@ -83,11 +85,13 @@
 
 
                 <div class="form-group{{ $errors->has('other_phone_numbers') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="other_phone_numbers">Other Phone Numbers</label>
+                    <label class="col-md-3 control-label" for="other_phone_numbers">
+                        <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each Phone Number entry."></i> Other Phone Numbers</label>
+
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="other_phone_numbers" name="other_phone_numbers"
-                               placeholder="Enter Payee Other Phone Number.." value="{{ old('other_phone_numbers') ?? $payee->other_phone_numbers  }}">
+                               placeholder="Enter Other Phone #.." value="{!! old('other_phone_numbers') ?? $client->other_phone_numbers !!}">
                         @if($errors->has('other_phone_numbers'))
                             <span class="help-block animation-slideDown">{{ $errors->first('other_phone_numbers') }}</span>
                         @endif
@@ -119,7 +123,7 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
 
                     <div class="col-md-9">
@@ -141,7 +145,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('extra_field2') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
 
 
@@ -227,4 +231,17 @@
 @push('extrascripts')
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/payees.js') }}"></script>
+        <script>
+        
+        $('input[name="other_emails"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
+        });
+
+        $('input[name="other_phone_numbers"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
+        });
+
+    </script>
 @endpush

@@ -106,7 +106,6 @@ class ClientController extends Controller
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $input['appliances_owned'] = $request->appliance_owned ? implode(',', $request->appliance_owned) : null; // Convert array to comma-separated string
 
-
         $client = $this->client_model->create($input);
 
         // if ($request->hasFile('banner_image')) {

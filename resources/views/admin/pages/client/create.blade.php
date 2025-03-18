@@ -1,6 +1,8 @@
 @extends('admin.layouts.base')
 
 @section('content')
+
+
     <ul class="breadcrumb breadcrumb-top">
         <li><a href="{{ route('admin.clients.index') }}">Clients</a></li>
         <li><span href="javascript:void(0)">Add New Client</span></li>
@@ -47,7 +49,7 @@
                 <div class="form-group{{ $errors->has('appliance_owned') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="appliance_owned">Appliances Owned</label>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <div id="select-container"></div>
 
                         <!-- Add New Select Dropdown Button -->
@@ -58,6 +60,12 @@
                         @if($errors->has('appliance_owned'))
                             <span class="help-block animation-slideDown">{{ $errors->first('appliance_owned') }}</span>
                         @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formModal">
+                            <i class="fa fa-plus"></i> Add New Machine
+                        </button>
                     </div>
                 </div>
 
@@ -80,7 +88,7 @@
                 
 
 
-                 <div class="form-group{{ $errors->has('insurance_plan') ? ' has-error' : '' }}">
+                 {{-- <div class="form-group{{ $errors->has('insurance_plan') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="insurance_plan">Insurance Plan</label>
 
                     <div class="col-md-9">
@@ -90,7 +98,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('insurance_plan') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
                 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -105,6 +113,22 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('other_emails') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="other_emails">
+                        <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each email entry."></i>
+                        Other Emails
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="other_emails" name="other_emails"
+                            placeholder="Enter Other Emails.." value="{!! old('other_emails') !!}">
+                        @if($errors->has('other_emails'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('other_emails') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                
                 <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="phone_number">Phone Number</label>
 
@@ -119,14 +143,17 @@
 
 
                 <div class="form-group{{ $errors->has('other_phone_numbers') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="other_phone_numbers">Other Phone Numbers</label>
+                    <label class="col-md-3 control-label" for="other_phone_numbers">
+                         <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each Phone Number entry."></i>
+                         Other Phone Numbers</label>
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="other_phone_numbers" name="other_phone_numbers"
-                               placeholder="Enter Other Phone Numbers.." value="{{ old('other_phone_numbers') }}">
+                               placeholder="Enter Other Phone Numbers.." value="{!! old('other_phone_numbers') !!}">
                         @if($errors->has('other_phone_numbers'))
                             <span class="help-block animation-slideDown">{{ $errors->first('other_phone_numbers') }}</span>
                         @endif
+
                     </div>
                 </div>
 
@@ -174,8 +201,9 @@
                     <label class="col-md-3 control-label" for="state">State</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="state" name="state"
-                               placeholder="Enter State.." value="{{ old('state') }}">
+                        <select class="form-control" id="state" name="state">
+                            <option class="FL" selected>FL</option>
+                        </select>
                         @if($errors->has('state'))
                             <span class="help-block animation-slideDown">{{ $errors->first('state') }}</span>
                         @endif
@@ -206,7 +234,7 @@
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('maintenance_plan') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('maintenance_plan') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="maintenance_plan">Maintenance Plan</label>
 
                     <div class="col-md-9">
@@ -216,9 +244,9 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('maintenance_plan') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
 
                     <div class="col-md-9">
@@ -241,7 +269,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('extra_field2') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="client_banner_image">Banner Image</label>
@@ -292,7 +320,19 @@
 
 
                
-                <div class="form-group">
+                {{-- <div class="form-group">
+                    <label class="col-md-3 control-label">Is Active?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="is_active" name="is_active"
+                                   value="1" checked>
+                            <span></span>
+                        </label>
+                    </div>
+                </div> --}}
+
+                <div class="form-group" style="display:none;">
                     <label class="col-md-3 control-label">Is Active?</label>
 
                     <div class="col-md-9">
@@ -303,6 +343,7 @@
                         </label>
                     </div>
                 </div>
+
                 <div class="form-group form-actions">
                     <div class="col-md-9 col-md-offset-3">
                         <a href="{{ route('admin.clients.index') }}" class="btn btn-sm btn-warning">Cancel</a>
@@ -314,13 +355,102 @@
         </div>
         {{ Form::close() }}
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Add New Machine</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                {{  Form::open([
+                    'method' => 'POST',
+                    'id' => 'create-machine',
+                    'route' => ['admin.machines.store'],
+                    'class' => 'form-horizontal ',
+                    'files' => TRUE
+                    ])
+                }}
+                    <div class="modal-body">
+
+                        <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="model_number">Model Number</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="model_number" name="model_number"
+                                    placeholder="Enter Model Number.." value="{{ old('model_number') }}">
+                                @if($errors->has('model_number'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('model_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('brand_name') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="brand_name">Brand Name</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="brand_name" name="brand_name"
+                                    placeholder="Enter Brand Name.." value="{{ old('brand_name') }}">
+                                @if($errors->has('brand_name'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('brand_name') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('machine_type') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="machine_type">Machine Type</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="machine_type" name="machine_type"
+                                    placeholder="Enter Machine Type.." value="{{ old('machine_type') }}">
+                                @if($errors->has('machine_type'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('machine_type') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Is Active?</label>
+
+                            <div class="col-md-9">
+                                <label class="switch switch-primary">
+                                    <input type="checkbox" name="is_active"
+                                        value="1" checked>
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('extrascripts')
+    
+
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/clients.js') }}"></script>
 
+
+
         <script>
+
+        $(document).ready(function () {
+            @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))
+                $('#formModal').modal('show')
+            @endif
+        });
+        
         var machines = @json(getMachine()); // Convert PHP array to JavaScript array
 
         let applianceOwned = @json(''); // Get stored IDs
@@ -389,6 +519,17 @@
             let key = $(this).closest(".input-group").attr("data-key");
             selectedMachineIds.splice(key, 1); // Remove from array
             renderDropdowns();
+        });
+
+
+        $('input[name="other_emails"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
+        });
+
+        $('input[name="other_phone_numbers"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
         });
 
 
