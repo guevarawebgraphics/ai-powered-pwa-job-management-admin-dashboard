@@ -116,8 +116,9 @@ class MachineController extends Controller
         //     $machine->fill(['file' => $file_upload_path])->save();
         // }
 
-        return redirect()->route('admin.machines.index')->with('flash_message', [
+        return redirect()->back()->with('flash_message', [
             'title' => '',
+            'page_module'   =>  'GIG',
             'message' => 'Machine ' . $machine->model_number . ' successfully added.',
             'type' => 'success'
         ]);
@@ -204,7 +205,7 @@ class MachineController extends Controller
 
         $machine->fill($input)->save();
 
-        return redirect()->route('admin.machines.index')->with('flash_message', [
+        return redirect()->back()->with('flash_message', [
             'title' => '',
             'message' => 'Machine ' . $machine->model_number . ' successfully updated.',
             'type' => 'success'

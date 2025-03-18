@@ -96,15 +96,15 @@ class ClientController extends Controller
 
         $this->validate($request, [
             'email' => 'required|unique:clients,email,NULL,client_id,deleted_at,NULL',
-            'appliance_owned' => 'required|array', // Ensure it's an array
-            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
-            'first_name'    =>  'required',
-            'last_name' =>  'required'
+            'appliance_owned' => 'nullable|array', // Optional but must be an array if provided
+            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value if array exists
+            'client_name'    =>  'required',
+            'client_last_name' =>  'required'
         ]);
 
         $input = $request->all();
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
-        $input['appliances_owned'] = implode(',', $request->appliance_owned); // Convert array to comma-separated string
+        $input['appliances_owned'] = $request->appliance_owned ? implode(',', $request->appliance_owned) : null; // Convert array to comma-separated string
 
 
         $client = $this->client_model->create($input);
@@ -118,7 +118,7 @@ class ClientController extends Controller
         //     $client->fill(['file' => $file_upload_path])->save();
         // }
 
-        return redirect()->route('admin.clients.index')->with('flash_message', [
+        return redirect()->back()->with('flash_message', [
             'title' => '',
             'message' => 'Client ' . $client->client_name . ' successfully added.',
             'type' => 'success'
@@ -177,10 +177,10 @@ class ClientController extends Controller
 
         $this->validate($request, [
             'email' => 'required|unique:clients,email,' . $id . ',client_id,deleted_at,NULL',
-            'appliance_owned' => 'required|array', // Ensure it's an array
-            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value
-            'first_name'    =>  'required',
-            'last_name' =>  'required'
+            'appliance_owned' => 'nullable|array', // Optional but must be an array if provided
+            'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value if array exists
+            'client_name'    =>  'required',
+            'client_last_name' =>  'required'
         ]);
 
         // $client = $this->client_model->findOrFail($id);
@@ -189,7 +189,7 @@ class ClientController extends Controller
 
         // dd($input);
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
-        $input['appliances_owned'] = implode(',', $request->appliance_owned); // Convert array to comma-separated string
+        $input['appliances_owned'] = $request->appliance_owned ? implode(',', $request->appliance_owned) : null; // Convert array to comma-separated string
 
         // if ($request->hasFile('banner_image')) {
         //     $file_upload_path = $this->client_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'client_images');
@@ -209,7 +209,7 @@ class ClientController extends Controller
 
         $client->fill($input)->save();
 
-        return redirect()->route('admin.clients.index')->with('flash_message', [
+        return redirect()->back()->with('flash_message', [
             'title' => '',
             'message' => 'Client ' . $client->client_name . ' successfully updated.',
             'type' => 'success'

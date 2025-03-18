@@ -47,25 +47,28 @@
 
 
                                 
-                <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="model_number">Machine</label>
+                <div class="form-group{{ $errors->has('model_number_main') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="model_number_main">Machine</label>
 
                     <div class="col-md-6">
-                        <select class="form-control" id="model_number" name="model_number">
+                        <select class="form-control" id="model_number_main" name="model_number_main">
                             <option value="" selected>Choose your Machine</option>
                             @foreach( getMachine() ?? [] as $field )
                                 <option value="{{$field->model_number}}" {{ $gig->model_number == $field->model_number ? 'selected' : ''}}>{{$field->model_number}} {{$field->brand_name}} {{$field->machine_type}} </option>
                             @endforeach
                         </select>
-                        @if($errors->has('model_number'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('model_number') }}</span>
+                        @if($errors->has('model_number_main'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('model_number_main') }}</span>
                         @endif
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{url('admin/machines/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                        {{-- <a href="{{url('admin/machines/create')}}" target="_blank" class="btn btn-sm btn-primary">
                             <i class="fa fa-plus"></i> Add New Machine
-                        </a>
+                        </a> --}}
+                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formModal">
+                            <i class="fa fa-plus"></i> Add New Machine
+                        </button>
                     </div>
                 </div>
 
@@ -147,16 +150,19 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{url('admin/clients/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                        {{-- <a href="{{url('admin/clients/create')}}" target="_blank" class="btn btn-sm btn-primary">
                             <i class="fa fa-plus"></i> Add New Client
-                        </a>
+                        </a> --}}
+                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formClientModal">
+                            <i class="fa fa-plus"></i> Add New Client
+                        </button>
                     </div>
                 </div>
 
                 <div class="form-group{{ $errors->has('assigned_tech_id') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="assigned_tech_id">Technician</label>
 
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <select class="form-control" id="assigned_tech_id" name="assigned_tech_id">
                             <option value="" selected>Choose your Technician</option>
                             @foreach( getCustomers() ?? [] as $field )
@@ -168,11 +174,6 @@
                         @endif
                     </div>
 
-                     <div class="col-md-3">
-                        <a href="{{url('admin/users/create')}}" target="_blank" class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus"></i> Add New Technician
-                        </a>
-                    </div>
                 </div>
 
 
@@ -458,6 +459,155 @@
         </div>
         {{ Form::close() }}
     </div>
+
+
+        <!-- Modal -->
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Add New Machine</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                {{  Form::open([
+                    'method' => 'POST',
+                    'id' => 'create-machine',
+                    'route' => ['admin.machines.store'],
+                    'class' => 'form-horizontal ',
+                    'files' => TRUE
+                    ])
+                }}
+                    <div class="modal-body">
+
+                        <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="model_number">Model Number</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="model_number" name="model_number"
+                                    placeholder="Enter Model Number.." value="{{ old('model_number') }}">
+                                @if($errors->has('model_number'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('model_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('brand_name') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="brand_name">Brand Name</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="brand_name" name="brand_name"
+                                    placeholder="Enter Brand Name.." value="{{ old('brand_name') }}">
+                                @if($errors->has('brand_name'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('brand_name') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('machine_type') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="machine_type">Machine Type</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="machine_type" name="machine_type"
+                                    placeholder="Enter Machine Type.." value="{{ old('machine_type') }}">
+                                @if($errors->has('machine_type'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('machine_type') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Is Active?</label>
+
+                            <div class="col-md-9">
+                                <label class="switch switch-primary">
+                                    <input type="checkbox" id="is_active" name="is_active"
+                                        value="1" checked>
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    </div>
+
+    
+        <!-- Modal -->
+    <div class="modal fade" id="formClientModal" tabindex="-1" role="dialog" aria-labelledby="formClientModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formClientModalLabel">Add New Client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {{  Form::open([
+                'method' => 'POST',
+                'id' => 'create-client',
+                'route' => ['admin.clients.store'],
+                'class' => 'form-horizontal ',
+                'files' => TRUE
+                ])
+            }}
+            
+                <div class="modal-body">
+
+                    <div class="form-group{{ $errors->has('client_name') ? ' has-error' : '' }}">
+                        <label class="col-md-3 control-label" for="client_name">First Name</label>
+
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="client_name" name="client_name"
+                                placeholder="Enter Client First Name.." value="{{ old('client_name') }}">
+                            @if($errors->has('client_name'))
+                                <span class="help-block animation-slideDown">{{ $errors->first('client_name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group{{ $errors->has('client_last_name') ? ' has-error' : '' }}">
+                        <label class="col-md-3 control-label" for="client_last_name">Last Name</label>
+
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="client_last_name" name="client_last_name"
+                                placeholder="Enter Client Last Name.." value="{{ old('client_last_name') }}">
+                            @if($errors->has('client_last_name'))
+                                <span class="help-block animation-slideDown">{{ $errors->first('client_last_name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <label class="col-md-3 control-label" for="email">Email</label>
+
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="email" name="email"
+                                placeholder="Enter Email.." value="{{ old('email') }}">
+                            @if($errors->has('email'))
+                                <span class="help-block animation-slideDown">{{ $errors->first('email') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                
+            {{ Form::close() }}
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('extrascripts')
@@ -465,6 +615,16 @@
     <script type="text/javascript" src="{{ asset('public/js/libraries/gigs.js') }}"></script>
 
  <script>
+
+    $(document).ready(function () {
+        @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))
+            $('#formModal').modal('show')
+        @endif
+        @if($errors->has('client_name') || $errors->has('client_last_name') || $errors->has('appliance_owned')  || $errors->has('email'))
+            $('#formClientModal').modal('show')
+        @endif
+    });
+
         var json = `{!!  $gig->top_recommended_repairs   !!}`;
         var parts_used_json = `{!!  $gig->parts_used   !!}`;
 
