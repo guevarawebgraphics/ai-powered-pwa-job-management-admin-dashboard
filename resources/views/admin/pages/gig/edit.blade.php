@@ -98,11 +98,39 @@
 
 
 
-                <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="gig_price">Price</label>
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="gig_price" name="gig_price" value="{{ old('gig_price') ?? $gig->gig_price }}" placeholder="0.00">
+                        @if($errors->has('gig_price'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('gig_price') }}</span>
+                        @endif
+                    </div>
+                </div> --}}
+
+                <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="gig_price">Price</label>
+
+                    <div class="col-md-9">
+                        
+                        <select class="form-control" id="gig_price" name="gig_price">   
+                            @foreach( getPrices() ?? [] as $array )
+                                <option value="{{$array['name']}}"
+                                    {{ $gig->gig_price_detail == $array['name'] ? 'selected' : '' }}
+                                >{{$array['name']}} 
+                                    @if($array['name'] != "Other")
+                                        (${{$array['amount']}})
+                                    @endif
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <input type="number" class="form-control mt-2 decimal" id="custom_gig_price" name="custom_gig_price"
+                            value="{{$gig->gig_price}}"
+                            placeholder="Enter custom price"
+                            style="{{ $gig->gig_price_detail && $gig->gig_price_detail == "Other" ? 'display:block;' : 'display:none;' }}">
+
                         @if($errors->has('gig_price'))
                             <span class="help-block animation-slideDown">{{ $errors->first('gig_price') }}</span>
                         @endif
@@ -190,7 +218,7 @@
 
 
                 
-                <div class="form-group{{ $errors->has('resolution') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('resolution') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="resolution">Resolution</label>
 
                     <div class="col-md-9">
@@ -199,7 +227,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('resolution') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
                 
 
                 <div class="form-group{{ $errors->has('repair_notes') ? ' has-error' : '' }}">
@@ -213,7 +241,7 @@
                     </div>
                 </div>
                 
-                <div class="form-group{{ $errors->has('qb_invoice_number') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('qb_invoice_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="qb_invoice_number">Invoice Number</label>
 
                     <div class="col-md-9">
@@ -223,20 +251,10 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('qb_invoice_number') }}</span>
                         @endif
                     </div>
-                </div>
-
-
-                {{-- <div class="form-group{{ $errors->has('parts_used') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="parts_used">Parts Used</label>
-
-                    <div class="col-md-9">
-                        <textarea class="form-control" id="parts_used" name="parts_used">{{ old('parts_used') ?? $gig->parts_used }}</textarea>
-                        @if($errors->has('parts_used'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('parts_used') }}</span>
-                        @endif
-                    </div>
                 </div> --}}
 
+
+                {{-- 
                 <div class="form-group{{ $errors->has('parts_used') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="parts_used">Parts Used</label>
 
@@ -268,7 +286,8 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('parts_used') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> 
+                --}}
 
 
 
@@ -297,7 +316,7 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
 
                     <div class="col-md-9">
@@ -320,10 +339,10 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('extra_field2') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
 
-                <div class="form-group{{ $errors->has('top_recommended_repairs') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('top_recommended_repairs') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="top_recommended_repairs">Top Recommended Repairs</label>
 
                     <div class="col-md-9">
@@ -354,9 +373,9 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('top_recommended_repairs') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="form-group{{ $errors->has('time_started') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('time_started') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="time_started">Time Started</label>
 
                     <div class="col-md-9">
@@ -380,7 +399,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('time_ended') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
 
                 {{-- <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
@@ -437,17 +456,20 @@
                     </div>
                 </div> --}}
                 
-                <div class="form-group">
+                <div class="form-group" style="display:none;">
                     <label class="col-md-3 control-label">Is Active?</label>
 
                     <div class="col-md-9">
                         <label class="switch switch-primary">
                             <input type="checkbox" id="is_active" name="is_active"
-                                   value="1" {{ Request::old('is_active') ? : ($gig->is_active ? 'checked' : '') }}>
+                                   value="1" checked>
+
+                                   {{-- {{ Request::old('is_active') ? : ($gig->is_active ? 'checked' : '') }} --}}
                             <span></span>
                         </label>
                     </div>
                 </div>
+                
                 <div class="form-group form-actions">
                     <div class="col-md-9 col-md-offset-3">
                         <a href="{{ route('admin.gigs.index') }}" class="btn btn-sm btn-warning">Cancel</a>
@@ -729,6 +751,23 @@
         $(document).on('click', '#is_discount', function () {
             $('#discountContainer').toggle();
         });
+
+        
+        $(document).on('change keyup', '#gig_price', function () {
+            var customPriceInput = document.getElementById('custom_gig_price');
+            
+            if ($(this).val() == "Other") {
+                $(customPriceInput).show().attr('required', 'required');
+            } else {
+                $(customPriceInput).hide().removeAttr('required');
+            }
+        });
+
+        // Run on page load to check initial value
+        $(document).ready(function () {
+            $('#gig_price').trigger('change');
+        });
+
 
     </script>
 @endpush

@@ -119,3 +119,19 @@ function getMachine()
     $query = \App\Models\Machine::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
     return $query;
 }
+
+function getPrices()
+{            
+    $priceMap = [
+        ['name' => 'Diagnostic', 'amount' => 125.00],
+        ['name' => 'Return for Repair', 'amount' => 125.00],
+        ['name' => 'Stacked Diagnostic', 'amount' => 150.00],
+        ['name' => 'Stacked Return for Repair', 'amount' => 150.00],
+        ['name' => 'Full Repair', 'amount' => 250.00],
+        ['name' => 'Stacked Full Repair', 'amount' => 300.00],
+        ['name' => 'Other', 'amount' => 0.00], 
+    ];
+
+    return $priceMap;
+
+}
