@@ -58,7 +58,7 @@
                 </div>
 
 
-                <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="service_manual">Service Manual</label>
 
                     <div class="col-md-9">
@@ -93,11 +93,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('service_pointers') }}</span>
                         @endif
                     </div>
-                </div>
-
-
-
-
+                </div> --}}
 
                 <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="machine_banner_image">Banner Image</label>

@@ -58,7 +58,7 @@
 
 
                 
-                <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="service_manual">Service Manual</label>
 
                     <div class="col-md-9">
@@ -68,7 +68,29 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('service_manual') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
+
+
+                {{-- <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="service_manual">Service Manual</label>
+
+                    <div class="col-md-9">
+                        
+                        <div id="textbox-container">
+                           
+
+                        </div>
+
+                        <!-- Add New Textbox Button -->
+                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        @if($errors->has('service_manual'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('service_manual') }}</span>
+                        @endif
+                    </div>
+                </div> 
 
                 <div class="form-group{{ $errors->has('parts_diagram') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="parts_diagram">Parts Diagram</label>
@@ -83,7 +105,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group{{ $errors->has('service_pointers') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="service_pointers">Service Pointers</label>
 
@@ -94,7 +115,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('service_pointers') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
 
 
@@ -205,6 +226,5 @@
 @push('extrascripts')
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/machines.js') }}"></script>
-
 
 @endpush
