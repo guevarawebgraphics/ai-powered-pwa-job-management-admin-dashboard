@@ -189,7 +189,8 @@ class MachineController extends Controller
 
         if ($request->hasFile('banner_image')) {
             $file_upload_path = $this->machine_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'machine_images');
-            $input['machine_photo'] = $file_upload_path;
+            $url = url($file_upload_path);
+            $input['machine_photo'] = $url;
         }
         if ($request->has('remove_banner_image') && $request->get('remove_banner_image')) {
             $input['machine_photo'] = '';
