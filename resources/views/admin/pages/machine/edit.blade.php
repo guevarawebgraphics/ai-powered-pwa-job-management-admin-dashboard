@@ -58,13 +58,11 @@
                 </div>
 
 
-                
                 <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="service_manual">Service Manual</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="service_manual" name="service_manual"
-                               placeholder="Enter Service Manual.." value="{{ old('service_manual') ?? $machine->service_manual }}">
+                        <textarea class="form-control ckeditor" id="service_manual" name="service_manual">{!! old('service_manual') ?? $machine->service_manual !!}</textarea>
                         @if($errors->has('service_manual'))
                             <span class="help-block animation-slideDown">{{ $errors->first('service_manual') }}</span>
                         @endif
@@ -75,8 +73,9 @@
                     <label class="col-md-3 control-label" for="parts_diagram">Parts Diagram</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="parts_diagram" name="parts_diagram"
-                               placeholder="Enter Parts Diagram.." value="{{ old('parts_diagram') ?? $machine->parts_diagram }}">
+
+                        <textarea class="form-control ckeditor" id="parts_diagram" name="parts_diagram">{!! old('parts_diagram') ?? $machine->parts_diagram !!}</textarea>
+
                         @if($errors->has('parts_diagram'))
                             <span class="help-block animation-slideDown">{{ $errors->first('parts_diagram') }}</span>
                         @endif
@@ -88,13 +87,15 @@
                     <label class="col-md-3 control-label" for="service_pointers">Service Pointers</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="service_pointers" name="service_pointers"
-                               placeholder="Enter Service Pointers.." value="{{ old('service_pointers') ?? $machine->service_pointers }}">
+                        <textarea class="form-control ckeditor" id="service_pointers" name="service_pointers">{!! old('service_pointers') ?? $machine->service_pointers !!}</textarea>
+
                         @if($errors->has('service_pointers'))
                             <span class="help-block animation-slideDown">{{ $errors->first('service_pointers') }}</span>
                         @endif
                     </div>
                 </div>
+
+
 
 
 
