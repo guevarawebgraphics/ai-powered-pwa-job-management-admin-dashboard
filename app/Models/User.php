@@ -70,4 +70,10 @@ class User extends Authenticatable
         $user = $this;
         $this->notify(new CustomerResetPassword($token, $user));
     }
+
+
+    public function chatsToMe()
+    {
+        return $this->hasMany('App\Models\Chat', 'from_user_id', 'id');
+    }
 }

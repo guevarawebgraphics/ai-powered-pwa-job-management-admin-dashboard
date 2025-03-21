@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
+/* chat */
+Route::get('/chats/{fromId?}/{toId?}',
+    ['as' => 'api.chat.index',
+        'uses' => '\App\Http\Controllers\ChatController@index']
+);
+Route::get('/chat-listing/{currentUserId?}',
+    ['as' => 'api.chat.get',
+        'uses' => '\App\Http\Controllers\ChatController@getChatUsers']
+);
+/* chat */
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
