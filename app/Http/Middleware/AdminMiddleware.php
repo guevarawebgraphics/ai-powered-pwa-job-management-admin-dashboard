@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Notifications\SendOtpNotification;
+use App\Models\User;
 use Closure;
 
 /**
@@ -20,6 +22,8 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next, $guard = NULL)
     {
+
+        // Authentication check
         if (!auth()->check()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
@@ -28,13 +32,20 @@ class AdminMiddleware
             }
         }
 
-        /*
-         * This will determine which roles can access the admin site
-         * */
+        // Role check
         if (!auth()->user()->hasAnyRole(['Super Admin', 'Admin'])) {
             abort('401', '401');
         }
 
+        // IP check
+        $ip = request()->header('X-Forwarded-For') ?? request()->ip();
+        $user = User::find(auth()->user()->id);
+
+        if ($user->current_ip != $ip || !$user->current_ip) {
+            abort('403', '403');
+        }
+
         return $next($request);
     }
+
 }

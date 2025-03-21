@@ -11,6 +11,9 @@ use App\Repositories\PageRepository;
 use App\Repositories\SeoMetaRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Auth;
+use \carbon\Carbon;
+use App\Notifications\SendOtpNotification;
 
 /**
  * Class PageController
@@ -89,7 +92,7 @@ class PageController extends Controller
     public function showPages($slug = '')
     {
         $page = $category = $product = $categories = $section_services = [];
-
+        
         if ($slug == '') {
             /* home */
             $page = $this->page_repository->getActivePageBySlug('home');
@@ -366,4 +369,92 @@ class PageController extends Controller
         return '<script>window.parent.CKEDITOR.tools.callFunction(' . $funcNum . ', "' . $url . '", "' . $message . '")</script>';
     }
 
+        public function indexOtp(Request $request) {
+
+        return view('admin.auth.otp');
+
+    }
+
+
+    public function otpSend(Request $request) {
+        $user = Auth::user(); // Get authenticated user
+        \Log::info($user);
+        if (!$user) {
+            return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'User not authenticated',
+                'type' => 'error'
+            ]);
+        }
+
+        // Generate 6-digit OTP
+        $otp = rand(100000, 999999);
+
+        // Store OTP in DB with expiration
+        $user->update([
+            'otp_code' => $otp,
+            'otp_expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        // Send OTP via email
+        $user->notify(new SendOtpNotification($otp));
+
+        return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'OTP sent successfully to your email',
+                'type' => 'success'
+            ]);
+    }
+    
+    public function otpStore(Request $request) {
+        $user = Auth::user();
+    
+        if (!$user) {
+            return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'User not authenticated',
+                'type' => 'error'
+            ]);
+        }
+    
+        // Check if OTP matches
+        if ($user->otp_code !== $request->otp) {
+            return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'Invalid OTP',
+                'type' => 'error'
+            ]);
+        }
+    
+        // Check if OTP is expired
+        if (Carbon::now()->greaterThan($user->otp_expires_at)) {
+            return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'OTP has expired',
+                'type' => 'error'
+            ]);
+        }
+    
+        // Mark user as verified
+        $user->update([
+
+            'is_verified' => true,  // ✅ Mark user as verified
+            'email_verified_at' => Carbon::now(),
+            'otp_code' => null, // Clear OTP after successful verification
+            'otp_expires_at' => null,
+            'current_ip'    =>  request()->header('X-Forwarded-For') ?? request()->ip()
+        ]);
+    
+        return redirect()->back()
+            ->with('flash_message', [
+                'title' => '',
+                'message' => 'Successfully verified!',
+                'type' => 'success'
+            ]);
+    }
 }

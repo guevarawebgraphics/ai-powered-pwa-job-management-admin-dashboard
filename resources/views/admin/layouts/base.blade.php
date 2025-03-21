@@ -157,6 +157,9 @@
 
 </head>
 <body>
+
+
+
 {{--Page Wrapper--}}
 {{--In the PHP version you can set the following options from inc/config file--}}
 {{--Available classes:--}}

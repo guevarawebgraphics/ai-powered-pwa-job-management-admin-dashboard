@@ -99,6 +99,7 @@
                             </h1>
                         </div>
                         <div class="block push-bit">
+
                             @yield('content')
 
                             <div class="copyright">
@@ -137,5 +138,23 @@
 <script type="text/javascript" src="{{ asset('public/js/admin.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/libraries/admin_login.js') }}"></script>
 @stack('extrascripts')
+
+@if (session()->has('flash_message'))
+    <script>
+        swal({
+            title: "{!! session('flash_message.title') !!}",
+            text: "{!! session('flash_message.message') !!}",
+            type: "{!! session('flash_message.type') !!}",
+            html: true,
+            allowEscapeKey: true,
+            allowOutsideClick: true,
+//            confirmButtonColor: "#DD6B55",
+        }, function () {
+
+        });
+    </script>
+@endif
+
+
 </body>
 </html>
