@@ -15,12 +15,16 @@ use Illuminate\Http\Request;
 
 /* chat */
 Route::get('/chats/{fromId?}/{toId?}',
-    ['as' => 'api.chat.index',
+    ['as' => 'chat.index',
         'uses' => '\App\Http\Controllers\ChatController@index']
 );
 Route::get('/chat-listing/{currentUserId?}',
-    ['as' => 'api.chat.get',
+    ['as' => 'chat.get',
         'uses' => '\App\Http\Controllers\ChatController@getChatUsers']
+);
+Route::post('/store/chat',
+    ['as' => 'chat.store',
+        'uses' => '\App\Http\Controllers\ChatController@store']
 );
 /* chat */
 

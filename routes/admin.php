@@ -73,14 +73,14 @@ Route::delete('/system_settings/{id}/delete',
 /* system settings */
 
 /* posts */
-Route::resource('/posts', 'PostController', [
-    'as' => 'admin'
-]);
+// Route::resource('/posts', 'PostController', [
+//     'as' => 'admin'
+// ]);
 
-Route::delete('/posts/{id}/delete',
-    ['as' => 'admin.posts.delete',
-        'uses' => '\App\Http\Controllers\PostController@destroy']
-);
+// Route::delete('/posts/{id}/delete',
+//     ['as' => 'admin.posts.delete',
+//         'uses' => '\App\Http\Controllers\PostController@destroy']
+// );
 /* posts */
 
 /* pages */

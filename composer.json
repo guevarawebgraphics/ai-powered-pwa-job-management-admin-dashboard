@@ -12,6 +12,7 @@
         "anhskohbo/no-captcha": "^3.0",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "barryvdh/laravel-snappy": "^0.4.1",
+        "beyondcode/laravel-websockets": "^1.14",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^7.3",
         "intervention/image": "^2.7",
@@ -21,8 +22,9 @@
         "laravel/tinker": "^2.4",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.0",
+        "predis/predis": "^2.3",
         "prettus/l5-repository": "^2.6",
-        "pusher/pusher-php-server": "^2.6",
+        "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-permission": "^3.0",
         "spatie/once": "^2.0"
     },

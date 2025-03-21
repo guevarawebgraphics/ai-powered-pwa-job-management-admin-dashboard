@@ -152,6 +152,9 @@
             }
         </style>
 
+
+    <script src="{{ asset('public/js/bundle.js') }}"></script>
+
 </head>
 <body>
 {{--Page Wrapper--}}
@@ -302,8 +305,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="chatModalLabel">Chat Support</h5>
             </div>
             <div class="modal-body chat-modal">
                 <!-- User List -->
@@ -331,7 +333,9 @@
 </div>
 
 <script>
-   $(document).ready(function() {
+
+
+$(document).ready(function() {
         let selectedUserId = null;
         let myId = "{{ auth()->user()->id }}";
         var default_user_thumbnail = "{{ url('public/images/user-thumbnail.jpg') }}";
@@ -475,6 +479,16 @@
             $('#chat-window').hide();
             $('#user-list').show();
         });
+    });
+
+
+</script>
+
+<script>
+    
+    Echo.channel('chat_sent')
+        .listen('ChatSent', (event) => { // ✅ ADD THE DOT BEFORE EVENT NAME
+            console.log(event);
     });
 
 
