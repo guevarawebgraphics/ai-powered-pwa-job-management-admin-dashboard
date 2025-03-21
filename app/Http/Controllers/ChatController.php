@@ -125,9 +125,12 @@ class ChatController extends Controller
             
 
         }
-
-        // event(new ChatSent($notif_data));
-        broadcast(new \App\Events\ChatSent($notif_data));
+        
+        if (config('app.env') == "local") {
+            
+            // event(new ChatSent($notif_data));
+            broadcast(new \App\Events\ChatSent($notif_data));
+        }
 
 
         return response()->json(['message' => 'Successfully stored!', 'user'    =>  $user ], 201);

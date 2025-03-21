@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Notifications\SendOtpNotification;
 use Auth;
+use App\Models\User;
 use \Carbon\Carbon;
 
 /**
@@ -80,6 +82,23 @@ class LoginController extends Controller
             if ($user->hasAnyRole(['Super Admin', 'Admin']) && $user->is_active && $this->attemptLogin($request)) {
                 $user->last_login = date('Y-m-d H:i:s');
                 $user->save();
+
+
+                $user = User::find(auth()->user()->id);
+
+                // Generate 6-digit OTP
+                $otp = rand(100000, 999999);
+
+                // Store OTP in DB with expiration
+                $user->update([
+                    'otp_code' => $otp,
+                    'otp_expires_at' => Carbon::now()->addMinutes(10),
+                ]);
+
+                // Send OTP via email
+                $user->notify(new SendOtpNotification($otp));
+
+
                 return $this->sendLoginResponse($request);
             } else {
                 $this->incrementLoginAttempts($request);
@@ -152,11 +171,15 @@ class LoginController extends Controller
 
         if (strpos($target_url, $default) != -1) {
             if (!strpos($target_url, 'customer') != -1) {
+
                 return redirect($default);
             } else {
                 return redirect()->intended($target_url);
             }
         } else {
+
+
+
             return redirect($default);
         }
     }
