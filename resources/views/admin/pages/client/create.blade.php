@@ -418,6 +418,53 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="file">Banner Image</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-primary">
+                                            Choose File <input type="file" class="form-control" name="banner_image" style="display: none !important;">
+                                            <input type="hidden" class="fld" name="banner_image" value="">
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" readonly>
+                                </div>
+                                @if($errors->has('banner_image'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('banner_image') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="extra_field1" name="extra_field1"
+                                    placeholder="Enter Extra Field #1.." value="{{ old('extra_field1') }}">
+                                @if($errors->has('extra_field1'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('extra_field1') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('extra_field2') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="extra_field2">Extra Field #2</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="extra_field2" name="extra_field2"
+                                    placeholder="Enter Extra Field #2.." value="{{ old('extra_field2') }}">
+                                @if($errors->has('extra_field2'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('extra_field2') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                
+
                         <div class="form-group" style="display:none;">
                             <label class="col-md-3 control-label">Is Active?</label>
 
@@ -488,10 +535,10 @@
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-3 control-label" for="email">Email</label>
+                            <label class="col-md-3 control-label" for="email_payee">Email</label>
 
                             <div class="col-md-9">
-                                <input type="text" class="form-control" id="email" name="email"
+                                <input type="text" class="form-control" id="email_payee" name="email"
                                     placeholder="Enter Payee Email.." value="{{ old('email') }}">
                                 @if($errors->has('email'))
                                     <span class="help-block animation-slideDown">{{ $errors->first('email') }}</span>
@@ -499,7 +546,73 @@
                             </div>
                         </div>
 
-                        
+
+                        <div class="form-group{{ $errors->has('other_emails') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="other_emails_payee">
+                                <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each email entry."></i> Other Emails</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="other_emails_payee" name="other_emails" value="{!! old('other_emails') !!}"
+                                    placeholder="Enter Other Emails..">
+                                @if($errors->has('other_emails'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('other_emails') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="phone_number_payee">Phone Number</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="phone_number_payee" name="phone_number"
+                                    placeholder="Enter Payee Phone Number.." value="{{ old('phone_number') }}">
+                                @if($errors->has('phone_number'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('phone_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('other_phone_numbers') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="other_phone_numbers_payee">
+                                <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each Phone Number entry."></i>
+                                Other Phone Numbers</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="other_phone_numbers_payee" name="other_phone_numbers"
+                                    placeholder="Enter Other Phone Numbers.." value="{!! old('other_phone_numbers') !!}">
+                                @if($errors->has('other_phone_numbers'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('other_phone_numbers') }}</span>
+                                @endif
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('payee_notes') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="payee_notes">Payee Notes</label>
+
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="payee_notes" name="payee_notes">{{ old('payee_notes') }}</textarea>
+                                @if($errors->has('payee_notes'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('payee_notes') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('payee_relation') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="payee_relation">Relation</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="payee_relation" name="payee_relation"
+                                    placeholder="Enter Payee Relation.." value="{{ old('payee_relation') }}">
+                                @if($errors->has('payee_relation'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('payee_relation') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                                
 
                     </div>
                     <div class="modal-footer">
@@ -617,5 +730,15 @@
         });
 
 
+
+        $('input[name="other_emails_payee"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
+        });
+
+        $('input[name="other_phone_numbers_payee"]').amsifySuggestags({
+            type :'bootstrap',
+            selectOnHover:true
+        });
     </script>
 @endpush

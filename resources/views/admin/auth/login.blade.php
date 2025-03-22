@@ -52,8 +52,7 @@
                 </label>
             </div>
             <div class="col-xs-8 text-right">
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Login to
-                    Dashboard
+                <button type="submit" class="btn btn-sm btn-primary">Sign-In As Admin
                 </button>
             </div>
         </div>

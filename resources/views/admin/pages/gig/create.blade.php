@@ -1,6 +1,7 @@
 @extends('admin.layouts.base')
 
 @section('content')
+
     <ul class="breadcrumb breadcrumb-top">
         <li><a href="{{ route('admin.gigs.index') }}">Gigs</a></li>
         <li><span href="javascript:void(0)">Add New Gig</span></li>
@@ -517,6 +518,53 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('banner_image') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="file">Banner Image</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-primary">
+                                            Choose File <input type="file" class="form-control" name="banner_image" style="display: none !important;">
+                                            <input type="hidden" class="fld" name="banner_image" value="">
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" readonly>
+                                </div>
+                                @if($errors->has('banner_image'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('banner_image') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="extra_field1" name="extra_field1"
+                                    placeholder="Enter Extra Field #1.." value="{{ old('extra_field1') }}">
+                                @if($errors->has('extra_field1'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('extra_field1') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('extra_field2') ? ' has-error' : '' }}">
+                            <label class="col-md-3 control-label" for="extra_field2">Extra Field #2</label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="extra_field2" name="extra_field2"
+                                    placeholder="Enter Extra Field #2.." value="{{ old('extra_field2') }}">
+                                @if($errors->has('extra_field2'))
+                                    <span class="help-block animation-slideDown">{{ $errors->first('extra_field2') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                
+
                         <div class="form-group" style="display:none;">
                             <label class="col-md-3 control-label">Is Active?</label>
 
@@ -562,40 +610,205 @@
                 <div class="modal-body">
 
                     <div class="form-group{{ $errors->has('client_name') ? ' has-error' : '' }}">
-                        <label class="col-md-3 control-label" for="client_name">First Name</label>
+                    <label class="col-md-3 control-label" for="client_name">First Name</label>
 
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" id="client_name" name="client_name"
-                                placeholder="Enter Client First Name.." value="{{ old('client_name') }}">
-                            @if($errors->has('client_name'))
-                                <span class="help-block animation-slideDown">{{ $errors->first('client_name') }}</span>
-                            @endif
-                        </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="client_name" name="client_name"
+                               placeholder="Enter Client First Name.." value="{{ old('client_name') }}">
+                        @if($errors->has('client_name'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('client_name') }}</span>
+                        @endif
                     </div>
+                </div>
 
-                    <div class="form-group{{ $errors->has('client_last_name') ? ' has-error' : '' }}">
-                        <label class="col-md-3 control-label" for="client_last_name">Last Name</label>
+                <div class="form-group{{ $errors->has('client_last_name') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="client_last_name">Last Name</label>
 
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" id="client_last_name" name="client_last_name"
-                                placeholder="Enter Client Last Name.." value="{{ old('client_last_name') }}">
-                            @if($errors->has('client_last_name'))
-                                <span class="help-block animation-slideDown">{{ $errors->first('client_last_name') }}</span>
-                            @endif
-                        </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="client_last_name" name="client_last_name"
+                               placeholder="Enter Client Last Name.." value="{{ old('client_last_name') }}">
+                        @if($errors->has('client_last_name'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('client_last_name') }}</span>
+                        @endif
                     </div>
+                </div>
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label class="col-md-3 control-label" for="email">Email</label>
+                <div class="form-group{{ $errors->has('appliance_owned') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="appliance_owned">Appliances Owned</label>
 
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" id="email" name="email"
-                                placeholder="Enter Email.." value="{{ old('email') }}">
-                            @if($errors->has('email'))
-                                <span class="help-block animation-slideDown">{{ $errors->first('email') }}</span>
-                            @endif
-                        </div>
+                    <div class="col-md-6">
+                        <div id="select-container-appliance_owned"></div>
+
+                        <!-- Add New Select Dropdown Button -->
+                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more-appliance_owned">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        @if($errors->has('appliance_owned'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('appliance_owned') }}</span>
+                        @endif
                     </div>
+                </div>
+
+                
+                <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="payee_id">Payee</label>
+
+                    <div class="col-md-6">
+                        <select class="form-control" id="payee_id" name="payee_id">
+                            <option value="" selected>Choose Payee</option>
+                            @foreach(getPayee() ?? [] as $field )
+                                <option value="{{$field->payee_id}}">{{$field->payee_name}} {{$field->payee_last_name}} ({{ $field->email }})</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('payee_id'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('payee_id') }}</span>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="email">Email</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="email" name="email"
+                               placeholder="Enter Email.." value="{{ old('email') }}">
+                        @if($errors->has('email'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('email') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('other_emails') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="other_emails">
+                        <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each email entry."></i>
+                        Other Emails
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="other_emails" name="other_emails"
+                            placeholder="Enter Other Emails.." value="{!! old('other_emails') !!}" style="display:none !important;">
+                        @if($errors->has('other_emails'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('other_emails') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="phone_number">Phone Number</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                               placeholder="Enter Phone Number.." value="{{ old('phone_number') }}">
+                        @if($errors->has('phone_number'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('phone_number') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group{{ $errors->has('other_phone_numbers') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="other_phone_numbers">
+                         <i class="fa fa-info-circle"  data-toggle="tooltip" data-placement="top" title="Hit ENTER after typing it will create a tag on each Phone Number entry."></i>
+                         Other Phone Numbers</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="other_phone_numbers" name="other_phone_numbers"
+                               placeholder="Enter Other Phone Numbers.." value="{!! old('other_phone_numbers') !!}"  style="display:none !important;">
+                        @if($errors->has('other_phone_numbers'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('other_phone_numbers') }}</span>
+                        @endif
+
+                    </div>
+                </div>
+
+                
+                <div class="form-group{{ $errors->has('street_address') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="street_address">Street Address</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="street_address" name="street_address"
+                               placeholder="Enter Street Address.." value="{{ old('street_address') }}">
+                        @if($errors->has('street_address'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('street_address') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="city">City</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="city" name="city"
+                               placeholder="Enter City.." value="{{ old('city') }}">
+                        @if($errors->has('city'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('city') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('zip_code') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="zip_code">ZIP Code</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="zip_code" name="zip_code"
+                               placeholder="Enter ZIP Code.." value="{{ old('zip_code') }}">
+                        @if($errors->has('zip_code'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('zip_code') }}</span>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="state">State</label>
+
+                    <div class="col-md-9">
+                        <select class="form-control" id="state" name="state">
+                            <option class="FL" selected>FL</option>
+                        </select>
+                        @if($errors->has('state'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('state') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="country">Country</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="country" name="country"
+                               placeholder="Enter Country.." value="{{ old('country') }}">
+                        @if($errors->has('country'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('country') }}</span>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="form-group{{ $errors->has('client_notes') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="client_notes">Client Notes</label>
+
+                    <div class="col-md-9">
+                        <textarea class="form-control" id="client_notes" name="client_notes">{{ old('client_notes') }}</textarea>
+                        @if($errors->has('client_notes'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('client_notes') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group" style="display:none;">
+                    <label class="col-md-3 control-label">Is Active?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="is_active_client" name="is_active"
+                                   value="1" checked>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
                 
                 </div>
                 <div class="modal-footer">
@@ -777,7 +990,7 @@
                             <option value="">Select Trainee</option>
                             ${trainees.map(trainee_field => `
                                 <option value="${trainee_field.id}" ${trainee_field.id == traineeId ? 'selected' : ''}>
-                                    ${trainee_field.first_name} - ${trainee_field.last_name} - ${trainee_field.email}
+                                    ${trainee_field.name} (${trainee_field.email})
                                 </option>
                             `).join('')}
                         </select>
@@ -815,6 +1028,124 @@
             selectedTraineesID.splice(key, 1); // Remove from array
             renderDropdownsTrainee();
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function () {
+            @if($errors->has('payee_name') || $errors->has('payee_last_name') || $errors->has('email') )
+                $('#formPayeeModal').modal('show')
+            @endif
+        });
+        
+        var machines = @json(getMachine()); // Convert PHP array to JavaScript array
+
+        let applianceOwned = @json(''); // Get stored IDs
+
+        let selectedMachineIds = [];
+        if (applianceOwned.trim() !== '') {
+            selectedMachineIds = applianceOwned.split(','); // Convert to array
+        }
+        // Initialize data object
+        let appliance_data = {};
+
+        console.log(selectedMachineIds);
+
+        // Parse applianceOwned if it's not empty
+        if (applianceOwned.trim() !== '') {
+            let selectedModels = applianceOwned.split(','); // Convert to array
+
+            selectedModels.forEach((model, index) => {
+                appliance_data["machine_" + index] = model; // Store in data object with a unique key
+            });
+        }
+
+        function renderDropdowns() {
+            $("#select-container-appliance_owned").empty(); // Clear existing inputs
+            selectedMachineIds.forEach((machineId, index) => {
+                let dropdownHtml = `
+                    <div class="input-group mb-2" data-key="${index}" style="display:flex;">
+                        <select name="appliance_owned[]" class="form-control w-50 p-3 input--dropdown-appliance_owned">
+                            <option value="">Select Machine</option>
+                            ${machines.map(machine => `
+                                <option value="${machine.machine_id}" ${machine.machine_id == machineId ? 'selected' : ''}>
+                                    ${machine.model_number} - ${machine.brand_name} - ${machine.machine_type}
+                                </option>
+                            `).join('')}
+                        </select>
+                        <button class="btn btn-danger btn--delete-appliance_owned">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                console.log(dropdownHtml);
+                $("#select-container-appliance_owned").append(dropdownHtml);
+            });
+        }
+
+        // Render Initial Dropdowns
+        renderDropdowns();
+
+        // Handle Select Change
+        $(document).on("change", ".input--dropdown-appliance_owned", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            let selectedValue = $(this).val();
+            appliance_data[key] = selectedValue;
+            selectedMachineIds[key] = selectedValue; // Update array to keep track
+        });
+
+        // Add New Select Dropdown
+        $("#btn--add-more-appliance_owned").click(function() {
+            selectedMachineIds.push(""); // Add empty slot
+            renderDropdowns();
+        });
+
+        // Remove Dropdown
+        $(document).on("click", ".btn--delete-appliance_owned", function() {
+            let key = $(this).closest(".input-group").attr("data-key");
+            selectedMachineIds.splice(key, 1); // Remove from array
+            renderDropdowns();
+        });
+
+
+
+$('#formClientModal').on('shown.bs.modal', function () {
+    $('input[name="other_emails"]').css('display', 'none'); // Ensure it remains hidden
+    $('input[name="other_emails"]').amsifySuggestags({
+        type: 'bootstrap',
+        selectOnHover: true
+    });
+
+    $('input[name="other_phone_numbers"]').css('display', 'none'); // Ensure it remains hidden
+    $('input[name="other_phone_numbers"]').amsifySuggestags({
+        type: 'bootstrap',
+        selectOnHover: true
+    });
+});
 
     </script>
 @endpush

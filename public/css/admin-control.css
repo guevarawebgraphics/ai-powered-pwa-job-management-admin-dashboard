@@ -1023,3 +1023,20 @@ div#login-container .g-recaptcha > div {
   width: 100% !important;
   border-radius: 0 !important;
 }
+
+
+.modal .modal-content form input[name="other_emails"] {
+  display: none !important;
+}
+
+.modal .modal-content form input[name="other_phone_numbers"] {
+  display: none !important;
+}
+
+.modal .modal-content form input[name="other_emails_payee"] {
+  display: none !important;
+}
+
+.modal .modal-content form input[name="other_phone_numbers_payee"] {
+  display: none !important;
+}
