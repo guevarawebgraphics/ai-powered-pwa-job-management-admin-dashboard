@@ -1003,6 +1003,12 @@
                 console.log(dropdownHtml);
                 $("#select-container-trainee").append(dropdownHtml);
             });
+
+            $('select[name="trainee_included[]"]').select2({
+                placeholder: 'Select Trainee',
+                theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+                containerCssClass: 'form-control' // Apply Bootstrap styling
+            });
         }
 
         // Render Initial Dropdowns
@@ -1105,6 +1111,13 @@
                 console.log(dropdownHtml);
                 $("#select-container-appliance_owned").append(dropdownHtml);
             });
+
+            $('select[name="appliance_owned[]"]').select2({
+                placeholder: 'Select Machine',
+                theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+                containerCssClass: 'form-control', // Apply Bootstrap styling
+                width: '100%', 
+            });
         }
 
         // Render Initial Dropdowns
@@ -1147,5 +1160,34 @@ $('#formClientModal').on('shown.bs.modal', function () {
     });
 });
 
+
+$('select[name="client_id"]').select2({
+    placeholder: 'Select Client',
+    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+    containerCssClass: 'form-control', // Apply Bootstrap styling
+    width: '100%', 
+});
+
+$('select[name="assigned_tech_id"]').select2({
+    placeholder: 'Select Technician',
+    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+    containerCssClass: 'form-control', // Apply Bootstrap styling
+    width: '100%', 
+});
+
+$('select[name="model_number_main"]').select2({
+    placeholder: 'Select Machine',
+    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+    containerCssClass: 'form-control', // Apply Bootstrap styling
+    width: '100%', 
+});
+
+
+$('select[name="payee_id"]').select2({
+    placeholder: 'Select Payee',
+    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+    containerCssClass: 'form-control', // Apply Bootstrap styling
+    width: '100%', 
+});
     </script>
 @endpush

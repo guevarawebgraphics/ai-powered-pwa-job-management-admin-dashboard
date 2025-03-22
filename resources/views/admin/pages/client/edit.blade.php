@@ -686,6 +686,13 @@
                 console.log(dropdownHtml);
                 $("#select-container").append(dropdownHtml);
             });
+
+            $('select[name="appliance_owned[]"]').select2({
+                placeholder: 'Select Machine',
+                theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+                containerCssClass: 'form-control', // Apply Bootstrap styling
+                width: '100%', 
+            });
         }
 
         // Render Initial Dropdowns
@@ -733,6 +740,13 @@
         $('input[name="other_phone_numbers_payee"]').amsifySuggestags({
             type :'bootstrap',
             selectOnHover:true
+        });
+
+            $('select[name="payee_id"]').select2({
+            placeholder: 'Select Payee',
+            theme: 'bootstrap-5', // Use 'bootstrap-4' if you're on Bootstrap 4
+            containerCssClass: 'form-control', // Apply Bootstrap form-control styling
+            width: '100%', 
         });
     </script>
 @endpush

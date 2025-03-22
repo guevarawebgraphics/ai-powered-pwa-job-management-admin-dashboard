@@ -49,8 +49,16 @@
     <link rel="stylesheet" class="themes" href="{{ asset('public/css/admin-control.css') }}"> 
 
     <link rel='stylesheet' href="{{asset('public/css/amsify.suggestags.css')}}">
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
 <style>
+
+    .select2-container .select2-selection--single {
+        height: 34px;
+    }
+
     /* Chat button styling */
     #chat-button {
         position: fixed;
@@ -496,6 +504,8 @@ $(document).ready(function() {
 
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
 </html>
