@@ -59,8 +59,41 @@
                     <tr data-machine-id="{{$machine->machine_id}}">
                         <td class="text-center"><strong>{{ $machine->machine_id }}</strong></td>
                         <td class="text-center"><strong>{{ $machine->model_number }}</strong></td>
-                        <td class="text-center"><strong>{{ $machine->brand_name }}</strong></td>
-                        <td class="text-center"><strong>{{ $machine->machine_type }}</strong></td>
+                        <td class="text-center">
+
+                            @php
+                                $brand_names = json_decode(getSystemSettings('SS0008')->value);
+                                $matchedBrand = collect($brand_names)->firstWhere('slug', $machine->brand_name);
+                            @endphp
+
+                            @if($matchedBrand)
+                                <strong>{{ $matchedBrand->brand }}</strong>
+                            @else
+                                <strong>{{ $machine->brand_name }}</strong>
+                            @endif
+
+{{--                             
+                            <strong>{{ $machine->brand_name }}</strong> --}}
+                        
+                        </td>
+                        <td class="text-center">
+                            
+                            
+                            @php
+                                $machine_types = json_decode(getSystemSettings('SS0009')->value);
+                                $matchedType = collect($machine_types)->firstWhere('slug', $machine->machine_type);
+                            @endphp
+
+                            @if($matchedType)
+                                <strong>{{ $matchedType->name }}</strong>
+                            @else
+                                <strong>{{ $machine->machine_type }}</strong>
+                            @endif
+
+                            {{-- <strong>{{ $machine->machine_type }}</strong> --}}
+                        
+                        
+                        </td>
                         <td class="text-center">{{ $machine->created_at->format('F d, Y') }}</td>
                         <td class="text-center">
                             <div class="btn-group btn-group-xs">

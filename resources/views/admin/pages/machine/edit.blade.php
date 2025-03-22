@@ -36,8 +36,34 @@
                     <label class="col-md-3 control-label" for="brand_name">Brand Name</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="brand_name" name="brand_name"
-                               placeholder="Enter Brand Name.." value="{{ old('brand_name') ?? $machine->brand_name }}">
+                        {{-- <input type="text" class="form-control" id="brand_name" name="brand_name"
+                               placeholder="Enter Brand Name.." value="{{ old('brand_name') }}"> --}}
+                        @php 
+                            $brand_names = json_decode(getSystemSettings('SS0008')->value);
+                            $oldBrand = old('brand_name'); 
+                            $brandSlugs = collect($brand_names)->pluck('slug')->toArray();
+                        @endphp
+
+                        <select class="form-control" id="brand_name" name="brand_name" placeholder="Enter Brand Name..">
+                            <option value="">Select Brand</option>
+                            
+                            @foreach($brand_names ?? [] as $value)
+                                <option value="{{ $value->slug }}" {{ $machine->brand_name == $value->slug ? 'selected' : '' }}>
+                                    {{ $value->brand }}
+                                </option>
+                            @endforeach
+
+                            {{-- Always include "Other" --}}
+                            <option value="other" {{ (!empty($machine->brand_name) && !in_array($machine->brand_name, $brandSlugs)) ? 'selected' : '' }}>
+                                Other
+                            </option>
+                        </select>
+
+                        <input type="text" class="form-control mt-2 " id="custom_brand_name" name="custom_brand_name"
+                            value="{{$machine->brand_name}}"
+                            placeholder="Enter Brand Name"
+                            style="{{ Request::old('custom_brand_name') && Request::old('custom_brand_name') == "Other" ? 'display:block;' : 'display:none;' }}">
+
                         @if($errors->has('brand_name'))
                             <span class="help-block animation-slideDown">{{ $errors->first('brand_name') }}</span>
                         @endif
@@ -45,17 +71,60 @@
                 </div>
 
 
+
+                
                 <div class="form-group{{ $errors->has('machine_type') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="machine_type">Machine Type</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="machine_type" name="machine_type"
-                               placeholder="Enter Machine Type.." value="{{ old('machine_type') ?? $machine->machine_type }}">
+                        
+                        @php 
+                            $machine_types = json_decode(getSystemSettings('SS0009')->value);
+                            $oldMachineType = $machine->machine_type; 
+                            $machineTypesSlug = collect($machine_types)->pluck('slug')->toArray();
+                            
+                            $machineTypesName = collect($machine_types)->pluck('name')->toArray();
+                        @endphp
+
+                        <select class="form-control" id="machine_type" name="machine_type" placeholder="Enter Machine Type..">
+                            <option value="">Select Machine Type</option>
+                            
+                            @foreach($machine_types ?? [] as $value)
+                                <option value="{{ $value->slug }}" {{ $oldMachineType == $value->slug ? 'selected' : '' }}>
+                                    {{ $value->name }}
+                                </option>
+                            @endforeach
+
+                            {{-- Always include "Other" --}}
+                            <option value="other" {{ (!empty($oldMachineType) && !in_array($oldMachineType, $machineTypesSlug)) ? 'selected' : '' }}>
+                                Other
+                            </option>
+                        </select>
+
+                           <input type="text" class="form-control mt-2" id="custom_machine_type" name="custom_machine_type"
+                            value="{{$machine->machine_type}}"
+                            placeholder="Enter Machine Type"
+                            style="{{ !in_array($machine->machine_type, $machineTypesSlug) && !in_array($machine->machine_type, $machineTypesName) ? 'display:block;' : 'display:none;' }}">
+
                         @if($errors->has('machine_type'))
                             <span class="help-block animation-slideDown">{{ $errors->first('machine_type') }}</span>
                         @endif
                     </div>
                 </div>
+
+
+            <div class="form-group{{ $errors->has('display_type') ? ' has-error' : '' }}" id="displayTypeContainer">
+                    <label class="col-md-3 control-label" for="display_type">Display Type</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="display_type" name="display_type" value="{!! $machine->display_type !!}">
+
+                        @if($errors->has('display_type'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('display_type') }}</span>
+                        @endif
+                    </div>
+                </div>
+
 
 
                 {{-- <div class="form-group{{ $errors->has('service_manual') ? ' has-error' : '' }}">
@@ -205,4 +274,45 @@
 @push('extrascripts')
     <script type="text/javascript" src="{{ asset('public/js/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/libraries/machines.js') }}"></script>
+
+      <script>
+        $(document).on('change keyup', '#brand_name', function () {
+            var customPriceInput = document.getElementById('custom_brand_name');
+            
+            if ($(this).val() == "other") {
+                $(customPriceInput).show().attr('required', 'required');
+            } else {
+                $(customPriceInput).hide().removeAttr('required');
+            }
+        });
+
+        // Run on page load to check initial value
+        $(document).ready(function () {
+            $('#brand_name').trigger('change');
+        });
+
+
+        
+        $(document).on('change keyup', '#machine_type', function () {
+            var customPriceInput = document.getElementById('custom_machine_type');
+            
+            if ($(this).val() == "other") {
+                $(customPriceInput).show().attr('required', 'required');
+            } else {
+                $(customPriceInput).hide().removeAttr('required');
+            }
+
+            var machine_type = $(this).val();
+            if (machine_type == "washers" || machine_type == "stoves") {
+                $(`#displayTypeContainer`).show();
+            } else {
+                $(`#displayTypeContainer`).hide();
+            }
+        });
+
+        // Run on page load to check initial value
+        $(document).ready(function () {
+            $('#machine_type').trigger('change');
+        });
+    </script>
 @endpush

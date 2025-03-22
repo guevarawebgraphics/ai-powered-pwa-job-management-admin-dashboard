@@ -135,3 +135,9 @@ function getPrices()
     return $priceMap;
 
 }
+
+
+function getSystemSettings($code){
+    $query = \App\Models\SystemSetting::where('code', $code)->first();
+    return $query;
+}

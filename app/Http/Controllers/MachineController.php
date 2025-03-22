@@ -103,7 +103,9 @@ class MachineController extends Controller
 
         $input = $request->all();
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
-
+        $input['brand_name'] =   $request->brand_name == "other" ? $request->custom_brand_name : $request->brand_name;
+        $input['machine_type'] =   $request->machine_type == "other" ? $request->custom_machine_type : $request->machine_type;
+        $input['display_type'] =   $request->machine_type == "washers" || $request->machine_type == "stoves"   ? $request->display_type : NULL;
         $machine = $this->machine_model->create($input);
 
         if ($request->hasFile('banner_image')) {
@@ -186,6 +188,10 @@ class MachineController extends Controller
         $input = $request->all();
         
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
+        $input['brand_name'] =   $request->brand_name == "other" ? $request->custom_brand_name : $request->brand_name;
+        $input['machine_type'] =   $request->machine_type == "other" ? $request->custom_machine_type : $request->machine_type;
+        $input['display_type'] =   $request->machine_type == "washers" || $request->machine_type == "stoves"   ? $request->display_type : NULL;
+        
 
         if ($request->hasFile('banner_image')) {
             $file_upload_path = $this->machine_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'machine_images');
