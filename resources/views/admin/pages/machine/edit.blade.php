@@ -113,7 +113,7 @@
                 </div>
 
 
-            <div class="form-group{{ $errors->has('display_type') ? ' has-error' : '' }}" id="displayTypeContainer">
+                <div class="form-group{{ $errors->has('display_type') ? ' has-error' : '' }}" id="displayTypeContainer">
                     <label class="col-md-3 control-label" for="display_type">Display Type</label>
 
                     <div class="col-md-9">

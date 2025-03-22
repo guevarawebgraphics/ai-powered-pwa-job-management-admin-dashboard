@@ -1040,3 +1040,11 @@ div#login-container .g-recaptcha > div {
 .modal .modal-content form input[name="other_phone_numbers_payee"] {
   display: none !important;
 }
+
+.modal .modal-content form input[name="custom_brand_name"] {
+  display: none !important;
+}
+
+.modal .modal-content form input[name="custom_machine_type"] {
+  display: none !important;
+}
