@@ -113,7 +113,10 @@
                     <label class="col-md-3 control-label" for="display_type">Display Type</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="display_type" name="display_type" value="{!! old('display_type') !!}">
+                        <select class="form-control" id="display_type" name="display_type">
+
+                        </select>
+                        {{-- <input type="text" class="form-control" id="display_type" name="display_type" value="{!! old('display_type') !!}"> --}}
 
                         @if($errors->has('display_type'))
                             <span class="help-block animation-slideDown">{{ $errors->first('display_type') }}</span>
@@ -312,21 +315,56 @@
 
         $(document).on('change keyup', '#machine_type', function () {
             var customPriceInput = document.getElementById('custom_machine_type');
-            
-            if ($(this).val() == "other") {
+            var machineType = $(this).val();
+            var displayType = $('#display_type');
+
+            if (machineType == "other") {
                 $(customPriceInput).show().attr('required', 'required');
             } else {
                 $(customPriceInput).hide().removeAttr('required');
             }
 
-
-            var machine_type = $(this).val();
-            if (machine_type == "washers" || machine_type == "stoves") {
-                $(`#displayTypeContainer`).show();
+            if (machineType == "washers" || machineType == "stoves") {
+                $('#displayTypeContainer').show();
             } else {
-                $(`#displayTypeContainer`).hide();
+                $('#displayTypeContainer').hide();
             }
+
+            // Define options for each machine type
+            var options = {
+                "washers": [
+                    "Stacked Washer",
+                    "Top Load Washer",
+                    "Front Load Washer",
+                    "AIO Washer"
+                ],
+                "stoves": [
+                    "Stacked Dryer",
+                    "Oven/Stovetop",
+                    "Range"
+                ]
+            };
+
+            // Update Select2 dropdown options
+            displayType.empty(); // Clear existing options
+            if (options[machineType]) {
+                $.each(options[machineType], function (index, value) {
+                    displayType.append(new Option(value, value, false, false));
+                });
+            }
+
+            // Reinitialize Select2 with custom input enabled
+            displayType.select2({
+                placeholder: 'Enter Display Type',
+                theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+                containerCssClass: 'form-control', // Apply Bootstrap styling
+                width: '100%',
+                tags: true,  // Allow users to enter custom values
+                allowClear: true
+            });
         });
+
+
 
         // Run on page load to check initial value
         $(document).ready(function () {
