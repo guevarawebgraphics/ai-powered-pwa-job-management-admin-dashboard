@@ -260,6 +260,18 @@
                         @endif
                     </div>
                 </div>
+
+                          <div class="form-group{{ $errors->has('youtube_link') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="youtube_link">Youtube Link</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="youtube_link" name="youtube_link"
+                               placeholder="Enter Youtube Link.." value="{{ old('youtube_link') ?? $gig->youtube_link }}">
+                        @if($errors->has('youtube_link'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('youtube_link') }}</span>
+                        @endif
+                    </div>
+                </div>
                 
                 {{-- <div class="form-group{{ $errors->has('qb_invoice_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="qb_invoice_number">Invoice Number</label>
