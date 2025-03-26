@@ -207,7 +207,7 @@ class GigController extends Controller
             abort('401', '401');
         }
 
-        $gig = $this->gig_model->findOrFail($id);
+        $gig = $this->gig_model->with(['machine'])->findOrFail($id);
 
         return view('admin.pages.gig.show', compact('gig'));
     }

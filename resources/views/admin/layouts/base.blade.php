@@ -52,6 +52,8 @@
 
     
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    
     
 <style>
 
@@ -158,6 +160,45 @@
             #send-message {
                 margin-top: 1em;
             }
+
+            .badge {
+                display: inline-block;
+                padding: .25em .25em;
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 1;
+                text-align: center;
+                border-radius: .25rem;
+            }
+
+            .badge-danger {
+                color: #fff;
+                background-color: #dc3545;
+            }
+            .badge-success {
+    color: #fff;
+    background-color: #28a745;
+}
+.badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+}
+.badge-primary {
+    color: #fff;
+    background-color: #007bff;
+}
+.badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+}
+.badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+}
+.badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
         </style>
 
 

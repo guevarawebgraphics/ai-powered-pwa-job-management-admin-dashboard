@@ -1,6 +1,7 @@
 @extends('admin.layouts.base')
 
 @section('content')
+
     @if (auth()->user()->can('Create Gig'))
         <div class="row text-center">
             <div class="col-sm-12 col-lg-12">
@@ -51,6 +52,9 @@
                         Type
                     </th>
                     <th class="text-center">
+                        Status
+                    </th>
+                    <th class="text-center">
                         Model Number
                     </th>
                     <th class="text-center">
@@ -80,6 +84,22 @@
                         <td class="text-center"><strong>{{ $gig->gig_cryptic }}</strong></td>
                         <td class="text-center"><strong>{{ $gig->machine->brand_name }}</strong></td>
                         <td class="text-center"><strong>{{ $gig->machine->machine_type }}</strong></td>
+
+                        <td class="text-center">
+                            <span class="badge 
+                                @if($gig->gig_complete == 0) badge-warning
+                                @elseif($gig->gig_complete == 1) badge-primary
+                                @elseif($gig->gig_complete == 2) badge-success
+                                @elseif($gig->gig_complete == 3) badge-info
+                                @endif">
+                                @if($gig->gig_complete == 0) Pending
+                                @elseif($gig->gig_complete == 1) Started
+                                @elseif($gig->gig_complete == 2) Ended
+                                @elseif($gig->gig_complete == 3) Submitted Report
+                                @endif
+                            </span>
+
+                        </td>
                         <td class="text-center"><a href="{{url('admin/machines/' .$gig->machine->machine_id. '/edit')}}">
                                 <i class="fa fa-pencil"></i> {{ $gig->machine->model_number }}</a></td>
                         <td class="text-center"><strong>{{ $gig->serial_number }}</strong></td>
@@ -106,6 +126,13 @@
                         <td class="text-center">
 
                             <div class="btn-group btn-group-xs">
+                                @if (auth()->user()->can('Read Gig'))
+                                    <a href="{{ route('admin.gigs.show', $gig->gig_id) }}"
+                                       data-toggle="tooltip"
+                                       title=""
+                                       class="btn btn-default"
+                                       data-original-title="View"><i class="fa fa-eye"></i> View Report</a>
+                                @endif
                                 @if (auth()->user()->can('Update Gig'))
                                     <a href="{{ route('admin.gigs.edit', $gig->gig_id) }}"
                                        data-toggle="tooltip"

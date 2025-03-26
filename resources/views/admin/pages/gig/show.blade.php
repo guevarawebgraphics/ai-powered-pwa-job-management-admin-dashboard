@@ -3,49 +3,85 @@
 @section('content')
     <ul class="breadcrumb breadcrumb-top">
         <li><a href="{{ route('admin.gigs.index') }}">Gigs</a></li>
-        <li><span href="javascript:void(0)">View Gig</span></li>
+        <li><span href="javascript:void(0)">View Gig# {{$gig->gig_cryptic}}</span></li>
     </ul>
-    <div class="content-header">
-        <div class="header-section">
-            <h1>{{ $gig->name }}</h1>
-            <h5>{{ $gig->slug }}</h5>
-        </div>
-    </div>
     <div class="row">
-        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-            <div class="block block-alt-noborder">
-                <article>
-                    <h3 class="sub-header text-center"><strong> {{ $gig->created_at->format('F d, Y') }} </strong>
-                        <div class="btn-group btn-group-xs pull-right">
-                            @if (auth()->user()->can('Update Gig'))
-                                <a href="{{ route('admin.gigs.edit', $gig->id) }}"
-                                   data-toggle="tooltip"
-                                   title=""
-                                   class="btn btn-default"
-                                   data-original-title="Edit"><i class="fa fa-pencil"></i> Edit</a>
-                            @endif
-                            @if (auth()->user()->can('Delete Gig'))
-                                <a href="javascript:void(0)" data-toggle="tooltip"
-                                   title=""
-                                   class="btn btn-xs btn-danger delete-gig-btn"
-                                   data-original-title="Delete"
-                                   data-gig-id="{{ $gig->id }}"
-                                   data-gig-route="{{ route('admin.gigs.delete', $gig->id) }}">
-                                    <i class="fa fa-times"> Delete</i>
-                                </a>
-                            @endif
-                        </div>
-                    </h3>
+        <div class="col-lg-12">
+            <div class="block">
+                <div class="block-title">
+                    <h2><i class="fa fa-phone"></i> <strong>Gig</strong> Information</h2>
+                </div>
 
-                    <img src="{{ asset($gig->banner_image) }}" alt="{{ $gig->banner_image }}" class="img-responsive center-block" style="max-width: 100px;">
+                @php
+                    // Decode JSON from database columns
+                    $gig_resolution = json_decode($gig->resolution)[0];
+                    $parts_used = json_decode($gig_resolution->partsUsed);
+                    $gig_images = json_decode($gig->gig_report_images);
+                    $machine = $gig->machine;
 
-                    <p>{!! $gig->content !!}</p>
-                </article>
+                    // Decode common_repairs and solution
+                    $common_repairs = json_decode($machine->common_repairs, true);
+                    $solution_ids = json_decode($gig_resolution->solution, true);
+
+                    // Filter repairs that match the solution IDs
+                    $matched_repairs = array_filter($common_repairs, function ($repair) use ($solution_ids) {
+                        return in_array($repair['id'], $solution_ids);
+                    });
+                @endphp
+
+                <table class="table table-borderless table-striped table-vcenter">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%" class="text-right"><strong>Diagnosis</strong></td>
+                            <td style="width: 70%">{{$gig_resolution->jobCompletion}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%" class="text-right"><strong>Parts Used</strong></td>
+                            <td style="width: 70%">
+                                <ul>
+                                    @foreach($parts_used ?? [] as $value)
+                                        <li>{{$value}}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%" class="text-right"><strong>Common Repairs</strong></td>
+                            <td style="width: 70%">
+                                <ul>
+                                    @foreach($matched_repairs ?? [] as $repair)
+                                        <li>
+                                            <strong>{{ $repair['title'] }}</strong><br>
+                                            <em>Symptoms:</em> {{ $repair['symptoms'] }}<br>
+                                            <em>Solution:</em> {{ $repair['solution'] }}<br>
+                                            <em>Parts:</em> {{ implode(', ', $repair['parts']) }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%" class="text-right"><strong>Gig Report Images</strong></td>
+                            <td style="width: 70%">
+                                <ul style="list-style-type:none;">
+                                    @foreach($gig_images ?? [] as $value)
+                                        <li>
+                                            <a href="{{config('app.frontend_url')}}{{$value}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
+                                                <img src="{{config('app.frontend_url')}}{{$value}}" alt="" class="img-responsive center-block" style="max-width: 100px;">
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
 @endsection
 
 @push('extrascripts')
-    <script type="text/javascript" src="{{ asset('public/js/libraries/gigs.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/libraries/contacts.js') }}"></script>
 @endpush

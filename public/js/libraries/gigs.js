@@ -362,7 +362,7 @@
                 "searching": true,
                 "aoColumnDefs": [{
                     'bSortable': false,
-                    'aTargets': [10]
+                    'aTargets': [11]
                 }]
             });
 
