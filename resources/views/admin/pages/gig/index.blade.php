@@ -126,7 +126,7 @@
                         <td class="text-center">
 
                             <div class="btn-group btn-group-xs">
-                                @if (auth()->user()->can('Read Gig'))
+                                @if (auth()->user()->can('Read Gig') && $gig->gig_complete == 3)
                                     <a href="{{ route('admin.gigs.show', $gig->gig_id) }}"
                                        data-toggle="tooltip"
                                        title=""
