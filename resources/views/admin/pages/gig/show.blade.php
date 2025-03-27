@@ -20,7 +20,9 @@
                     $machine = $gig->machine;
 
                     // Decode common_repairs and solution
-                    $common_repairs = json_decode($machine->common_repairs, true);
+                    // $common_repairs = json_decode($machine->common_repairs, true);
+                    $common_repairs = json_decode($gig->top_recommended_repairs, true);
+                    
                     $solution_ids = json_decode($gig_resolution->solution, true);
 
                     // Filter repairs that match the solution IDs
