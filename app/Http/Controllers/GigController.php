@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Repositories\GigRepository;
 use \Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Class GigController
@@ -178,6 +179,8 @@ class GigController extends Controller
 
         $gig = $this->gig_model->create($input);
 
+        $gig_query = $this->gig_model->with(['machine','client','technician'])->where('gig_id', $gig->gig_id)->first();
+
         // if ($request->hasFile('banner_image')) {
         //     $file_upload_path = $this->gig_repository->uploadFile($request->file('banner_image')] = /*'banner_image'*/null, 'gig_images');
         //     $gig->fill(['banner_image' => $file_upload_path])->save();
@@ -186,6 +189,24 @@ class GigController extends Controller
         //     $file_upload_path = $this->gig_repository->uploadFile($request->file('file'), /*'file'*/null, 'gig_files');
         //     $gig->fill(['file' => $file_upload_path])->save();
         // }
+
+
+
+        $notification_response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post(config('app.frontend_url').'/api/notify/store', [
+            'name' => 'New Job Added!',
+            'content' => 'A new job has been added to schedule: Gig #' . $gig->gig_cryptic. ' - ' . strtoupper($gig_query->machine->brand_name) . ' ' . strtoupper($gig_query->machine->model_number) . ' ' . strtoupper($gig_query->machine->machine_type) . '. Check it out!',
+            'user_id' => $gig->assigned_tech_id,
+            'type' => 1, // 1 = GENERAL; 2=GUILD; 3=OTHER
+            'icon_type' => 'fa-solid fa-briefcase',
+        ]);
+
+        // Get the response data
+        $notif_json = $notification_response->json();
+
+
+
 
         return redirect()->route('admin.gigs.index')->with('flash_message', [
             'title' => '',
