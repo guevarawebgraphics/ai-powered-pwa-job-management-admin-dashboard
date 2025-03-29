@@ -96,7 +96,7 @@
                                             <p style="margin-bottom:unset;"><strong>Content:</strong> {!! $field['content'] !!}</p>
 
                                             @foreach($field['images'] ?? [] as $img)
-                                                    <a href="{{$img['url']}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
+                                                    <a href="{{config('app.frontend_url')}}{{$img['url']}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
                                                         <img src="{{config('app.frontend_url')}}{{$img['url']}}" alt="" class="img-responsive center-block" alt="{{$img['filename']}}" style="max-width: 100px;">
                                                     </a>
                                             @endforeach
