@@ -85,18 +85,25 @@ class LoginController extends Controller
 
 
                 $user = User::find(auth()->user()->id);
+                $ip = request()->header('X-Forwarded-For') ?? request()->ip();
 
-                // Generate 6-digit OTP
-                $otp = rand(100000, 999999);
+                \Log::info("New IP: " . $ip );
+                \Log::info("Current IP: " . $user->current_ip );
 
-                // Store OTP in DB with expiration
-                $user->update([
-                    'otp_code' => $otp,
-                    'otp_expires_at' => Carbon::now()->addMinutes(10),
-                ]);
+                if ($user->current_ip != $ip || !$user->current_ip) {
 
-                // Send OTP via email
-                $user->notify(new SendOtpNotification($otp));
+                    // Generate 6-digit OTP
+                    $otp = rand(100000, 999999);
+
+                    // Store OTP in DB with expiration
+                    $user->update([
+                        'otp_code' => $otp,
+                        'otp_expires_at' => Carbon::now()->addMinutes(10),
+                    ]);
+
+                    // Send OTP via email
+                    $user->notify(new SendOtpNotification($otp));
+                }
 
 
                 return $this->sendLoginResponse($request);
