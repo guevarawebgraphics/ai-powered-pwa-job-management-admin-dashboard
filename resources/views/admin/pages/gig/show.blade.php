@@ -97,7 +97,7 @@
 
                                             @foreach($field['images'] ?? [] as $img)
                                                     <a href="{{$img['url']}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
-                                                        <img src="{{$img['url']}}" alt="" class="img-responsive center-block" alt="{{$img['filename']}}" style="max-width: 100px;">
+                                                        <img src="{{config('app.frontend_url')}}{{$img['url']}}" alt="" class="img-responsive center-block" alt="{{$img['filename']}}" style="max-width: 100px;">
                                                     </a>
                                             @endforeach
                                         
