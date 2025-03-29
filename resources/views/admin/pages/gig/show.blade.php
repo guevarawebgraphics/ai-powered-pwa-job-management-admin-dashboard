@@ -22,7 +22,7 @@
                     // Decode common_repairs and solution
                     // $common_repairs = json_decode($machine->common_repairs, true);
                     $common_repairs = json_decode($gig->top_recommended_repairs, true);
-                    
+                    $addtl_common_repairs = json_decode($gig->addtl_recommended_repairs, true);
                     $solution_ids = json_decode($gig_resolution->solution, true);
 
                     // Filter repairs that match the solution IDs
@@ -37,16 +37,22 @@
                             <td style="width: 30%" class="text-right"><strong>Diagnosis</strong></td>
                             <td style="width: 70%">{{$gig_resolution->jobCompletion}}</td>
                         </tr>
+
                         <tr>
                             <td style="width: 30%" class="text-right"><strong>Parts Used</strong></td>
                             <td style="width: 70%">
+                                @if($gig_resolution->jobCompletion == "full-repair")
                                 <ul>
                                     @foreach($parts_used ?? [] as $value)
                                         <li>{{$value}}</li>
                                     @endforeach
                                 </ul>
+                                @else 
+                                    <p>N/A</p>
+                                @endif
                             </td>
                         </tr>
+
                         <tr>
                             <td style="width: 30%" class="text-right"><strong>Common Repairs</strong></td>
                             <td style="width: 70%">
@@ -62,6 +68,7 @@
                                 </ul>
                             </td>
                         </tr>
+
                         <tr>
                             <td style="width: 30%" class="text-right"><strong>Gig Report Images</strong></td>
                             <td style="width: 70%">
@@ -76,6 +83,33 @@
                                 </ul>
                             </td>
                         </tr>
+
+
+                        <tr>
+                            <td style="width: 30%" class="text-right"><strong>Additional Recommended Repairs</strong></td>
+                            <td style="width: 70%">
+                                <ul style="list-style-type:none;">
+                                    @foreach($addtl_common_repairs ?? [] as $field)
+                                    
+                                        <li>
+                                            
+                                            <p style="margin-bottom:unset;"><strong>Content:</strong> {!! $field['content'] !!}</p>
+
+                                            @foreach($field['images'] ?? [] as $img)
+                                                    <a href="{{$img['url']}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
+                                                        <img src="{{$img['url']}}" alt="" class="img-responsive center-block" alt="{{$img['filename']}}" style="max-width: 100px;">
+                                                    </a>
+                                            @endforeach
+                                        
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+
+
+
+
                     </tbody>
                 </table>
 
