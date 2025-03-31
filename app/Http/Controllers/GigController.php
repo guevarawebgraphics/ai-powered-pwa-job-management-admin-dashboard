@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Gig;
 use App\Models\User;
+use App\Models\SchedulePerUser;
 use App\Models\Client;
 use App\Repositories\GigRepository;
 use \Carbon\Carbon;
@@ -441,6 +442,24 @@ class GigController extends Controller
         $gigs = Gig::with(['machine','client','technician'])->where('assigned_tech_id', $techID)->whereNull('deleted_at')->get();
         $tech = User::find($techID);
         return view('admin.pages.gig.calendar', compact(['gigs','tech']));
+    }
+
+    public function getTechSchedules($techID) {
+
+        $user = User::find($techID);
+        $array = [
+            'schedules' =>  SchedulePerUser::where('user_id', $techID)->whereNull('deleted_at')->orderBy('day','ASC')->get(),
+            'black_out_date'    =>  [
+                'from'   =>  $user->black_out_from,
+                'to'   =>  $user->black_out_to
+            ]
+        ];
+        
+        return response()->json([
+            'message' => 'Schedule retrieved successfully',
+            'data' => $array,
+        ], 201);
+
     }
         
             

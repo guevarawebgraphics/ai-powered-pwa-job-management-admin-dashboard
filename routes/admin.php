@@ -210,3 +210,9 @@ Route::get('/gigs/calendar/{techID}',
         'uses' => '\App\Http\Controllers\GigController@indexCalendar']
 );
 /* gigs */
+
+/* Technician */
+Route::get('/tech/schedules/{techID}',
+    ['as' => 'admin.tech.schedules',
+        'uses' => '\App\Http\Controllers\GigController@getTechSchedules']
+);
