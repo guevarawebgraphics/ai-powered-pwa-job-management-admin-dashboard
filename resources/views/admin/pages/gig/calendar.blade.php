@@ -64,13 +64,14 @@
             // Map gigs to FullCalendar events
             var events = gigs.map(function(gig) {
                 return {
-                    title: gig.gig_cryptic + ' ($' + gig.gig_price + ')',
+                    title: gig.client.client_name + ' ' + gig.client.client_last_name + ' / #' + gig.gig_cryptic + ' ($' + gig.gig_price + ')',
                     start: gig.start_datetime,
                     extendedProps: {
                         serial_number: gig.serial_number,
                         machine_model: gig.machine ? gig.machine.model_number : '',
                         machine_brand: gig.machine ? gig.machine.brand_name : '',
-                        machine_type: gig.machine ? gig.machine.machine_type : ''
+                        machine_type: gig.machine ? gig.machine.machine_type : '',
+                        client_name: gig.client ? gig.client.client_name + ' ' + gig.client.client_last_name : '',
                     }
                 };
             });
@@ -86,6 +87,7 @@
                 events: events,
                 eventClick: function(info) {
                     alert(
+                        'Client: ' + info.event.extendedProps.client_name + '\n' +
                         'Gig: ' + info.event.title + '\n' +
                         'Serial Number: ' + info.event.extendedProps.serial_number + '\n' +
                         'Machine: ' + info.event.extendedProps.machine_brand + ' ' +
