@@ -433,6 +433,15 @@ class GigController extends Controller
         return 0; // Default return value if no match is found
     }
 
+    public function indexCalendar($techID) {
+        if (!auth()->user()->hasPermissionTo('Read Gig')) {
+            abort('401', '401');
+        }
+
+        $gigs = Gig::with(['machine','client','technician'])->where('assigned_tech_id', $techID)->whereNull('deleted_at')->get();
+        $tech = User::find($techID);
+        return view('admin.pages.gig.calendar', compact(['gigs','tech']));
+    }
         
             
 }

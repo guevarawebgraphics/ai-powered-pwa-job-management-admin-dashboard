@@ -204,4 +204,9 @@ Route::get('/gigs/client/{clientId}/history',
     ['as' => 'admin.gigs.history.per.client',
         'uses' => '\App\Http\Controllers\GigController@indexClientHistory']
 );
+
+Route::get('/gigs/calendar/{techID}',
+    ['as' => 'admin.gigs.calendar',
+        'uses' => '\App\Http\Controllers\GigController@indexCalendar']
+);
 /* gigs */
