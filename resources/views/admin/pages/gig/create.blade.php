@@ -21,6 +21,57 @@
                     <h2><i class="fa fa-pencil"></i> <strong>Add new Gig</strong></h2>
                 </div>
 
+                <div class="form-group{{ $errors->has('client_id') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="client_id">Client</label>
+
+                    <div class="col-md-6">
+                        <select class="form-control" id="client_id" name="client_id">
+                            <option value="" selected>Choose your Client</option>
+                            @foreach( getClient() ?? [] as $field )
+                                <option value="{{$field->client_id}}">{{$field->client_name}} {{$field->client_last_name}} ({{$field->email}})</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('client_id'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('client_id') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        {{-- <a href="{{url('admin/clients/create')}}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add New Client
+                        </a> --}}
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formClientModal">
+                            <i class="fa fa-plus"></i> Add New Client
+                        </button>
+                    </div>
+                </div>
+
+
+                
+                                
+                <div class="form-group{{ $errors->has('model_number_main') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="model_number_main">Machine</label>
+
+                    <div class="col-md-6">
+                        <select class="form-control" id="model_number_main" name="model_number_main">
+                            <option value="" selected>Choose your Machine</option>
+                            @foreach( getMachine() ?? [] as $field )
+                                <option value="{{$field->model_number}}">{{$field->model_number}} {{$field->brand_name}} {{$field->machine_type}} </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('model_number_main'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('model_number_main') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="col-md-3">
+                        {{-- <a href="{{url('admin/machines/create')}}" target="_blank" class="btn btn-sm btn-primary"> --}}
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formModal">
+                            <i class="fa fa-plus"></i> Add New Machine
+                        </button>
+                    </div>
+                </div>
+
 
                 {{-- 
                     <div class="form-group{{ $errors->has('gig_cryptic') ? ' has-error' : '' }}">
@@ -44,31 +95,6 @@
                         @if($errors->has('serial_number'))
                             <span class="help-block animation-slideDown">{{ $errors->first('serial_number') }}</span>
                         @endif
-                    </div>
-                </div>
-
-
-                                
-                <div class="form-group{{ $errors->has('model_number_main') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="model_number_main">Machine</label>
-
-                    <div class="col-md-6">
-                        <select class="form-control" id="model_number_main" name="model_number_main">
-                            <option value="" selected>Choose your Machine</option>
-                            @foreach( getMachine() ?? [] as $field )
-                                <option value="{{$field->model_number}}">{{$field->model_number}} {{$field->brand_name}} {{$field->machine_type}} </option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('model_number_main'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('model_number_main') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="col-md-3">
-                        {{-- <a href="{{url('admin/machines/create')}}" target="_blank" class="btn btn-sm btn-primary"> --}}
-                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formModal">
-                            <i class="fa fa-plus"></i> Add New Machine
-                        </button>
                     </div>
                 </div>
 
@@ -107,6 +133,69 @@
                     </div>
                 </div> --}}
 
+                
+                <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="start_date">Start Date</label>
+
+                    <div class="col-md-9">
+                        <input type="date" class="form-control" id="start_date" name="start_date"
+                               placeholder="Enter Start Date.." value="{{ old('start_date') }}">
+                        @if($errors->has('start_date'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('start_date') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                
+                <div class="form-group{{ $errors->has('start_time') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="start_time">Start Time</label>
+
+                    <div class="col-md-9">
+                        <input type="time" class="form-control" id="start_time" name="start_time"
+                               placeholder="Enter Start Time.." value="{{ old('start_time') }}">
+                        @if($errors->has('start_time'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('start_time') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                
+                <div class="form-group{{ $errors->has('assigned_tech_id') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="assigned_tech_id">Technician</label>
+
+                    <div class="col-md-9">
+                        <select class="form-control" id="assigned_tech_id" name="assigned_tech_id">
+                            <option value="" selected>Choose your Technician</option>
+                            @foreach( getCustomers() ?? [] as $field )
+                                <option value="{{$field->id}}">{{$field->name}} ({{$field->email}})</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('assigned_tech_id'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('assigned_tech_id') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="trainee_included">Trainee Included</label>
+
+                    <div class="col-md-6">
+                        <div id="select-container-trainee"></div>
+
+                        <!-- Add New Select Dropdown Button -->
+                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more-trainee">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        @if($errors->has('trainee_included'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('trainee_included') }}</span>
+                        @endif
+                    </div>
+
+                </div>
+
+
                 <div class="form-group{{ $errors->has('gig_price') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="gig_price">Price</label>
 
@@ -135,7 +224,18 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('repair_notes') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="repair_notes">Repair Notes</label>
+
+                    <div class="col-md-9">
+                        <textarea class="form-control" id="repair_notes" name="repair_notes" placeholder="The machine is overheating after prolonged use."></textarea>
+                        @if($errors->has('repair_notes'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('repair_notes') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- <div class="form-group">
                     <label class="col-md-3 control-label">Is Discounted?</label>
 
                     <div class="col-md-9">
@@ -155,50 +255,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('gig_discount') }}</span>
                         @endif
                     </div>
-                </div>
-
-
-                <div class="form-group{{ $errors->has('client_id') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="client_id">Client</label>
-
-                    <div class="col-md-6">
-                        <select class="form-control" id="client_id" name="client_id">
-                            <option value="" selected>Choose your Client</option>
-                            @foreach( getClient() ?? [] as $field )
-                                <option value="{{$field->client_id}}">{{$field->client_name}} {{$field->client_last_name}} ({{$field->email}})</option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('client_id'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('client_id') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="col-md-3">
-                        {{-- <a href="{{url('admin/clients/create')}}" target="_blank" class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus"></i> Add New Client
-                        </a> --}}
-                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#formClientModal">
-                            <i class="fa fa-plus"></i> Add New Client
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="form-group{{ $errors->has('assigned_tech_id') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="assigned_tech_id">Technician</label>
-
-                    <div class="col-md-9">
-                        <select class="form-control" id="assigned_tech_id" name="assigned_tech_id">
-                            <option value="" selected>Choose your Technician</option>
-                            @foreach( getCustomers() ?? [] as $field )
-                                <option value="{{$field->id}}">{{$field->name}} ({{$field->email}})</option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('assigned_tech_id'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('assigned_tech_id') }}</span>
-                        @endif
-                    </div>
-                </div>
+                </div> --}}
 
                 {{-- <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="trainee_included">Trainee Included</label>
@@ -211,23 +268,6 @@
                     </div>
                 </div> --}}
 
-                <div class="form-group{{ $errors->has('trainee_included') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="trainee_included">Trainee Included</label>
-
-                    <div class="col-md-6">
-                        <div id="select-container-trainee"></div>
-
-                        <!-- Add New Select Dropdown Button -->
-                        <button class="btn btn-primary mt-3" type="button" id="btn--add-more-trainee">
-                            <i class="fa fa-plus"></i>
-                        </button>
-
-                        @if($errors->has('trainee_included'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('trainee_included') }}</span>
-                        @endif
-                    </div>
-
-                </div>
 
 
                 
@@ -241,20 +281,9 @@
                         @endif
                     </div>
                 </div> --}}
-                
+            
 
-                <div class="form-group{{ $errors->has('repair_notes') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="repair_notes">Repair Notes</label>
-
-                    <div class="col-md-9">
-                        <textarea class="form-control" id="repair_notes" name="repair_notes" placeholder="The machine is overheating after prolonged use."></textarea>
-                        @if($errors->has('repair_notes'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('repair_notes') }}</span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('youtube_link') ? ' has-error' : '' }}">
+                {{-- <div class="form-group{{ $errors->has('youtube_link') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="youtube_link">Youtube Link</label>
 
                     <div class="col-md-9">
@@ -264,7 +293,7 @@
                             <span class="help-block animation-slideDown">{{ $errors->first('youtube_link') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
                 
                 {{-- <div class="form-group{{ $errors->has('qb_invoice_number') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="qb_invoice_number">Invoice Number</label>
@@ -299,32 +328,6 @@
                         @endif
                     </div>
                 </div> --}}
-
-
-                <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="start_date">Start Date</label>
-
-                    <div class="col-md-9">
-                        <input type="date" class="form-control" id="start_date" name="start_date"
-                               placeholder="Enter Start Date.." value="{{ old('start_date') }}">
-                        @if($errors->has('start_date'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('start_date') }}</span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('start_time') ? ' has-error' : '' }}">
-                    <label class="col-md-3 control-label" for="start_time">Start Time</label>
-
-                    <div class="col-md-9">
-                        <input type="time" class="form-control" id="start_time" name="start_time"
-                               placeholder="Enter Start Time.." value="{{ old('start_time') }}">
-                        @if($errors->has('start_time'))
-                            <span class="help-block animation-slideDown">{{ $errors->first('start_time') }}</span>
-                        @endif
-                    </div>
-                </div>
-
 
                 {{-- <div class="form-group{{ $errors->has('extra_field1') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="extra_field1">Extra Field #1</label>
