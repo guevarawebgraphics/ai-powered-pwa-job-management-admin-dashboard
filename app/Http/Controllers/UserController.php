@@ -567,6 +567,8 @@ class UserController extends Controller
         $data = [];
         if (!empty($users)) {
             foreach ($users as $user) {
+                
+                $gigs_history = '';
                 $view = '';
                 $edit = '';
                 $delete = '';
@@ -575,6 +577,15 @@ class UserController extends Controller
                 $nestedData['user_name'] = $user->user_name;
                 $nestedData['email'] = $user->email;
                 $nestedData['user_roles'] = $user->roles()->pluck('name')->implode(', ');
+
+
+                if (auth()->user()->can('Read User') && $user->role_id == 1) {
+                    $gigs_history = '<a href="'. url('admin/gigs/calendar', $user->id) .'"
+                                       data-toggle="tooltip"
+                                       title=""
+                                       class="btn btn-default"
+                                       data-original-title="View"><i class="fa fa-eye"></i> View Gigs</a>';
+                }
 
                 if (auth()->user()->can('Read User')) {
                     $view = '<a href="'. route('admin.users.show', $user->id) .'"
@@ -603,7 +614,7 @@ class UserController extends Controller
                                     </a>';
                 }
 
-                $nestedData['action'] = '<div class="btn-group btn-group-xs">' . $view . $edit . $delete . '</div>';
+                $nestedData['action'] = '<div class="btn-group btn-group-xs">' . $gigs_history . $view . $edit . $delete . '</div>';
                 $data[] = $nestedData;
             }
         }
