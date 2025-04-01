@@ -451,7 +451,8 @@ class GigController extends Controller
             'schedules' =>  SchedulePerUser::where('user_id', $techID)->whereNull('deleted_at')->orderBy('day','ASC')->get(),
             'black_out_date'    =>  [
                 'from'   =>  $user->black_out_from,
-                'to'   =>  $user->black_out_to
+                'to'   =>  $user->black_out_to,
+                'is_blackout'   =>  $user->is_blackout
             ]
         ];
         

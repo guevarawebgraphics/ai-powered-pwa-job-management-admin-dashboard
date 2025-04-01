@@ -1392,29 +1392,32 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
             const option = $(`#assigned_tech_id option[value="${techID}"]`);
             let isAvailable = true;
 
-            // Check blackout range
             const selected = new Date(selectedDate);
-            const from = new Date(blackout.from);
-            const to = new Date(blackout.to);
 
-            if (selected >= from && selected <= to) {
-                isAvailable = false;
-            }
-
-            // Custom mapping: JS getDay (0–6) => DB (1=Sunday, ..., 7=Saturday)
-            const dbDay = selected.getDay() + 1;
-
-            const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
-
-            if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
+            // Full blackout override
+            if (blackout.is_blackout === "1") {
                 isAvailable = false;
             } else {
-                const selectedTimeMinutes = toMinutes(selectedTime);
-                const openMinutes = toMinutes(todaySchedule.open);
-                const closeMinutes = toMinutes(todaySchedule.close);
+                const from = new Date(blackout.from);
+                const to = new Date(blackout.to);
 
-                if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                if (selected >= from && selected <= to) {
                     isAvailable = false;
+                }
+
+                const dbDay = selected.getDay() + 1;
+                const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
+
+                if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
+                    isAvailable = false;
+                } else {
+                    const selectedTimeMinutes = toMinutes(selectedTime);
+                    const openMinutes = toMinutes(todaySchedule.open);
+                    const closeMinutes = toMinutes(todaySchedule.close);
+
+                    if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                        isAvailable = false;
+                    }
                 }
             }
 
@@ -1426,6 +1429,7 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
 
             refreshSelect2Styling();
         }
+
     });
 }
 

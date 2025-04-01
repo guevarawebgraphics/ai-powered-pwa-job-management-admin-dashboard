@@ -48,7 +48,10 @@ class User extends Authenticatable
         'current_address',
         'is_notify',
         'is_location',
-        'is_active'
+        'is_active',
+        'black_out_from',
+        'black_out_to',
+        'is_blackout'
 
     ];
 
