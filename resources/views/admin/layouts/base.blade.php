@@ -543,6 +543,36 @@ $(document).ready(function() {
             console.log(event);
     });
 
+    // UTC TIMEZONE
+    $(document).ready(function(){
+        // Process <input type="date">
+        $('input[type="date"]').each(function(){
+            var dateStr = $(this).val();
+            if(dateStr) {
+            // Create a Date object; note that "YYYY-MM-DD" may be treated as local midnight.
+            var date = new Date(dateStr);
+            // Build a UTC date string in format YYYY-MM-DD
+            var utcDate = date.getUTCFullYear() + '-' +
+                            ('0' + (date.getUTCMonth() + 1)).slice(-2) + '-' +
+                            ('0' + date.getUTCDate()).slice(-2);
+            $(this).val(utcDate);
+            }
+        });
+
+        // Process <input type="time">
+        $('input[type="time"]').each(function(){
+            var timeStr = $(this).val();
+            if(timeStr) {
+            // Create a Date object by appending a dummy date (e.g. 1970-01-01) and seconds.
+            // This assumes the input time is interpreted in local time.
+            var time = new Date('1970-01-01T' + timeStr + ':00');
+            // Build a UTC time string in format HH:MM
+            var utcTime = ('0' + time.getUTCHours()).slice(-2) + ':' +
+                            ('0' + time.getUTCMinutes()).slice(-2);
+            $(this).val(utcTime);
+            }
+        });
+        });
 
 </script>
 

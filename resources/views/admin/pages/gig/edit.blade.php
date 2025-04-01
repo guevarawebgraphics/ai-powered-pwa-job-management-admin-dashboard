@@ -1358,108 +1358,110 @@ $('select[name="payee_id"]').select2({
 
         $('#start_date, #start_time').trigger('change');
         
-        $('#start_date, #start_time').on('change', function () {
-            const date = $('#start_date').val();
-            const time = $('#start_time').val();
+    $('#start_date, #start_time').on('change', function () {
+    const date = $('#start_date').val();
+    const time = $('#start_time').val();
 
-            if (date && time) {
-                checkAllTechAvailability(date, time);
+    if (date && time) {
+        checkAllTechAvailability(date, time);
+    }
+});
+
+function checkAllTechAvailability(date, time) {
+    $('#assigned_tech_id option').each(function () {
+        const techId = $(this).val();
+        if (!techId) return; // Skip placeholder
+        checkTechAvailability(techId, date, time);
+    });
+}
+
+function checkTechAvailability(techID, selectedDate, selectedTime) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "GET",
+        dataType: 'JSON',
+        url: `${sAdminBaseURI}/tech/schedules/${techID}`,
+        success: function (response) {
+            console.log(response);
+            const scheduleData = response.data;
+            const blackout = scheduleData.black_out_date;
+            const schedules = scheduleData.schedules;
+
+            const option = $(`#assigned_tech_id option[value="${techID}"]`);
+            let isAvailable = true;
+
+            // Check blackout range
+            const selected = new Date(selectedDate);
+            const from = new Date(blackout.from);
+            const to = new Date(blackout.to);
+
+            if (selected >= from && selected <= to) {
+                isAvailable = false;
             }
-        });
 
-        function checkAllTechAvailability(date, time) {
-            $('#assigned_tech_id option').each(function () {
-                const techId = $(this).val();
-                if (!techId) return; // Skip placeholder
-                checkTechAvailability(techId, date, time);
-            });
-        }
+            // Custom mapping: JS getDay (0–6) => DB (1=Sunday, ..., 7=Saturday)
+            const dbDay = selected.getDay() + 1;
 
-        function checkTechAvailability(techID, selectedDate, selectedTime) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method: "GET",
-                dataType: 'JSON',
-                url: `${sAdminBaseURI}/tech/schedules/${techID}`,
-                success: function (response) {
-                    const scheduleData = response.data;
-                    const blackout = scheduleData.black_out_date;
-                    const schedules = scheduleData.schedules;
+            const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
 
-                    const option = $(`#assigned_tech_id option[value="${techID}"]`);
-                    let isAvailable = true;
+            if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
+                isAvailable = false;
+            } else {
+                const selectedTimeMinutes = toMinutes(selectedTime);
+                const openMinutes = toMinutes(todaySchedule.open);
+                const closeMinutes = toMinutes(todaySchedule.close);
 
-                    // Check blackout range
-                    const selected = new Date(selectedDate);
-                    const from = new Date(blackout.from);
-                    const to = new Date(blackout.to);
-
-                    if (selected >= from && selected <= to) {
-                        isAvailable = false;
-                    }
-
-                    // Determine correct DB day (1-7 where 7 is Sunday)
-                    const jsDay = selected.getDay(); // 0 = Sunday
-                    const dbDay = jsDay === 0 ? 7 : jsDay;
-
-                    const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
-
-                    if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
-                        isAvailable = false;
-                    } else {
-                        const selectedTimeMinutes = toMinutes(selectedTime);
-                        const openMinutes = toMinutes(todaySchedule.open);
-                        const closeMinutes = toMinutes(todaySchedule.close);
-
-                        if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
-                            isAvailable = false;
-                        }
-                    }
-
-                    if (!isAvailable) {
-                        option.attr('data-unavailable', 'true');
-                    } else {
-                        option.removeAttr('data-unavailable');
-                    }
-
-                    refreshSelect2Styling();
+                if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                    isAvailable = false;
                 }
-            });
-        }
+            }
 
-        function toMinutes(timeStr) {
-            const [hours, minutes] = timeStr.split(':').map(Number);
-            return hours * 60 + minutes;
-        }
+            if (!isAvailable) {
+                option.attr('data-unavailable', 'true');
+            } else {
+                option.removeAttr('data-unavailable');
+            }
 
-        function refreshSelect2Styling() {
-            $('select[name="assigned_tech_id"]').select2({
-                placeholder: 'Select Technician',
-                theme: 'bootstrap-5',
-                width: '100%',
-                templateResult: function (data) {
-                    if (!data.id) return data.text;
-
-                    const $option = $(`#assigned_tech_id option[value="${data.id}"]`);
-                    const unavailable = $option.attr('data-unavailable');
-
-                    if (unavailable) {
-                        return $('<span style="background-color: #ccc; color: #333; padding: 5px; border-radius: 4px;">' + data.text + '</span>');
-                    }
-
-                    return data.text;
-                },
-                templateSelection: function (data) {
-                    return data.text;
-                }
-            });
-        }
-
-        // Initial load for select2
-        $(document).ready(function () {
             refreshSelect2Styling();
-        });
+        }
+    });
+}
+
+function toMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+function refreshSelect2Styling() {
+    $('select[name="assigned_tech_id"]').select2({
+        placeholder: 'Select Technician',
+        theme: 'bootstrap-5',
+        width: '100%',
+        templateResult: function (data) {
+            if (!data.id) return data.text;
+
+            const $option = $(`#assigned_tech_id option[value="${data.id}"]`);
+            const unavailable = $option.attr('data-unavailable');
+
+            if (unavailable) {
+                return $('<span style="background-color: #ccc; color: #333; padding: 5px; border-radius: 4px;">' + data.text + '</span>');
+            }
+
+            return data.text;
+        },
+        templateSelection: function (data) {
+            return data.text;
+        }
+    });
+}
+
+// Initial load for select2
+$(document).ready(function () {
+    refreshSelect2Styling();
+});
+
 </script>
+
 @endpush
