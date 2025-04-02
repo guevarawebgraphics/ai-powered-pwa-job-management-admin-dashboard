@@ -110,8 +110,11 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'user_name' => 'required|unique:users,user_name,NULL,id,deleted_at,NULL',
-            'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
+            // 'user_name' => 'required|unique:users,user_name,NULL,id,deleted_at,NULL',
+            // 'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
+            'user_name' => 'required|unique:users,user_name,NULL,id',
+            'email'     => 'required|unique:users,email,NULL,id',
+
             'password' => 'required|min:8|confirmed',
         ]);
 
@@ -228,8 +231,11 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'user_name' => 'required|unique:users,user_name,' . $id . ',id,deleted_at,NULL',
-            'email' => 'required|unique:users,email,' . $id . ',id,deleted_at,NULL',
+            // 'user_name' => 'required|unique:users,user_name,' . $id . ',id,deleted_at,NULL',
+            // 'email' => 'required|unique:users,email,' . $id . ',id,deleted_at,NULL',
+            'user_name' => 'required|unique:users,user_name,' . $id . ',id',
+            'email'     => 'required|unique:users,email,' . $id . ',id',
+
             'password' => 'required_if:change_password,==,1|min:8|confirmed',
         ]);
 
