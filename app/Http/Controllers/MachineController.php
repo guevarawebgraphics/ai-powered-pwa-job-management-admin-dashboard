@@ -106,6 +106,7 @@ class MachineController extends Controller
         $input['brand_name'] =   $request->brand_name == "other" ? $request->custom_brand_name : $request->brand_name;
         $input['machine_type'] =   $request->machine_type == "other" ? $request->custom_machine_type : $request->machine_type;
         $input['display_type'] =   $request->machine_type == "washers" || $request->machine_type == "stoves"   ? $request->display_type : NULL;
+        $input['common_repairs'] = $this->youtubeApi($request->all);
         $machine = $this->machine_model->create($input);
 
         if ($request->hasFile('banner_image')) {
@@ -191,7 +192,7 @@ class MachineController extends Controller
         $input['brand_name'] =   $request->brand_name == "other" ? $request->custom_brand_name : $request->brand_name;
         $input['machine_type'] =   $request->machine_type == "other" ? $request->custom_machine_type : $request->machine_type;
         $input['display_type'] =   $request->machine_type == "washers" || $request->machine_type == "stoves"   ? $request->display_type : NULL;
-        
+        $input['common_repairs'] = $this->youtubeApi($request->all);
 
         if ($request->hasFile('banner_image')) {
             $file_upload_path = $this->machine_repository->uploadFile($request->file('banner_image'), /*'banner_image'*/null, 'machine_images');
@@ -246,4 +247,63 @@ class MachineController extends Controller
 
         return response()->json($response);
     }
+
+        private function youtubeApi($data) 
+    {
+        $json = '[
+            {
+                "id": 1,
+                "repairName": "Replace Fuse",
+                "symptoms": "Appliance won\'t power on or shows no signs of life.",
+                "solution": "Check the fuse with a multimeter and replace it if blown.",
+                "partsNeeded": ["Thermal fuse"],
+                "youtubeLinks": [
+                    "https://www.youtube.com/watch?v=abc123",
+                    "https://www.youtube.com/watch?v=def456"
+                ]
+            },
+            {
+                "id": 2,
+                "repairName": "Fix Leaking Hose",
+                "symptoms": "Water pooling under appliance or visible hose damage.",
+                "solution": "Inspect hoses for cracks or loose connections and replace as necessary.",
+                "partsNeeded": ["Replacement water hose", "Hose clamps"],
+                "youtubeLinks": [
+                    "https://www.youtube.com/watch?v=ghi789"
+                ]
+            },
+            {
+                "id": 3,
+                "repairName": "Clean Condenser Coils",
+                "symptoms": "Fridge not cooling efficiently or running constantly.",
+                "solution": "Unplug the unit and vacuum or brush off dust from condenser coils.",
+                "partsNeeded": ["Coil brush (optional)"],
+                "youtubeLinks": []
+            },
+            {
+                "id": 4,
+                "repairName": "Replace Door Seal",
+                "symptoms": "Warm air leaking into appliance or visible mold/cracks on gasket.",
+                "solution": "Remove the old gasket and press in the new seal evenly around the door.",
+                "partsNeeded": ["Door gasket/seal"],
+                "youtubeLinks": [
+                    "https://www.youtube.com/watch?v=jkl012",
+                    "https://www.youtube.com/watch?v=mno345"
+                ]
+            },
+            {
+                "id": 5,
+                "repairName": "Unclog Drain Pump",
+                "symptoms": "Washer not draining or water left at the bottom after cycle.",
+                "solution": "Access the drain pump, remove debris or buildup, and test operation.",
+                "partsNeeded": ["None (unless pump is faulty)"],
+                "youtubeLinks": [
+                    "https://www.youtube.com/watch?v=stu901"
+                ]
+            }
+        ]';
+
+        return $json;
+    }
+
 }
