@@ -127,10 +127,12 @@ class UserController extends Controller
             'current_address',
             'service_area',
             'email',
-            'password'
+            'password',
+            'is_active'
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;
+        $input['is_active'] = isset($input['is_active']) ? 1 : 0;
 
         $user = $this->user_model->create($input);
 
@@ -242,7 +244,8 @@ class UserController extends Controller
             'professional_title',
             'current_address',
             'service_area',
-            'email'
+            'email',
+            'is_active'
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;
