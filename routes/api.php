@@ -28,6 +28,13 @@ Route::post('/store/chat',
 );
 /* chat */
 
+
+Route::prefix('firebase')->group(function () {
+    Route::post('/store', [App\Http\Controllers\ChatController::class, 'storeFirebaseToken']);
+    Route::post('/notification', [App\Http\Controllers\ChatController::class, 'callFirebaseNotification']);
+});
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');

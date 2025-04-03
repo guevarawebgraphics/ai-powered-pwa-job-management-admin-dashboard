@@ -34,4 +34,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+
+    'firebase'  =>  [
+        'fcm_token' =>  env('FCM_SERVER_KEY')
+    ]
 ];

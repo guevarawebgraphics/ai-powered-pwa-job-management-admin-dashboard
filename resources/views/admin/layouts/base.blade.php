@@ -202,7 +202,11 @@
         </style>
 
 
-    <script src="{{ asset('public/js/bundle.js') }}"></script>
+    {{-- <script src="{{ asset('public/js/bundle.js') }}"></script> --}}
+
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <!-- Firebase Messaging -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js"></script>
 
 </head>
 <body>
@@ -384,6 +388,73 @@
     </div>
 </div>
 
+
+<script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAQ-DqNt7F9f5kPX-Txj3Sb4mqm__OYtTE",
+        authDomain: "appliance-repair-american.firebaseapp.com",
+        projectId: "appliance-repair-american",
+        storageBucket: "appliance-repair-american.firebasestorage.app",
+        messagingSenderId: "294328886559",
+        appId: "1:294328886559:web:cb2273554de57d21b33c2a",
+        measurementId: "G-SQJZVSFM2L"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    // Now you can use 'messaging'
+    console.log(messaging);
+
+    
+
+    Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+            firebaseRememberFCM("{{ auth()->user()->id }}");
+            console.log(`permission: ` , permission);
+        } else {
+            console.error("Notification permission not granted.");
+        }
+    });
+
+
+    async function firebaseRememberFCM(userId) {
+        messaging.getToken({ vapidKey: "{{ config('services.firebase.fcm_token')}}" })
+            .then(function(currentToken) {
+                if (currentToken) {
+                    var token = localStorage.getItem("token");
+                    $.ajax({
+                        url: "{{url('api/firebase/store')}}",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            token: currentToken,
+                            user_id: userId  // Make sure to define user_id appropriately
+                        }),
+                        contentType: "application/json",
+                        headers: {
+                            Authorization: "Bearer " + token
+                        },
+                        success: function(response) {
+                            console.log("success firebaseFCM:", response);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error("failed:", errorThrown);
+                        }
+                    });
+                } else {
+                    console.log("No registration token available.");
+                }
+            })
+            .catch(function(err) {
+                console.error("Error retrieving token", err);
+            });
+    }
+
+    
+</script>
+
 <script>
 
 
@@ -447,6 +518,11 @@ $(document).ready(function() {
             $("#user-list").hide();
             $("#chat-window").show();
 
+            localStorage.setItem("selectedUserId", selectedUserId);
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("userImage", userImage);
+
+
             loadChat(selectedUserId, userName, userImage);
         });
 
@@ -484,6 +560,15 @@ $(document).ready(function() {
                 }
             });
         }
+
+        messaging.onMessage((payload) => {
+            const storedUserId = localStorage.getItem("selectedUserId");
+            const storedUserName = localStorage.getItem("userName");
+            const storedUserImage = localStorage.getItem("userImage");
+            console.log(payload);
+            loadChat(storedUserId, storedUserName, storedUserImage);
+        });
+
 
         // Auto-scroll chat to latest message
         function scrollToBottom() {
@@ -538,10 +623,10 @@ $(document).ready(function() {
 
 <script>
     
-    Echo.channel('chat_sent')
-        .listen('ChatSent', (event) => { // ✅ ADD THE DOT BEFORE EVENT NAME
-            console.log(event);
-    });
+    // Echo.channel('chat_sent')
+    //     .listen('ChatSent', (event) => { // ✅ ADD THE DOT BEFORE EVENT NAME
+    //         console.log(event);
+    // });
 
     // UTC TIMEZONE
     $(document).ready(function(){
@@ -573,6 +658,7 @@ $(document).ready(function() {
             }
         });
         });
+
 
 </script>
 

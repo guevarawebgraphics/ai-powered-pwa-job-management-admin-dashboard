@@ -97,3 +97,9 @@ $ cd path/to/dnrlaravel8
 ```sh
 $ php artisan route:list
 ```
+
+`Install these dependencies:`
+
+`npm install firebase`
+
+`composer require google/apiclient --with-all-dependencies`

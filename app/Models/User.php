@@ -51,7 +51,8 @@ class User extends Authenticatable
         'is_active',
         'black_out_from',
         'black_out_to',
-        'is_blackout'
+        'is_blackout',
+        'device_token'
 
     ];
 
