@@ -203,6 +203,7 @@ class GigController extends Controller
             'user_id' => $gig->assigned_tech_id,
             'type' => 1, // 1 = GENERAL; 2=GUILD; 3=OTHER
             'icon_type' => 'fa-solid fa-briefcase',
+            'url'   =>  config('app.frontend_url')."/gig/".$gig->gig_id
         ]);
 
         // Get the response data
