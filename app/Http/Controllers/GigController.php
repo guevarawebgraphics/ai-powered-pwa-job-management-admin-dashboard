@@ -7,6 +7,7 @@ use App\Models\Gig;
 use App\Models\User;
 use App\Models\SchedulePerUser;
 use App\Models\Client;
+use App\Models\Machine;
 use App\Repositories\GigRepository;
 use \Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -166,7 +167,7 @@ class GigController extends Controller
         // Remove start_date and start_time from the input array if they're not needed
         unset($request->start_date, $request->start_time);
 
-        $input['top_recommended_repairs'] = $this->youtubeApi($request->all);
+        $input['top_recommended_repairs'] = $this->youtubeApi([ 'model_number'  =>  $request->model_number_main , 'initial_issue'  =>  $request->initial_issue  ]);
 
         // if (isset($input['top_recommended_repairs']) && is_array($input['top_recommended_repairs'])) {
         //     $formattedRepairs = [];
@@ -316,7 +317,9 @@ class GigController extends Controller
         // Remove start_date and start_time from the input array if they're not needed
         unset($request->start_date, $request->start_time);
 
-        $input['top_recommended_repairs'] = $this->youtubeApi($request->all);
+        if ( $request->initial_issue != $gig->initial_issue ) {
+            $input['top_recommended_repairs'] = $this->youtubeApi([ 'model_number'  =>  $request->model_number_main , 'initial_issue'  =>  $request->initial_issue  ]);
+        }
         // if (isset($input['top_recommended_repairs']) && is_array($input['top_recommended_repairs'])) {
         //     $formattedRepairs = [];
         //     foreach ($input['top_recommended_repairs'] as $index => $repair) {
@@ -472,61 +475,31 @@ class GigController extends Controller
 
     private function youtubeApi($data) 
     {
-        $json = '[
-            {
-                "id": 1,
-                "repairName": "Replace Fuse",
-                "symptoms": "Appliance won\'t power on or shows no signs of life.",
-                "solution": "Check the fuse with a multimeter and replace it if blown.",
-                "partsNeeded": ["Thermal fuse"],
-                "youtubeLinks": [
-                    "https://www.youtube.com/watch?v=abc123",
-                    "https://www.youtube.com/watch?v=def456"
-                ]
-            },
-            {
-                "id": 2,
-                "repairName": "Fix Leaking Hose",
-                "symptoms": "Water pooling under appliance or visible hose damage.",
-                "solution": "Inspect hoses for cracks or loose connections and replace as necessary.",
-                "partsNeeded": ["Replacement water hose", "Hose clamps"],
-                "youtubeLinks": [
-                    "https://www.youtube.com/watch?v=ghi789"
-                ]
-            },
-            {
-                "id": 3,
-                "repairName": "Clean Condenser Coils",
-                "symptoms": "Fridge not cooling efficiently or running constantly.",
-                "solution": "Unplug the unit and vacuum or brush off dust from condenser coils.",
-                "partsNeeded": ["Coil brush (optional)"],
-                "youtubeLinks": []
-            },
-            {
-                "id": 4,
-                "repairName": "Replace Door Seal",
-                "symptoms": "Warm air leaking into appliance or visible mold/cracks on gasket.",
-                "solution": "Remove the old gasket and press in the new seal evenly around the door.",
-                "partsNeeded": ["Door gasket/seal"],
-                "youtubeLinks": [
-                    "https://www.youtube.com/watch?v=jkl012",
-                    "https://www.youtube.com/watch?v=mno345"
-                ]
-            },
-            {
-                "id": 5,
-                "repairName": "Unclog Drain Pump",
-                "symptoms": "Washer not draining or water left at the bottom after cycle.",
-                "solution": "Access the drain pump, remove debris or buildup, and test operation.",
-                "partsNeeded": ["None (unless pump is faulty)"],
-                "youtubeLinks": [
-                    "https://www.youtube.com/watch?v=stu901"
-                ]
-            }
-        ]';
 
-        return $json;
+        $machine = Machine::where('model_number', $data['model_number'])->first();
+        
+        $api = config('services.youtube.url');
+
+        $query = $machine->brand_name. ' ' . $machine->machine_type . ' model ' . $data['model_number'] . ' ' . $data['initial_issue'];
+
+        $response = Http::asJson()  // <-- ensures the payload is sent as JSON
+        ->post($api, [
+            'query' => $query
+        ]);
+
+        $json = json_decode($response, true);
+
+        // Loop through the repairs array and add an 'id' field
+        foreach ($json['repairs'] as $index => $repair) {
+            // Assign a unique ID (here using the index plus one)
+            $json['repairs'][$index]['id'] = $index + 1;
+        }
+
+
+        return json_encode($json['repairs']);
     }
+
+
 
         
             

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +27,27 @@ Route::post('/store/chat',
         'uses' => '\App\Http\Controllers\ChatController@store']
 );
 /* chat */
+
+Route::get('/youtube', function () {
+    $api = 'https://api.appliancerepairamerican.com/AIResponse/appliance-repair';
+
+    $response = Http::asJson()  // <-- ensures the payload is sent as JSON
+        ->post($api, [
+            'query' => 'Samsung dryer model GHS9900JS11 is The machine is overheating after prolonged use.'
+        ]);
+
+    $json = json_decode($response, true);
+
+    // Loop through the repairs array and add an 'id' field
+    foreach ($json['repairs'] as $index => $repair) {
+        // Assign a unique ID (here using the index plus one)
+        $json['repairs'][$index]['id'] = $index + 1;
+    }
+
+    return $json['repairs'];
+
+});
+
 
 
 Route::prefix('firebase')->group(function () {

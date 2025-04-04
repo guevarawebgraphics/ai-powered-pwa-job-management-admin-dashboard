@@ -37,5 +37,8 @@ return [
 
     'firebase'  =>  [
         'fcm_token' =>  env('FCM_SERVER_KEY')
+    ],
+    'youtube'   =>  [
+        'url'   =>  env('YOUTUBE_API')
     ]
 ];
