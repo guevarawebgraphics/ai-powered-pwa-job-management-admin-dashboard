@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gig;
+use App\Models\User;
+
 /**
  * Class AdminDashboardController
  * @package App\Http\Controllers
@@ -34,6 +37,8 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.dashboard.index', compact([]));
+
+        $gigs = Gig::with(['machine','client','technician'])->whereNull('deleted_at')->get();
+        return view('admin.pages.dashboard.index', compact(['gigs']));
     }
 }
