@@ -206,7 +206,12 @@ class GigController extends Controller
             'icon_type' => 'fa-solid fa-briefcase',
             'url'   =>  config('app.frontend_url')."/gig/".$gig->gig_id,
             'is_urgent' =>  1,
-            'featured_content'  =>  $gig->initial_issue ?? null
+            'featured_content'  =>  json_encode(
+                [
+                    'initial_issue' =>  $gig->initial_issue,
+                    'gig_price' =>  $gig->gig_price
+                ]
+            )
         ]);
 
         // Get the response data
