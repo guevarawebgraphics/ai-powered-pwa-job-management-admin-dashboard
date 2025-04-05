@@ -35,7 +35,7 @@
                     <tbody>
                         <tr>
                             <td style="width: 30%" class="text-right"><strong>Diagnosis</strong></td>
-                            <td style="width: 70%">{{$gig_resolution->jobCompletion}}</td>
+                            <td style="width: 70%">{{   strtoupper($gig_resolution->jobCompletion) }}</td>
                         </tr>
 
                         <tr>
@@ -59,10 +59,10 @@
                                 <ul>
                                     @foreach($matched_repairs ?? [] as $repair)
                                         <li>
-                                            <strong>{{ $repair['title'] }}</strong><br>
+                                            <strong>{{ $repair['repairName'] ?? '' }}</strong><br>
                                             <em>Symptoms:</em> {{ $repair['symptoms'] }}<br>
-                                            <em>Solution:</em> {{ $repair['solution'] }}<br>
-                                            <em>Parts:</em> {{ implode(', ', $repair['parts']) }}
+                                            <em>Solution:</em> <br>{!! $repair['solution'] !!}<br>
+                                            <em>Parts:</em> {{ implode(', ', $repair['partsNeeded']) }}
                                         </li>
                                     @endforeach
                                 </ul>
@@ -73,13 +73,19 @@
                             <td style="width: 30%" class="text-right"><strong>Gig Report Images</strong></td>
                             <td style="width: 70%">
                                 <ul style="list-style-type:none;">
-                                    @foreach($gig_images ?? [] as $value)
+                                    @if(!empty($gig_images))
+                                    @forelse($gig_images ?? [] as $value)
                                         <li>
                                             <a href="{{config('app.frontend_url')}}{{$value}}" class="zoom img-thumbnail" style="cursor: default !important;" data-toggle="lightbox-image">
                                                 <img src="{{config('app.frontend_url')}}{{$value}}" alt="" class="img-responsive center-block" style="max-width: 100px;">
                                             </a>
                                         </li>
-                                    @endforeach
+                                    @empty
+                                        <li><p>No Images found..</p></li>
+                                    @endforelse
+                                    @else 
+                                        <li><p>No Images found..</p></li>
+                                    @endif
                                 </ul>
                             </td>
                         </tr>
