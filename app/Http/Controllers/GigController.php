@@ -208,8 +208,8 @@ class GigController extends Controller
             'is_urgent' =>  1,
             'featured_content'  =>  json_encode(
                 [
-                    'initial_issue' =>  $gig->initial_issue,
-                    'gig_price' =>  $gig->gig_price
+                    'initial_issue' =>  $gig->initial_issue ?? '',
+                    'gig_price' =>  $gig->gig_price  ?? ''
                 ]
             )
         ]);
