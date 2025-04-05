@@ -482,7 +482,7 @@ class GigController extends Controller
 
         // $query = $machine->brand_name. ' ' . $machine->machine_type . ' model ' . $data['model_number'] . ' ' . $data['initial_issue'];
 
-        $query = 'Im having issues with my ' . $machine->brand_name . ' ' . $machine->machine_type . ' ' . $data['model_number'] . ', ' . $data['initial_issue'] . ' ,what is the causes and what are the solutions?';
+        $query = 'Im having issues with my ' . $machine->brand_name . ' ' . $machine->machine_type . ' ' . $data['model_number'] . ', ' . $data['initial_issue'] . ', What is the causes and what are the solutions?';
 
         $response = Http::asJson()  // <-- ensures the payload is sent as JSON
         ->post($api, [

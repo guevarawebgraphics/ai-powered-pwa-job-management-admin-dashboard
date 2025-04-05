@@ -99,10 +99,13 @@ class ClientController extends Controller
             'appliance_owned' => 'nullable|array', // Optional but must be an array if provided
             'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value if array exists
             'client_name'    =>  'required',
-            'client_last_name' =>  'required'
+            'client_last_name' =>  'required',
+            'payee_id' => 'nullable|exists:payees,payee_id',
         ]);
 
         $input = $request->all();
+        $input['payee_id'] =    $request->payee_id && $request->payee_id != "" ? $request->payee_id : null;
+
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $input['appliances_owned'] = $request->appliance_owned ? implode(',', $request->appliance_owned) : null; // Convert array to comma-separated string
 
@@ -116,6 +119,7 @@ class ClientController extends Controller
         //     $file_upload_path = $this->client_repository->uploadFile($request->file('file'), /*'file'*/null, 'client_files');
         //     $client->fill(['file' => $file_upload_path])->save();
         // }
+
 
         return redirect()->back()->with('flash_message', [
             'title' => '',
@@ -179,7 +183,8 @@ class ClientController extends Controller
             'appliance_owned' => 'nullable|array', // Optional but must be an array if provided
             'appliance_owned.*' => 'exists:machines,machine_id', // Validate each value if array exists
             'client_name'    =>  'required',
-            'client_last_name' =>  'required'
+            'client_last_name' =>  'required',
+            'payee_id' => 'nullable|exists:payees,payee_id'
         ]);
 
         // $client = $this->client_model->findOrFail($id);
@@ -187,6 +192,8 @@ class ClientController extends Controller
         $input = $request->except('client_id');
 
         // dd($input);
+        
+        $input['payee_id'] =    $request->payee_id && $request->payee_id != "" ? $request->payee_id : null;
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $input['appliances_owned'] = $request->appliance_owned ? implode(',', $request->appliance_owned) : null; // Convert array to comma-separated string
 
