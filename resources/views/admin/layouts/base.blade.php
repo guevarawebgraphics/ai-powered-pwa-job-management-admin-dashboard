@@ -568,9 +568,17 @@ $(document).ready(function() {
             console.log(payload);
             loadChat(storedUserId, storedUserName, storedUserImage);
 
-            new Notification(payload.notification?.title, {
-                body: payload.notification?.body,
-                icon: "{{url('images/android-chrome-512x512.png')}}"
+
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    new Notification(payload.notification?.title, {
+                        body: payload.notification?.body,
+                        icon: "{{url('images/android-chrome-512x512.png')}}"
+                    });
+                    console.log(`permission: ` , permission);
+                } else {
+                    console.error("Notification permission not granted.");
+                }
             });
 
             console.log(`payload: ` , payload);
