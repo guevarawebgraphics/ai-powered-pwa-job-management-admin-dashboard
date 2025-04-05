@@ -1356,9 +1356,8 @@ $('select[name="payee_id"]').select2({
         });
 
 
-        $('#start_date, #start_time').trigger('change');
-        
-    $('#start_date, #start_time').on('change', function () {
+
+$('#start_date, #start_time').on('change', function () {
     const date = $('#start_date').val();
     const time = $('#start_time').val();
 
@@ -1375,6 +1374,14 @@ function checkAllTechAvailability(date, time) {
     });
 }
 
+// Helper function to parse a YYYY-MM-DD date as UTC.
+function parseSelectedDate(dateStr) {
+    // "YYYY-MM-DD" -> local date at 00:00
+    const [yyyy, mm, dd] = dateStr.split('-');
+    return new Date(+yyyy, +mm - 1, +dd); // no UTC
+}
+
+
 function checkTechAvailability(techID, selectedDate, selectedTime) {
     $.ajax({
         headers: {
@@ -1386,41 +1393,64 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
         success: function (response) {
             console.log(response);
             const scheduleData = response.data;
-            const blackout = scheduleData.black_out_date;
+            const blackout = scheduleData.black_out_date; // e.g. { is_blackout: "0", black_out_dates: ["2025-04-07", ...] }
             const schedules = scheduleData.schedules;
 
+            // Get the <option> element for this tech.
             const option = $(`#assigned_tech_id option[value="${techID}"]`);
             let isAvailable = true;
 
-            const selected = new Date(selectedDate);
+            // Parse the selected date as UTC.
+            const selected = parseSelectedDate(selectedDate);
+            const selectedDateStr = selected.toISOString().split('T')[0];
 
-            // Full blackout override
+            // Calculate the day of week in UTC.
+            // getUTCDay() returns 0 (Sunday) ... 6 (Saturday); add 1 to match your mapping (Sunday=1, Monday=2, etc.).
+            const dbDay = selected.getUTCDay() + 1;
+
+            // Debug logs to verify values.
+            console.log("Selected date (string):", selectedDateStr);
+            console.log("Parsed UTC date:", selected.toISOString());
+            console.log("Day mapping value (dbDay):", dbDay);
+            console.log("black_out_dates:", blackout.black_out_dates);
+
+            // 1) Full blackout override: if is_blackout flag is "1", mark as unavailable.
             if (blackout.is_blackout === "1") {
                 isAvailable = false;
             } else {
-                const from = new Date(blackout.from);
-                const to = new Date(blackout.to);
-
-                if (selected >= from && selected <= to) {
+                // 2) Check if the selected date is in the black_out_dates array.
+                let blackOutDates = blackout.black_out_dates || [];
+                if (typeof blackOutDates === 'string') {
+                    try {
+                        blackOutDates = JSON.parse(blackOutDates);
+                    } catch (err) {
+                        console.error("Error parsing black_out_dates:", err);
+                        blackOutDates = [];
+                    }
+                }
+                if (Array.isArray(blackOutDates) && blackOutDates.includes(selectedDateStr)) {
                     isAvailable = false;
                 }
 
-                const dbDay = selected.getDay() + 1;
-                const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
+                // 3) If still available, check the technician's schedule for the UTC day and time.
+                if (isAvailable) {
+                    const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
 
-                if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
-                    isAvailable = false;
-                } else {
-                    const selectedTimeMinutes = toMinutes(selectedTime);
-                    const openMinutes = toMinutes(todaySchedule.open);
-                    const closeMinutes = toMinutes(todaySchedule.close);
-
-                    if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                    if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
                         isAvailable = false;
+                    } else {
+                        const selectedTimeMinutes = toMinutes(selectedTime);
+                        const openMinutes = toMinutes(todaySchedule.open);
+                        const closeMinutes = toMinutes(todaySchedule.close);
+
+                        if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                            isAvailable = false;
+                        }
                     }
                 }
             }
 
+            // Mark technician as unavailable (greyed out) if needed.
             if (!isAvailable) {
                 option.attr('data-unavailable', 'true');
             } else {
@@ -1429,7 +1459,6 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
 
             refreshSelect2Styling();
         }
-
     });
 }
 
@@ -1461,10 +1490,11 @@ function refreshSelect2Styling() {
     });
 }
 
-// Initial load for select2
+// Initial load for select2.
 $(document).ready(function () {
     refreshSelect2Styling();
 });
+
 
 </script>
 
