@@ -1226,97 +1226,95 @@
 
 
 
-$('#formClientModal').on('shown.bs.modal', function () {
-    $('input[name="other_emails"]').css('display', 'none'); // Ensure it remains hidden
-    $('input[name="other_emails"]').amsifySuggestags({
-        type: 'bootstrap',
-        selectOnHover: true
+    $('#formClientModal').on('shown.bs.modal', function () {
+        $('input[name="other_emails"]').css('display', 'none'); // Ensure it remains hidden
+        $('input[name="other_emails"]').amsifySuggestags({
+            type: 'bootstrap',
+            selectOnHover: true
+        });
+
+        $('input[name="other_phone_numbers"]').css('display', 'none'); // Ensure it remains hidden
+        $('input[name="other_phone_numbers"]').amsifySuggestags({
+            type: 'bootstrap',
+            selectOnHover: true
+        });
     });
 
-    $('input[name="other_phone_numbers"]').css('display', 'none'); // Ensure it remains hidden
-    $('input[name="other_phone_numbers"]').amsifySuggestags({
-        type: 'bootstrap',
-        selectOnHover: true
+
+    $('select[name="client_id"]').select2({
+        placeholder: 'Select Client',
+        theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+        containerCssClass: 'form-control', // Apply Bootstrap styling
+        width: '100%', 
     });
-});
+
+    $('select[name="assigned_tech_id"]').select2({
+        placeholder: 'Select Technician',
+        theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+        containerCssClass: 'form-control', // Apply Bootstrap styling
+        width: '100%', 
+    });
+
+    $('select[name="model_number_main"]').select2({
+        placeholder: 'Select Machine',
+        theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+        containerCssClass: 'form-control', // Apply Bootstrap styling
+        width: '100%', 
+    });
 
 
-$('select[name="client_id"]').select2({
-    placeholder: 'Select Client',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
-
-$('select[name="assigned_tech_id"]').select2({
-    placeholder: 'Select Technician',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
-
-$('select[name="model_number_main"]').select2({
-    placeholder: 'Select Machine',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
-
-
-$('select[name="payee_id"]').select2({
-    placeholder: 'Select Payee',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
-    </script>
+    $('select[name="payee_id"]').select2({
+        placeholder: 'Select Payee',
+        theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+        containerCssClass: 'form-control', // Apply Bootstrap styling
+        width: '100%', 
+    });
+</script>
 
 
 <script>
-        $(document).on('change keyup', '#brand_name', function () {
-            var customPriceInput = document.getElementById('custom_brand_name');
-            
-            if ($(this).val() == "other") {
-                $(customPriceInput).attr('style','display:block !important;').attr('required', 'required');
-            } else {
-                $(customPriceInput).attr('style','display:none !important;').removeAttr('required');
-            }
-        });
+    $(document).on('change keyup', '#brand_name', function () {
+        var customPriceInput = document.getElementById('custom_brand_name');
+        
+        if ($(this).val() == "other") {
+            $(customPriceInput).attr('style','display:block !important;').attr('required', 'required');
+        } else {
+            $(customPriceInput).attr('style','display:none !important;').removeAttr('required');
+        }
+    });
 
-        // Run on page load to check initial value
-        $(document).ready(function () {
-            $('#brand_name').trigger('change');
-        });
-
-
-
-        $(document).on('change keyup', '#machine_type', function () {
-            var customPriceInput = document.getElementById('custom_machine_type');
-            
-            if ($(this).val() == "other") {
-                $(customPriceInput).attr('style','display:block !important;').attr('required', 'required');
-            } else {
-                $(customPriceInput).attr('style','display:none !important;').removeAttr('required');
-            }
-
-
-            var machine_type = $(this).val();
-            if (machine_type == "washers" || machine_type == "stoves") {
-                $(`#displayTypeContainer`).attr('style','display:block !important;');
-            } else {
-                $(`#displayTypeContainer`).attr('style','display:none !important;');
-            }
-        });
-
-        // Run on page load to check initial value
-        $(document).ready(function () {
-            $('#machine_type').trigger('change');
-        });
+    // Run on page load to check initial value
+    $(document).ready(function () {
+        $('#brand_name').trigger('change');
+    });
 
 
 
+    $(document).on('change keyup', '#machine_type', function () {
+        var customPriceInput = document.getElementById('custom_machine_type');
+        
+        if ($(this).val() == "other") {
+            $(customPriceInput).attr('style','display:block !important;').attr('required', 'required');
+        } else {
+            $(customPriceInput).attr('style','display:none !important;').removeAttr('required');
+        }
 
-    $('#start_date, #start_time').on('change', function () {
+
+        var machine_type = $(this).val();
+        if (machine_type == "washers" || machine_type == "stoves") {
+            $(`#displayTypeContainer`).attr('style','display:block !important;');
+        } else {
+            $(`#displayTypeContainer`).attr('style','display:none !important;');
+        }
+    });
+
+    // Run on page load to check initial value
+    $(document).ready(function () {
+        $('#machine_type').trigger('change');
+    });
+
+
+$('#start_date, #start_time').on('change', function () {
     const date = $('#start_date').val();
     const time = $('#start_time').val();
 
@@ -1333,6 +1331,14 @@ function checkAllTechAvailability(date, time) {
     });
 }
 
+// Helper function to parse a YYYY-MM-DD date as UTC.
+function parseSelectedDate(dateStr) {
+    // "YYYY-MM-DD" -> local date at 00:00
+    const [yyyy, mm, dd] = dateStr.split('-');
+    return new Date(+yyyy, +mm - 1, +dd); // no UTC
+}
+
+
 function checkTechAvailability(techID, selectedDate, selectedTime) {
     $.ajax({
         headers: {
@@ -1344,41 +1350,64 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
         success: function (response) {
             console.log(response);
             const scheduleData = response.data;
-            const blackout = scheduleData.black_out_date;
+            const blackout = scheduleData.black_out_date; // e.g. { is_blackout: "0", black_out_dates: ["2025-04-07", ...] }
             const schedules = scheduleData.schedules;
 
+            // Get the <option> element for this tech.
             const option = $(`#assigned_tech_id option[value="${techID}"]`);
             let isAvailable = true;
 
-            const selected = new Date(selectedDate);
+            // Parse the selected date as UTC.
+            const selected = parseSelectedDate(selectedDate);
+            const selectedDateStr = selected.toISOString().split('T')[0];
 
-            // Full blackout override
+            // Calculate the day of week in UTC.
+            // getUTCDay() returns 0 (Sunday) ... 6 (Saturday); add 1 to match your mapping (Sunday=1, Monday=2, etc.).
+            const dbDay = selected.getUTCDay() + 1;
+
+            // Debug logs to verify values.
+            console.log("Selected date (string):", selectedDateStr);
+            console.log("Parsed UTC date:", selected.toISOString());
+            console.log("Day mapping value (dbDay):", dbDay);
+            console.log("black_out_dates:", blackout.black_out_dates);
+
+            // 1) Full blackout override: if is_blackout flag is "1", mark as unavailable.
             if (blackout.is_blackout === "1") {
                 isAvailable = false;
             } else {
-                const from = new Date(blackout.from);
-                const to = new Date(blackout.to);
-
-                if (selected >= from && selected <= to) {
+                // 2) Check if the selected date is in the black_out_dates array.
+                let blackOutDates = blackout.black_out_dates || [];
+                if (typeof blackOutDates === 'string') {
+                    try {
+                        blackOutDates = JSON.parse(blackOutDates);
+                    } catch (err) {
+                        console.error("Error parsing black_out_dates:", err);
+                        blackOutDates = [];
+                    }
+                }
+                if (Array.isArray(blackOutDates) && blackOutDates.includes(selectedDateStr)) {
                     isAvailable = false;
                 }
 
-                const dbDay = selected.getDay() + 1;
-                const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
+                // 3) If still available, check the technician's schedule for the UTC day and time.
+                if (isAvailable) {
+                    const todaySchedule = schedules.find(s => parseInt(s.day) === dbDay);
 
-                if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
-                    isAvailable = false;
-                } else {
-                    const selectedTimeMinutes = toMinutes(selectedTime);
-                    const openMinutes = toMinutes(todaySchedule.open);
-                    const closeMinutes = toMinutes(todaySchedule.close);
-
-                    if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                    if (!todaySchedule || todaySchedule.is_close == 1 || !todaySchedule.open || !todaySchedule.close) {
                         isAvailable = false;
+                    } else {
+                        const selectedTimeMinutes = toMinutes(selectedTime);
+                        const openMinutes = toMinutes(todaySchedule.open);
+                        const closeMinutes = toMinutes(todaySchedule.close);
+
+                        if (selectedTimeMinutes < openMinutes || selectedTimeMinutes > closeMinutes) {
+                            isAvailable = false;
+                        }
                     }
                 }
             }
 
+            // Mark technician as unavailable (greyed out) if needed.
             if (!isAvailable) {
                 option.attr('data-unavailable', 'true');
             } else {
@@ -1387,7 +1416,6 @@ function checkTechAvailability(techID, selectedDate, selectedTime) {
 
             refreshSelect2Styling();
         }
-
     });
 }
 
@@ -1419,7 +1447,7 @@ function refreshSelect2Styling() {
     });
 }
 
-// Initial load for select2
+// Initial load for select2.
 $(document).ready(function () {
     refreshSelect2Styling();
 });

@@ -466,7 +466,8 @@ class GigController extends Controller
             'black_out_date'    =>  [
                 'from'   =>  $user->black_out_from,
                 'to'   =>  $user->black_out_to,
-                'is_blackout'   =>  $user->is_blackout
+                'is_blackout'   =>  $user->is_blackout,
+                'black_out_dates'   =>  $user->black_out_dates,
             ]
         ];
         
