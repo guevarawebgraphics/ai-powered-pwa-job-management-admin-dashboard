@@ -567,6 +567,13 @@ $(document).ready(function() {
             const storedUserImage = localStorage.getItem("userImage");
             console.log(payload);
             loadChat(storedUserId, storedUserName, storedUserImage);
+
+            new Notification(payload.notification?.title, {
+                body: payload.notification?.body,
+                icon: "{{url('images/android-chrome-512x512.png')}}"
+            });
+
+            console.log(`payload: ` , payload);
         });
 
 
