@@ -69,8 +69,20 @@
                     </div>
                 </div>
 
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Is a payee assignment required?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="is_payee_needed" name="is_payee_needed"
+                                   value="1">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
                 
-                <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has('payee_id') ? ' has-error' : '' }}" id="payeeContainer">
                     <label class="col-md-3 control-label" for="payee_id">Payee</label>
 
                     <div class="col-md-6">
@@ -864,6 +876,22 @@
         // Run on page load to check initial value
         $(document).ready(function () {
             $('#machine_type').trigger('change');
+        });
+
+
+        if (!$('#is_payee_needed').is(':checked')) {
+            $('#payeeContainer').hide();
+        }
+
+        $(`#is_payee_needed`).trigger('change');
+        
+        // Toggle the payee container when the checkbox is toggled
+        $('#is_payee_needed').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#payeeContainer').slideDown(); // Display with slide down effect
+            } else {
+                $('#payeeContainer').slideUp();   // Hide with slide up effect
+            }
         });
 </script>
 @endpush
