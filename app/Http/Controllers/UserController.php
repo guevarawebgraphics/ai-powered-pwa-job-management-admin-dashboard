@@ -131,7 +131,8 @@ class UserController extends Controller
             'service_area',
             'email',
             'password',
-            'is_active'
+            'is_active',
+            'rank_type'
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;
@@ -251,6 +252,7 @@ class UserController extends Controller
             'current_address',
             'service_area',
             'email',
+            'rank_type',
             'is_active'
         );
 

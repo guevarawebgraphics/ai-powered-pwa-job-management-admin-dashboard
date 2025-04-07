@@ -452,6 +452,19 @@
                     </div>
                 </div> --}}
 
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Is Return Repair?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="gig_type" name="gig_type"
+                                   value="1">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group" style="display:none;">
                     <label class="col-md-3 control-label">Is Active?</label>
 

@@ -134,6 +134,7 @@ class GigController extends Controller
 
         $input = $request->except('gig_id');
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
+        $input['gig_type'] = isset($input['gig_type']) ? 1 : 0;
         $input['model_number'] =   $request->model_number_main;
         $input['trainee_included'] = $request->trainee_included ? implode(',', $request->trainee_included) : null; 
         $input['gig_price']  =  $this->calculatePrice($request->gig_price, $request->custom_gig_price); 
@@ -292,6 +293,7 @@ class GigController extends Controller
         $gig = Gig::where('gig_id',$id)->first();
         $input = $request->except(['gig_id','start_date','start_time','gig_cryptic']);
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
+        $input['gig_type'] = isset($input['gig_type']) ? 1 : 0;
         $input['model_number'] =   $request->model_number_main;
         $input['gig_price']  =  $this->calculatePrice($request->gig_price, $request->custom_gig_price); 
         

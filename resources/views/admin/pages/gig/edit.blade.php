@@ -490,6 +490,19 @@
                         <input type="hidden" name="remove_file" class="remove-file" value="0">
                     </div>
                 </div> --}}
+
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Is Return Repair?</label>
+
+                    <div class="col-md-9">
+                        <label class="switch switch-primary">
+                            <input type="checkbox" id="gig_type" name="gig_type"
+                                   value="1" {{ Request::old('gig_type') ? : ($gig->gig_type ? 'checked' : '') }}>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
                 
                 <div class="form-group" style="display:none;">
                     <label class="col-md-3 control-label">Is Active?</label>

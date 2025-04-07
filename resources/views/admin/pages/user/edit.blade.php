@@ -54,6 +54,8 @@
                         @endif
                     </div>
                 </div>
+
+
                 <div class="form-group{{ $errors->has('user_name') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="user_name">Username</label>
 
@@ -191,6 +193,22 @@
                         @endif
                         @if($errors->has('roles'))
                             <span class="help-block animation-slideDown">{{ $errors->first('roles') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('rank_type') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="rank_type">Technician Rank Type</label>
+
+                    <div class="col-md-9">
+                        <select class="form-control" id="rank_type" name="rank_type"
+                               value="{{  Request::old('rank_type') ?? '' }}">
+                            <option value="0" {{  $user->rank_type == "0" ? 'selected' : "" }}>Apprentice</option>
+                            <option value="1" {{  $user->rank_type == "1" ? 'selected' : "" }}>Journey</option>
+                            <option value="2" {{  $user->rank_type == "2" ? 'selected' : "" }}>Master</option>
+                        </select>
+                        @if($errors->has('rank_type'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('rank_type') }}</span>
                         @endif
                     </div>
                 </div>
