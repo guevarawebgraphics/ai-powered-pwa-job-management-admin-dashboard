@@ -104,6 +104,23 @@
                         @endif
                     </div>
                 </div>
+                 <div class="form-group{{ $errors->has('user_rating') ? ' has-error' : '' }}">
+                    <label class="col-md-3 control-label" for="user_rating">User Rating</label>
+
+                    <div class="col-md-9">
+                        <select class="form-control" id="user_rating" name="user_rating">
+                            <option value="0" {{ $user->user_rating == "0" ? "selected" : ""}}>0 Star</option>
+                            <option value="1" {{ $user->user_rating == "1" ? "selected" : ""}}>1 Star</option>
+                            <option value="2" {{ $user->user_rating == "2" ? "selected" : ""}}>2 Star</option>
+                            <option value="3" {{ $user->user_rating == "3" ? "selected" : ""}}>3 Star</option>
+                            <option value="4" {{ $user->user_rating == "4" ? "selected" : ""}}>4 Star</option>
+                            <option value="5" {{ $user->user_rating == "5" ? "selected" : ""}}>5 Star</option>
+                        </select>
+                        @if($errors->has('user_rating'))
+                            <span class="help-block animation-slideDown">{{ $errors->first('user_rating') }}</span>
+                        @endif
+                    </div>
+                </div>
                 <div class="form-group{{ $errors->has('current_address') ? ' has-error' : '' }}">
                     <label class="col-md-3 control-label" for="current_address">Current Address</label>
 

@@ -132,7 +132,8 @@ class UserController extends Controller
             'email',
             'password',
             'is_active',
-            'rank_type'
+            'rank_type',
+            'user_rating'
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;
@@ -253,7 +254,8 @@ class UserController extends Controller
             'service_area',
             'email',
             'rank_type',
-            'is_active'
+            'is_active',
+            'user_rating'
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;

@@ -83,7 +83,7 @@ class ChatController extends Controller
         \Log::info($data);
         \Log::info('End of Manoy');
         // $data['from_user_id']
-        if ($data['role_id'] == 1) {
+        if ($data['role_id'] == "1") {
             $query = User::where('role_id', 0)->whereNull('deleted_at')->orderBy('created_at','DESC')->get();
             \Log::info('Reached #1');
             foreach ( $query ?? [] as $field ) {
@@ -114,7 +114,7 @@ class ChatController extends Controller
                 
 
             }
-        } else if ($data['role_id'] == 0) {
+        } else if ($data['role_id'] == "0") {
 
             \Log::info('Reached #2');
             $input = [];
