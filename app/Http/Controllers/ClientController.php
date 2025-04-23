@@ -121,11 +121,18 @@ class ClientController extends Controller
         // }
 
 
-        return redirect()->back()->with('flash_message', [
-            'title' => '',
-            'message' => 'Client ' . $client->client_name . ' successfully added.',
-            'type' => 'success'
-        ]);
+        if (!isset($input['is_modal'])) {
+            return redirect()->back()->with('flash_message', [
+                'title' => '',
+                'message' => 'Client ' . $client->client_name . ' successfully added.',
+                'type' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Client ' . $client->client_name . ' successfully added.'
+            ]);
+        }
     }
 
     /**

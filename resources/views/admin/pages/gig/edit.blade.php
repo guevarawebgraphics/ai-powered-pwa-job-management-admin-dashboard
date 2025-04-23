@@ -38,11 +38,14 @@
                     <label class="col-md-3 control-label" for="client_id">Client</label>
 
                     <div class="col-md-6">
-                        <select class="form-control" id="client_id" name="client_id">
+                        {{-- <select class="form-control" id="client_id" name="client_id">
                             <option value="" selected>Choose your Client</option>
                             @foreach( getClient() ?? [] as $field )
                                 <option value="{{$field->client_id}}" {{ $gig->client_id == $field->client_id ? 'selected' : ''}}>{{$field->client_name}} {{$field->client_last_name}} ({{$field->email}})</option>
                             @endforeach
+                        </select> --}}
+                        <select class="form-control" id="client_id" name="client_id" data-selected-id="{{ $gig->client_id }}" data-selected-text="{{ $gig->client->client_name }} {{ $gig->client->client_last_name }} ({{ $gig->client->email }})">
+                            <option value="" selected>Choose your Client</option>
                         </select>
                         @if($errors->has('client_id'))
                             <span class="help-block animation-slideDown">{{ $errors->first('client_id') }}</span>
@@ -66,12 +69,15 @@
                     <label class="col-md-3 control-label" for="model_number_main">Machine</label>
 
                     <div class="col-md-6">
-                        <select class="form-control" id="model_number_main" name="model_number_main">
+                        <select class="form-control" id="model_number_main" name="model_number_main" data-selected-id="{{ $gig->model_number }}" data-selected-text="{{ $gig->model_number }} {{ $gig->brand_name }} {{ $gig->machine_type }}">
+                            <option value="" selected>Choose your Machine</option>
+                        </select>
+                        {{-- <select class="form-control" id="model_number_main" name="model_number_main">
                             <option value="" selected>Choose your Machine</option>
                             @foreach( getMachine() ?? [] as $field )
                                 <option value="{{$field->model_number}}" {{ $gig->model_number == $field->model_number ? 'selected' : ''}}>{{$field->model_number}} {{$field->brand_name}} {{$field->machine_type}} </option>
                             @endforeach
-                        </select>
+                        </select> --}}
                         @if($errors->has('model_number_main'))
                             <span class="help-block animation-slideDown">{{ $errors->first('model_number_main') }}</span>
                         @endif
@@ -549,6 +555,9 @@
                     'files' => TRUE
                     ])
                 }}
+
+                    <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
                     <div class="modal-body">
 
                         <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
@@ -741,6 +750,10 @@
                 ])
             }}
             
+            
+                <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
+                
                 <div class="modal-body">
 
                     <div class="form-group{{ $errors->has('client_name') ? ' has-error' : '' }}">
@@ -973,6 +986,123 @@
     <script type="text/javascript" src="{{ asset('public/js/libraries/gigs.js') }}"></script>
 
  <script>
+
+    $('#create-machine').on('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // Optionally show loading state here
+            },
+            success: function(response) {
+                $('#formModal').modal('hide');
+
+                swal({
+                    title: "Success!",
+                    text: "Machine has been added successfully.",
+                    type: "success",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+                // Optionally reset the form
+                $('#create-machine')[0].reset();
+
+                // 🔁 REFRESH MACHINES DATA
+                $.get('{{ url('admin/ajax-call/machines') }}', function(freshData) {
+                    machines = freshData; // Overwrite the original global `machines` array
+                    renderDropdowns(); // Re-render the dropdowns with new machine list
+                });
+            },
+            error: function(xhr) {
+                let errors = xhr.responseJSON.errors;
+                let errorMsg = "⚠️ Please fix the following errors:\n";
+                errorMsg += '<br>';
+                if (errors) {
+                    Object.keys(errors).forEach(function(key) {
+                        errorMsg += "❌" + errors[key][0] + "<br>";
+                    });
+                } else {
+                    errorMsg = "Something went wrong. Please try again.";
+                }
+
+
+                swal({
+                    title: "Oops!",
+                    text: errorMsg,
+                    type: "error",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+            }
+        });
+    });
+
+    $('#create-client').on('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // Optionally show loading state here
+            },
+            success: function(response) {
+                $('#formClientModal').modal('hide');
+
+                swal({
+                    title: "Success!",
+                    text: "Client has been added successfully.",
+                    type: "success",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+                // Optionally reset the form
+                $('#create-client')[0].reset();
+            },
+            error: function(xhr) {
+                let errors = xhr.responseJSON.errors;
+                let errorMsg = "⚠️ Please fix the following errors:\n";
+                errorMsg += '<br>';
+                if (errors) {
+                    Object.keys(errors).forEach(function(key) {
+                        errorMsg += "❌" + errors[key][0] + "<br>";
+                    });
+                } else {
+                    errorMsg = "Something went wrong. Please try again.";
+                }
+
+
+                swal({
+                    title: "Oops!",
+                    text: errorMsg,
+                    type: "error",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+            }
+        });
+    });
+
 
     $(document).ready(function () {
         @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))
@@ -1307,12 +1437,12 @@ $('#formClientModal').on('shown.bs.modal', function () {
 
 
 
-$('select[name="client_id"]').select2({
-    placeholder: 'Select Client',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
+// $('select[name="client_id"]').select2({
+//     placeholder: 'Select Client',
+//     theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+//     containerCssClass: 'form-control', // Apply Bootstrap styling
+//     width: '100%', 
+// });
 
 $('select[name="assigned_tech_id"]').select2({
     placeholder: 'Select Technician',
@@ -1321,12 +1451,53 @@ $('select[name="assigned_tech_id"]').select2({
     width: '100%', 
 });
 
-$('select[name="model_number_main"]').select2({
-    placeholder: 'Select Machine',
-    theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
-    containerCssClass: 'form-control', // Apply Bootstrap styling
-    width: '100%', 
-});
+// $('select[name="model_number_main"]').select2({
+//     placeholder: 'Select Machine',
+//     theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+//     containerCssClass: 'form-control', // Apply Bootstrap styling
+//     width: '100%', 
+// });
+
+function initSelect2WithPreload(selector, ajaxUrl, selectedId, selectedText) {
+    const $select = $(selector);
+
+    $select.select2({
+        placeholder: 'Select an option',
+        theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
+        containerCssClass: 'form-control', // Apply Bootstrap styling
+        width: '100%', 
+        ajax: {
+            url: ajaxUrl,
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data.map(item => ({
+                        id: item.client_id || item.model_number,
+                        text: item.client_name 
+                            ? `${item.client_name} ${item.client_last_name} (${item.email})` 
+                            : `${item.model_number} ${item.brand_name} ${item.machine_type}`
+                    }))
+                };
+            },
+            cache: true
+        }
+    });
+
+    // Set the selected value manually if editing
+    if (selectedId && selectedText) {
+        const option = new Option(selectedText, selectedId, true, true);
+        $select.append(option).trigger('change');
+    }
+}
+
+// Initialize with data from blade attributes
+initSelect2WithPreload('select[name="client_id"]', "{{ url('admin/ajax-call/clients') }}", 
+    $('#client_id').data('selected-id'), $('#client_id').data('selected-text'));
+
+initSelect2WithPreload('select[name="model_number_main"]', "{{ url('admin/ajax-call/machines') }}", 
+    $('#model_number_main').data('selected-id'), $('#model_number_main').data('selected-text'));
+
 
 
 $('select[name="payee_id"]').select2({

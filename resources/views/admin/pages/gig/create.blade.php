@@ -27,9 +27,9 @@
                     <div class="col-md-6">
                         <select class="form-control" id="client_id" name="client_id">
                             <option value="" selected>Choose your Client</option>
-                            @foreach( getClient() ?? [] as $field )
+                            {{-- @foreach( getClient() ?? [] as $field )
                                 <option value="{{$field->client_id}}">{{$field->client_name}} {{$field->client_last_name}} ({{$field->email}})</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                         @if($errors->has('client_id'))
                             <span class="help-block animation-slideDown">{{ $errors->first('client_id') }}</span>
@@ -508,6 +508,9 @@
                     'files' => TRUE
                     ])
                 }}
+
+                <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
                     <div class="modal-body">
 
                         <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
@@ -522,7 +525,7 @@
                             </div>
                         </div>
 
-                                                <div class="form-group{{ $errors->has('brand_name') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('brand_name') ? ' has-error' : '' }}">
                             <label class="col-md-3 control-label" for="brand_name">Brand Name</label>
 
                             <div class="col-md-9">
@@ -700,6 +703,10 @@
                 ])
             }}
             
+            
+
+                <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
                 <div class="modal-body">
 
                     <div class="form-group{{ $errors->has('client_name') ? ' has-error' : '' }}">
@@ -933,6 +940,125 @@
 
     
  <script>
+
+
+    $('#create-machine').on('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // Optionally show loading state here
+            },
+            success: function(response) {
+                $('#formModal').modal('hide');
+
+                swal({
+                    title: "Success!",
+                    text: "Machine has been added successfully.",
+                    type: "success",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+                // Optionally reset the form
+                $('#create-machine')[0].reset();
+
+                // 🔁 REFRESH MACHINES DATA
+                $.get('{{ url('admin/ajax-call/machines') }}', function(freshData) {
+                    machines = freshData; // Overwrite the original global `machines` array
+                    renderDropdowns(); // Re-render the dropdowns with new machine list
+                });
+            },
+            error: function(xhr) {
+                let errors = xhr.responseJSON.errors;
+                let errorMsg = "⚠️ Please fix the following errors:\n";
+                errorMsg += '<br>';
+                if (errors) {
+                    Object.keys(errors).forEach(function(key) {
+                        errorMsg += "❌" + errors[key][0] + "<br>";
+                    });
+                } else {
+                    errorMsg = "Something went wrong. Please try again.";
+                }
+
+
+                swal({
+                    title: "Oops!",
+                    text: errorMsg,
+                    type: "error",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+            }
+        });
+    });
+
+    $('#create-client').on('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                // Optionally show loading state here
+            },
+            success: function(response) {
+                $('#formClientModal').modal('hide');
+
+                swal({
+                    title: "Success!",
+                    text: "Client has been added successfully.",
+                    type: "success",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+                // Optionally reset the form
+                $('#create-client')[0].reset();
+
+            },
+            error: function(xhr) {
+                let errors = xhr.responseJSON.errors;
+                let errorMsg = "⚠️ Please fix the following errors:\n";
+                errorMsg += '<br>';
+                if (errors) {
+                    Object.keys(errors).forEach(function(key) {
+                        errorMsg += "❌" + errors[key][0] + "<br>";
+                    });
+                } else {
+                    errorMsg = "Something went wrong. Please try again.";
+                }
+
+
+                swal({
+                    title: "Oops!",
+                    text: errorMsg,
+                    type: "error",
+                    html: true,
+                    allowEscapeKey: true,
+                    allowOutsideClick: true,
+                });
+
+            }
+        });
+    });
+
     $(document).ready(function () {
         @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))
             $('#formModal').modal('show')
@@ -1271,6 +1397,20 @@
         theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
         containerCssClass: 'form-control', // Apply Bootstrap styling
         width: '100%', 
+        ajax: {
+            url: "{{ url('admin/ajax-call/clients')}}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data.map(client => ({
+                        id: client.client_id,
+                        text: `${client.client_name} ${client.client_last_name} (${client.email})`
+                    }))
+                };
+            },
+            cache: true
+        }
     });
 
     $('select[name="assigned_tech_id"]').select2({
@@ -1285,7 +1425,22 @@
         theme: 'bootstrap-5', // Use 'bootstrap-4' if using Bootstrap 4
         containerCssClass: 'form-control', // Apply Bootstrap styling
         width: '100%', 
+        ajax: {
+            url: "{{ url('admin/ajax-call/machines')}}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data.map(machine => ({
+                        id: machine.model_number,
+                        text: `${machine.model_number} ${machine.brand_name} ${machine.machine_type}`
+                    }))
+                };
+            },
+            cache: true
+        }
     });
+
 
 
     $('select[name="payee_id"]').select2({

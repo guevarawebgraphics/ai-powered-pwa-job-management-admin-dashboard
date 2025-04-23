@@ -41,4 +41,19 @@ class AdminDashboardController extends Controller
         $gigs = Gig::with(['machine','client','technician'])->whereNull('deleted_at')->get();
         return view('admin.pages.dashboard.index', compact(['gigs']));
     }
+
+    public function getClients()
+    {
+        return response()->json(getClient());
+    }
+
+    public function getMachines()
+    {
+        return response()->json(getMachine());
+    }
+
+    public function getPayee()
+    {
+        return response()->json(getPayee());
+    }
 }

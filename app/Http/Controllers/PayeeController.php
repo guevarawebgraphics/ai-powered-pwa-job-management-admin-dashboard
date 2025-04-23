@@ -114,11 +114,20 @@ class PayeeController extends Controller
         //     $payee->fill(['file' => $file_upload_path])->save();
         // }
 
-        return redirect()->route('admin.payees.index')->with('flash_message', [
-            'title' => '',
-            'message' => 'Payee ' . $payee->payee_name . ' successfully added.',
-            'type' => 'success'
-        ]);
+
+        if (!isset($input['is_modal'])) {
+            return redirect()->route('admin.payees.index')->with('flash_message', [
+                'title' => '',
+                'message' => 'Payee ' . $payee->payee_name . ' successfully added.',
+                'type' => 'success'
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Payee ' . $payee->payee_name . ' successfully added.'
+            ]);
+        }
     }
 
     /**

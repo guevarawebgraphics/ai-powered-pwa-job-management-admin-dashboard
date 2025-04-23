@@ -141,3 +141,8 @@ function getSystemSettings($code){
     $query = \App\Models\SystemSetting::where('code', $code)->first();
     return $query;
 }
+
+function getOpenAIFiles() {
+    $query = \App\Models\OpenAIFiles::whereNull('deleted_at')->orderBy('created_at','DESC')->get();
+    return $query;
+}

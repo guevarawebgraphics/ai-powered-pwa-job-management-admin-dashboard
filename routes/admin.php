@@ -177,6 +177,15 @@ Route::delete('/machines/{id}/delete',
     ['as' => 'admin.machines.delete',
         'uses' => '\App\Http\Controllers\MachineController@destroy']
 );
+
+Route::get('/openai/machine/fles',
+    ['as' => 'admin.machines.openai',
+        'uses' => '\App\Http\Controllers\MachineController@indexMachineFilesOpenAI']
+);
+
+Route::post('/openai/upload-file', [\App\Http\Controllers\MachineController::class, 'storeMachineFilesOpenAI'])
+    ->name('admin.openai');
+
 /* machines */
 
 /* payees */
@@ -216,3 +225,12 @@ Route::get('/tech/schedules/{techID}',
     ['as' => 'admin.tech.schedules',
         'uses' => '\App\Http\Controllers\GigController@getTechSchedules']
 );
+
+
+
+    
+Route::prefix('ajax-call')->group(function () {
+    Route::get('/clients', [App\Http\Controllers\AdminDashboardController::class, 'getClients']);
+    Route::get('/machines', [App\Http\Controllers\AdminDashboardController::class, 'getMachines']);
+    Route::get('/payees', [App\Http\Controllers\AdminDashboardController::class, 'getPayee']);
+});

@@ -391,6 +391,10 @@
                     'files' => TRUE
                     ])
                 }}
+
+                
+                <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
                     <div class="modal-body">
 
                         <div class="form-group{{ $errors->has('model_number') ? ' has-error' : '' }}">
@@ -583,6 +587,10 @@
                 'files' => TRUE
                 ])
             }}
+
+            
+                   <input type="text" name="is_modal" value="1" style="display:none !important;"/>
+
             
                     <div class="modal-body">
 
@@ -709,6 +717,153 @@
     <script type="text/javascript" src="{{ asset('public/js/libraries/clients.js') }}"></script>
 
     <script>
+
+        $('#create-payee').on('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    // Optionally show loading state here
+                },
+                success: function(response) {
+                    $('#formPayeeModal').modal('hide');
+
+                    swal({
+                        title: "Success!",
+                        text: "Machine has been added successfully.",
+                        type: "success",
+                        html: true,
+                        allowEscapeKey: true,
+                        allowOutsideClick: true,
+                    });
+
+                    // Optionally reset the form
+                    $('#create-payee')[0].reset();
+
+                    $.get('{{ url('admin/ajax-call/payees') }}', function(freshData) {
+                        let $payeeSelect = $('#payee_id');
+                        let selectedPayeeId = $payeeSelect.val(); // Preserve current value
+
+                        // Clear existing options
+                        $payeeSelect.empty();
+
+                        // Default option
+                        $payeeSelect.append(`<option value="">Choose Payee</option>`);
+
+                        // Append new payees
+                        freshData.forEach(field => {
+                            const isSelected = field.payee_id == selectedPayeeId ? 'selected' : '';
+                            $payeeSelect.append(`
+                                <option value="${field.payee_id}" ${isSelected}>
+                                    ${field.payee_name} ${field.payee_last_name} (${field.email})
+                                </option>
+                            `);
+                        });
+
+                        // Reinitialize Select2 (optional)
+                        $payeeSelect.select2({
+                            placeholder: 'Select Payee',
+                            theme: 'bootstrap-5',
+                            containerCssClass: 'form-control',
+                            width: '100%',
+                        });
+                    });
+
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    let errorMsg = "⚠️ Please fix the following errors:\n";
+                    errorMsg += '<br>';
+                    if (errors) {
+                        Object.keys(errors).forEach(function(key) {
+                            errorMsg += "❌" + errors[key][0] + "<br>";
+                        });
+                    } else {
+                        errorMsg = "Something went wrong. Please try again.";
+                    }
+
+
+                    swal({
+                        title: "Oops!",
+                        text: errorMsg,
+                        type: "error",
+                        html: true,
+                        allowEscapeKey: true,
+                        allowOutsideClick: true,
+                    });
+
+                }
+            });
+        });
+
+        $('#create-machine').on('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        // Optionally show loading state here
+                    },
+                    success: function(response) {
+                        $('#formModal').modal('hide');
+
+                        swal({
+                            title: "Success!",
+                            text: "Machine has been added successfully.",
+                            type: "success",
+                            html: true,
+                            allowEscapeKey: true,
+                            allowOutsideClick: true,
+                        });
+
+                        // Optionally reset the form
+                        $('#create-machine')[0].reset();
+
+                        // 🔁 REFRESH MACHINES DATA
+                        $.get('{{ url('admin/ajax-call/machines') }}', function(freshData) {
+                            machines = freshData; // Overwrite the original global `machines` array
+                            renderDropdowns(); // Re-render the dropdowns with new machine list
+                        });
+                    },
+                    error: function(xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMsg = "⚠️ Please fix the following errors:\n";
+                        errorMsg += '<br>';
+                        if (errors) {
+                            Object.keys(errors).forEach(function(key) {
+                                errorMsg += "❌" + errors[key][0] + "<br>";
+                            });
+                        } else {
+                            errorMsg = "Something went wrong. Please try again.";
+                        }
+
+
+                        swal({
+                            title: "Oops!",
+                            text: errorMsg,
+                            type: "error",
+                            html: true,
+                            allowEscapeKey: true,
+                            allowOutsideClick: true,
+                        });
+
+                    }
+                });
+        });
+
 
         $(document).ready(function () {
             @if($errors->has('model_number') || $errors->has('brand_name') || $errors->has('machine_type'))

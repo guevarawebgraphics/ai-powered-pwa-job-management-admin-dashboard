@@ -40,5 +40,9 @@ return [
     ],
     'youtube'   =>  [
         'url'   =>  env('YOUTUBE_API')
-    ]
+    ],
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+    ],
+
 ];

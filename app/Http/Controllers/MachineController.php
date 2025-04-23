@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Machine;
 use App\Repositories\MachineRepository;
+use App\Models\OpenAIFiles;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Class MachineController
@@ -119,12 +121,19 @@ class MachineController extends Controller
         //     $machine->fill(['file' => $file_upload_path])->save();
         // }
 
-        return redirect()->back()->with('flash_message', [
-            'title' => '',
-            'page_module'   =>  'GIG',
-            'message' => 'Machine ' . $machine->model_number . ' successfully added.',
-            'type' => 'success'
-        ]);
+        if (!isset($input['is_modal'])) {
+            return redirect()->back()->with('flash_message', [
+                'title' => '',
+                'page_module'   =>  'GIG',
+                'message' => 'Machine ' . $machine->model_number . ' successfully added.',
+                'type' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Machine ' . $machine->model_number . ' successfully added.'
+            ]);
+        }
     }
 
     /**
@@ -248,7 +257,127 @@ class MachineController extends Controller
         return response()->json($response);
     }
 
-        private function youtubeApi($data) 
+    public function indexMachineFilesOpenAI() {
+        if (!auth()->user()->hasPermissionTo('Read Machine')) {
+            abort('401', '401');
+        }
+
+        return view('admin.pages.sync_openai_files.index');
+    }
+
+    public function storeMachineFilesOpenAI(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'model_number' => 'required',
+            'file'         => 'required|file|mimes:jpeg,jpg,png,gif,pdf,doc,docx', // size in kilobytes (102400 KB = 100 MB)
+        ]);
+
+        // Retrieve the machine model number from the request
+        $modelNumber = $request->input('model_number');
+
+        // Retrieve the file from the request. Dropzone uses the parameter name "file" by default.
+        $file = $request->file('file');
+
+        // Define the destination path (ensure this folder exists)
+        $destinationPath = public_path('images/openai-files');
+
+        // Generate a unique file name
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Move the file to the destination folder
+        $file->move($destinationPath, $filename);
+
+        // Create a URL for the file (assumes publicly accessible files under /images/openai-files)
+        $fileURL = '/images/openai-files/' . $filename;
+
+
+        
+
+        $openaiResponse = Http::withToken(config('services.openai.key'))
+        ->attach('file', file_get_contents($destinationPath . '/' . $filename), $filename)
+        ->post('https://api.openai.com/v1/files', [
+            'purpose' => 'assistants'
+        ]);
+
+        // Check for upload success
+        if (!$openaiResponse->successful()) {
+            return response()->json([
+                'message' => 'Failed to upload to OpenAI.',
+                'error'   => $openaiResponse->json(),
+            ], 500);
+        }
+
+        $openaiFile = $openaiResponse->json();
+
+        $fileId = $openaiFile['id'];
+
+        // ✅ Step 3: Attach file to vector store (We will only use 1 vector)
+        $vectorStoreId = 'vs_67fa7f0abec48191adc1594c4e2641dc'; // Your actual vector store ID
+        // {
+        //     "object": "list",
+        //     "data": [
+        //         {
+        //         "id": "vs_67fa7f0abec48191adc1594c4e2641dc",
+        //         "object": "vector_store",
+        //         "created_at": 1744469770,
+        //         "name": "Machines Vector",
+        //         "usage_bytes": 0,
+        //         "file_counts": {
+        //             "in_progress": 0,
+        //             "completed": 0,
+        //             "failed": 0,
+        //             "cancelled": 0,
+        //             "total": 0
+        //         },
+        //         "status": "completed",
+        //         "expires_after": null,
+        //         "expires_at": null,
+        //         "last_active_at": 1744549737,
+        //         "metadata": {}
+        //         }
+        //     ],
+        //     "first_id": "vs_67fa7f0abec48191adc1594c4e2641dc",
+        //     "last_id": "vs_67fa7f0abec48191adc1594c4e2641dc",
+        //     "has_more": false
+        // }
+
+        $attachResponse = Http::withToken(config('services.openai.key'))
+            ->post("https://api.openai.com/v1/vector_stores/{$vectorStoreId}/file_batches", [
+                'file_ids' => [$fileId]
+            ]);
+
+        if (!$attachResponse->successful()) {
+            return response()->json([
+                'message' => 'Failed to attach file to vector store.',
+                'error' => $attachResponse->json(),
+            ], 500);
+        }
+
+        $openaiVector = $attachResponse->json();
+
+        $json = [
+            'file' =>   $openaiFile,
+            'assigned_vector'   => $openaiVector
+        ];
+
+
+        // Save to database using your model (for example, OpenAIFiles)
+        $modelFile = new OpenAIFiles();
+        $modelFile->model_number = $modelNumber;
+        $modelFile->file_id = $openaiFile['id'];
+        $modelFile->json_response = json_encode($json);
+        $modelFile->image = $fileURL;
+        $modelFile->save();
+
+        return response()->json([
+            'file_url' => $fileURL,
+            'message'  => 'File uploaded successfully'
+        ]);
+    }
+
+
+    private function youtubeApi($data) 
     {
         $json = '[
             {

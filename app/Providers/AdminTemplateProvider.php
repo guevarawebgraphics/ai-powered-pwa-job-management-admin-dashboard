@@ -108,6 +108,11 @@ class AdminTemplateProvider extends ServiceProvider
                     'url' => url('admin/machines'),
                     'icon' => 'fa fa-television'
                 ]);
+                // array_push($navigation, [
+                //     'name' => 'Open AI File Search',
+                //     'url' => url('admin/openai/machine/fles'),
+                //     'icon' => 'fa fa-file'
+                // ]);
             }
 
             if ($this->hasCrudAccessFor('Product')) {
