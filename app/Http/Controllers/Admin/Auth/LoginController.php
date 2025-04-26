@@ -191,6 +191,23 @@ class LoginController extends Controller
         }
     }
 
+    public function indexDelegateAccess(Request $request) {
+            $user = User::find($request->id);
+
+            if (!$user) {
+                abort(404, 'User not found.');
+            }
+
+            // Check if user has Admin roles
+            if (!$user->hasAnyRole(['Super Admin', 'Admin'])) {
+                abort(403, 'Unauthorized.');
+            }
+
+            Auth::login($user); // Log the user in automatically
+
+            return redirect('/admin/dashboard'); // Redirect to Admin Dashboard
+    }
+
     /**
      * Get the guard to be used during authentication.
      *

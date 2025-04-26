@@ -39,6 +39,7 @@ class AdminTemplateProvider extends ServiceProvider
 
     private function getAdminNav()
     {
+
         $navigation = [
             [
                 'name' => 'Dashboard',
@@ -52,6 +53,14 @@ class AdminTemplateProvider extends ServiceProvider
                 'icon' => 'fa fa-paper-plane-o'
             ],
         ];
+
+        if (\Auth::user()) {
+            array_push($navigation, [
+                'name' => 'Access Main',
+                'url' => config('app.frontend_url') . '/authenticate/main?id=' . auth()->user()->id,
+                'icon' => 'fa fa-users'
+            ]);
+        }
 
         if (auth()->check()) {
             if ($this->hasCrudAccessFor('Page')) {
@@ -74,7 +83,7 @@ class AdminTemplateProvider extends ServiceProvider
                 array_push($navigation, [
                     'name' => 'Contacts',
                     'url' => url('admin/contacts'),
-                    'icon' => 'fa fa-phone'
+                    'icon' => 'fa fa-phone-square'
                 ]);
             }
 

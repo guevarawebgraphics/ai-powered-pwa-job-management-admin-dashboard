@@ -18,6 +18,8 @@ Route::prefix('otp')->group(function () {
     Route::post('/store', [App\Http\Controllers\PageController::class, 'otpStore'])->name('otp.store');
 });
 
+Route::get('/authenticate/admin', [App\Http\Controllers\Admin\Auth\LoginController::class, 'indexDelegateAccess']);
+
 /* OTP */
 Route::get('/', function () {
     return redirect('/admin/dashboard');
