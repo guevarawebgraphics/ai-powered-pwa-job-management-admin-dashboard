@@ -46,12 +46,12 @@ class AdminTemplateProvider extends ServiceProvider
                 'url' => url('admin/dashboard'),
                 'icon' => 'fa fa-dashboard'
             ],
-            [
-                'name' => 'Front-end Site',
-                'url' => config('app.frontend_url'),
-                'never_active' => true,
-                'icon' => 'fa fa-paper-plane-o'
-            ],
+            // [
+            //     'name' => 'Front-end Site',
+            //     'url' => config('app.frontend_url'),
+            //     'never_active' => true,
+            //     'icon' => 'fa fa-paper-plane-o'
+            // ],
         ];
 
         if (\Auth::user()) {
