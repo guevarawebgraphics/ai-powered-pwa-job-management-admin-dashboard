@@ -255,7 +255,7 @@ class UserController extends Controller
             'email',
             'rank_type',
             'is_active',
-            'user_rating'
+            'user_rating',
         );
 
         $input['name'] = $request->first_name . ' ' .$request->last_name;
@@ -272,7 +272,7 @@ class UserController extends Controller
 
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $roles = $request['roles'];
-
+        $input['role_id'] = $roles[0];
 
         $user->fill($input)->save();
 
