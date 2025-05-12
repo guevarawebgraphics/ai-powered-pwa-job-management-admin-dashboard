@@ -1,105 +1,86 @@
-# D&R Laravel CMS Template
+# AI Powered Job Management — Admin Dashboard
 
-- [Developed by Monte Carlo Web Graphics Studio, Inc.](https://montecarlowebgraphics.com/)
+This is the **Admin Dashboard** for the Appliance Repair American PWA. Built with Laravel and jQuery, it allows administrators to manage technicians, gigs, user accounts, and more. It also includes real-time chat and a voice assistant (Admin DAX) for hands-free control.
 
-## Requirements
+## 🔧 Features
 
-- PHP -> 7.4+
-- Composer -> latest version
-- MySQL -> 5.8+
+- **Account Management**
+  - View, edit, activate/deactivate technician and client accounts
+  - Role-based access control
 
-## Installation
+- **Gig & Schedule Management**
+  - Create, assign, and manage repair gigs
+  - Calendar view of scheduled and completed gigs
 
-1. Clone this repository to your local machine
+- **Technician Management**
+  - Approve or reject technician applications
+  - Track availability, performance metrics, and job history
 
-```sh
-$ git clone https://github.com/guevarawebgraphics/laravel-template.git
+- **Real-time Chat**
+  - Live messaging with technicians and support staff
+  - Message history, read receipts, and notifications
+
+- **Voice Assistant (Admin DAX)**
+  - Navigate admin pages via voice commands
+  - Query gig statuses, technician assignments, and metrics
+  - Document-based Q&A powered by AI
+
+## 🚀 Tech Stack
+
+- **Backend**: Laravel 10.x
+- **Frontend**: jQuery, Bootstrap 5, Blade templates
+- **Voice Assistant**: WebRTC + OpenAI Realtime API
+- **Real-time**: Laravel Echo & Pusher
+- **Database**: MySQL / MariaDB
+- **Auth**: Laravel Sanctum (API) or session-based login
+
+## 📦 Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone https://your-repo-url/admin-dashboard.git
+   cd admin-dashboard
+   composer install
+   npm install
+   npm run dev
+   ```
+
+2. **Environment configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
 ```
 
-2. Create your database
+3. **Database setup**
 
-```sh
-$ mysql -u root -p
-
-# you should be inside MySQL console to do this:
-mysql> CREATE DATABASE lr_laraveltemplatev8_dv;
+```bash
+php artisan migrate --seed
 ```
 
-3. CD to project directory then install composer libraries
-
-```sh
-$ cd path/to/dnrlaravel8
-$ composer install
+4. Run the application
+```bash
+php artisan serve
 ```
 
-4. Create Laravel .env
+## 🔒 Authentication & Authorization
 
-```sh
-$ cp .env.example .env
-$ php artisan key:generate
-```
+Admin login: /admin/login
 
-5. Fill in necessary fields in .env file (i.e DB setup, Mail driver, etc...)
+Protected routes under /admin/*
 
-6. Migrate and seed your database
+Policies and middleware enforce role-based permissions
 
-```sh
-$ php artisan migrate:fresh --seed
-```
 
-## Setup SMTP Email
+## 🗣️ Voice Commands Examples
 
-1. Create Gmail Account [https://mail.google.com](https://mail.google.com/)
+“Show today’s gigs”
 
-```sh
+“Navigate to technician list”
 
-```
+“Approve application for [name]”
 
-2. Navigate to "See All Settings" > "Forwarding and POP/IMAP" > Enable IMAP
+“What pending gigs do we have?”
 
-```sh
+## 📞 Support
 
-```
-
-3. Navigate to "Manage your Gmail account" > "Security" > 2-Step Verification (Turn-on)
-
-```sh
-
-```
-
-4. App Passwords > Select App > Other (Custom name) > DNR SMTP > Generate (Save app password somewhere)
-
-```sh
-
-```
-
-4. Update your .env values
-
-## Setup Captcha
-
-1. Update .env with these values
-
-```sh
-$ NOCAPTCHA_SECRET=6LdZl-YUAAAAAHXzsk6nWNevfBeFi2px7OUKGQMg
-$ NOCAPTCHA_SITEKEY=6LdZl-YUAAAAAN7L8o-ePVMimXaS0ZSfZDQSV0KV
-```
-
-## Usage
-
-1. CD to your project directory (skip if you're still in project directory)
-
-```sh
-$ cd path/to/dnrlaravel8
-```
-
-2. View all routes and its available methods
-
-```sh
-$ php artisan route:list
-```
-
-`Install these dependencies:`
-
-`npm install firebase`
-
-`composer require google/apiclient --with-all-dependencies`
+If you encounter issues or have questions, contact the development team via the built-in chat or open an issue in this repository.
